@@ -1,0 +1,1667 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/comman_bg"
+    android:orientation="vertical">
+    <com.google.android.material.appbar.AppBarLayout
+        android:id="@+id/app_bar"
+        android:layout_width="match_parent"
+        android:layout_height="55dp"
+        android:background="@color/common_bar_bg"
+        android:padding="4dp">
+        <LinearLayout
+            android:layout_width="fill_parent"
+            android:layout_height="match_parent"
+            android:orientation="horizontal"
+            android:layout_marginStart="2dp"
+            android:layout_marginEnd="2dp"
+            android:padding="4dp"
+            android:weightSum="2">
+
+            <LinearLayout
+                android:layout_weight="0.2"
+                android:layout_width="0dp"
+                android:gravity="left"
+                android:layout_gravity="center"
+                android:layout_height="wrap_content">
+                <ImageView
+                    android:id="@+id/back_img"
+                    android:layout_width="30dp"
+                    android:layout_height="30dp"
+                    android:background="@drawable/ic_baseline_arrow_back_24">
+                </ImageView>
+            </LinearLayout>
+            <TextView
+                android:id="@+id/title_tv"
+                android:layout_weight="1.1"
+                android:layout_gravity="center"
+                android:gravity="left"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:textColor="@color/white"
+                android:layout_marginStart="0dp"
+                android:textSize="19dp"
+                android:maxLines="1"
+                android:ellipsize="end"
+                android:text="Collection Report"
+                android:fontFamily="sans-serif"
+                android:textStyle="bold">
+            </TextView>
+
+            <TextView
+                android:id="@+id/date_tv"
+                android:layout_weight="0.7"
+                android:gravity="right"
+                android:layout_gravity="center"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:textColor="@color/white"
+                android:textSize="19dp"
+                android:text=""
+                android:fontFamily="sans-serif"
+                android:textStyle="bold">
+            </TextView>
+
+
+
+
+        </LinearLayout>
+    </com.google.android.material.appbar.AppBarLayout>
+
+    <LinearLayout
+        android:id="@+id/report_layout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="5dp"
+        android:gravity="center"
+        android:layout_below="@+id/app_bar"
+        android:orientation="vertical"
+        android:padding="0dp">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="0dp"
+            android:gravity="center"
+            android:orientation="horizontal"
+            android:padding="2dp"
+            android:weightSum="2">
+
+
+            <androidx.cardview.widget.CardView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="2dp"
+                android:layout_marginTop="4dp"
+                android:layout_marginEnd="2dp"
+                android:layout_marginBottom="6dp"
+                android:layout_weight="1"
+                app:cardBackgroundColor="@color/white"
+                app:cardCornerRadius="7dp"
+                app:cardElevation="8dp"
+                app:cardMaxElevation="9dp"
+                app:cardPreventCornerOverlap="true"
+                app:cardUseCompatPadding="false">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="0dp"
+                    android:gravity="center"
+                    android:orientation="vertical"
+                    android:padding="0dp">
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:background="#2561c2"
+                        android:fontFamily="sans-serif-condensed"
+                        android:gravity="center"
+                        android:padding="5dp"
+                        android:text="Total Shops"
+                        android:textColor="@color/white"
+                        android:textSize="13sp"
+                        android:textStyle="normal"
+                        tools:ignore="NestedWeights" />
+
+                    <TextView
+                        android:id="@+id/total_store_tv"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:fontFamily="sans-serif-condensed-light"
+                        android:gravity="center"
+                        android:padding="5dp"
+                        android:text="0"
+                        android:textColor="#484780"
+                        android:textSize="17sp"
+                        android:textStyle="bold"
+                        tools:ignore="NestedWeights" />
+                </LinearLayout>
+            </androidx.cardview.widget.CardView>
+
+            <androidx.cardview.widget.CardView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="2dp"
+                android:layout_marginTop="4dp"
+                android:layout_marginEnd="2dp"
+                android:layout_marginBottom="6dp"
+                android:layout_weight="1"
+                app:cardBackgroundColor="@color/white"
+                app:cardCornerRadius="7dp"
+                app:cardElevation="8dp"
+                app:cardMaxElevation="9dp"
+                app:cardPreventCornerOverlap="true"
+                app:cardUseCompatPadding="false">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="0dp"
+                    android:gravity="center"
+                    android:orientation="vertical"
+                    android:padding="0dp">
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:background="#2561c2"
+                        android:fontFamily="sans-serif-condensed"
+                        android:gravity="center"
+                        android:padding="5dp"
+                        android:text="Total Collection"
+                        android:textColor="@color/white"
+                        android:textSize="13sp"
+                        android:textStyle="normal"
+                        tools:ignore="NestedWeights" />
+
+                    <TextView
+                        android:id="@+id/total_collection_tv"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:fontFamily="sans-serif-condensed-light"
+                        android:gravity="center"
+                        android:padding="5dp"
+                        android:text="\u20B9 0"
+                        android:textColor="#239e18"
+                        android:textSize="17sp"
+                        android:textStyle="bold"
+                        tools:ignore="NestedWeights" />
+                </LinearLayout>
+            </androidx.cardview.widget.CardView>
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="0dp"
+            android:gravity="center"
+            android:orientation="horizontal"
+            android:padding="2dp"
+            android:visibility="gone"
+            android:weightSum="2">
+
+            <androidx.cardview.widget.CardView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="4dp"
+                android:layout_marginTop="2dp"
+                android:layout_marginEnd="4dp"
+                android:layout_marginBottom="6dp"
+                android:layout_weight="1"
+                app:cardBackgroundColor="@color/white"
+                app:cardCornerRadius="7dp"
+                app:cardElevation="8dp"
+                app:cardMaxElevation="9dp"
+                app:cardPreventCornerOverlap="true"
+                app:cardUseCompatPadding="false">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="0dp"
+                    android:gravity="center"
+                    android:orientation="vertical"
+                    android:padding="0dp"
+                    android:visibility="visible">
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:background="#249ebd"
+                        android:fontFamily="sans-serif-condensed"
+                        android:gravity="center"
+                        android:padding="5dp"
+                        android:text="Expected Recovery"
+                        android:textColor="@color/white"
+                        android:textSize="14sp"
+                        android:textStyle="normal"
+                        tools:ignore="NestedWeights" />
+
+                    <TextView
+                        android:id="@+id/amount_tv"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:fontFamily="sans-serif-condensed-light"
+                        android:gravity="center"
+                        android:padding="5dp"
+                        android:text="100000.00"
+                        android:textColor="#806368"
+                        android:textSize="17sp"
+                        android:textStyle="bold"
+                        tools:ignore="NestedWeights" />
+                </LinearLayout>
+            </androidx.cardview.widget.CardView>
+
+            <androidx.cardview.widget.CardView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="4dp"
+                android:layout_marginTop="2dp"
+                android:layout_marginEnd="4dp"
+                android:layout_marginBottom="6dp"
+                android:layout_weight="1"
+                app:cardBackgroundColor="@color/white"
+                app:cardCornerRadius="7dp"
+                app:cardElevation="8dp"
+                app:cardMaxElevation="9dp"
+                app:cardPreventCornerOverlap="true"
+                app:cardUseCompatPadding="false">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="0dp"
+                    android:gravity="center"
+                    android:orientation="vertical"
+                    android:padding="0dp">
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:background="#249ebd"
+                        android:fontFamily="sans-serif-condensed"
+                        android:gravity="center"
+                        android:padding="5dp"
+                        android:text="Total Outstaning"
+                        android:textColor="@color/white"
+                        android:textSize="14sp"
+                        android:textStyle="normal"
+                        tools:ignore="NestedWeights" />
+
+                    <TextView
+                        android:id="@+id/amount_tv"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:fontFamily="sans-serif-condensed-light"
+                        android:gravity="center"
+                        android:padding="5dp"
+                        android:text="100000.00"
+                        android:textColor="#db0b2e"
+                        android:textSize="17sp"
+                        android:textStyle="bold"
+                        tools:ignore="NestedWeights" />
+                </LinearLayout>
+            </androidx.cardview.widget.CardView>
+        </LinearLayout>
+
+    </LinearLayout>
+    <LinearLayout
+
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/app_bar"
+        android:layout_marginStart="0dp"
+        android:layout_marginTop="0dp"
+        android:layout_marginEnd="0dp"
+        android:gravity="center"
+        android:orientation="vertical"
+        android:weightSum="2"
+        android:visibility="gone">
+
+        <androidx.cardview.widget.CardView
+            android:id="@+id/report_card"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginStart="8dp"
+            android:layout_marginTop="8dp"
+            android:layout_marginEnd="8dp"
+            android:layout_marginBottom="8dp"
+            app:cardBackgroundColor="@color/white"
+            app:cardCornerRadius="8dp"
+            app:cardElevation="6dp"
+            app:cardMaxElevation="8dp"
+            app:cardPreventCornerOverlap="true"
+            app:cardUseCompatPadding="false">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="0dp"
+                android:layout_marginTop="0dp"
+                android:layout_marginEnd="0dp"
+                android:gravity="center"
+                android:orientation="vertical"
+                android:weightSum="2">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_marginTop="0dp"
+                    android:gravity="center"
+                    android:orientation="vertical"
+                    android:padding="0dp"
+                    android:weightSum="2">
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="0dp"
+                        android:layout_marginTop="0dp"
+                        android:layout_weight="0"
+                        android:background="@color/report_header"
+                        android:gravity="center"
+                        android:padding="2dp">
+
+                        <TextView
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="0"
+                            android:fontFamily="sans-serif-condensed"
+                            android:gravity="center"
+                            android:padding="4dp"
+                            android:text="Shift 2"
+                            android:textColor="@color/white"
+                            android:textSize="20dp"
+                            android:textStyle="bold"
+                            tools:ignore="NestedWeights" />
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="0dp"
+                        android:layout_marginTop="0dp"
+                        android:layout_weight="2"
+                        android:gravity="center"
+                        android:orientation="horizontal"
+                        android:padding="0dp"
+                        android:weightSum="2">
+
+
+                        <LinearLayout
+                            android:layout_width="0dp"
+                            android:layout_height="match_parent"
+                            android:layout_marginTop="0dp"
+                            android:layout_weight="1"
+                            android:gravity="center"
+                            android:orientation="vertical"
+                            android:padding="2dp">
+
+                            <TextView
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_weight="0"
+                                android:fontFamily="sans-serif-condensed"
+                                android:gravity="center"
+                                android:padding="2dp"
+                                android:text="Collection Date"
+                                android:textColor="@color/common_txt_color"
+                                android:textSize="13dp"
+                                android:textStyle="normal"
+                                tools:ignore="NestedWeights" />
+
+                            <TextView
+                                android:id="@+id/txt_date"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_weight="0"
+                                android:fontFamily="sans-serif-condensed"
+                                android:gravity="center"
+                                android:padding="2dp"
+                                android:text=" - "
+                                android:textColor="#4f526b"
+                                android:textSize="17dp"
+                                android:textStyle="bold"
+                                tools:ignore="NestedWeights" />
+                        </LinearLayout>
+
+                        <View
+                            android:layout_width="1dp"
+                            android:layout_height="55dp"
+                            android:layout_marginStart="0dp"
+                            android:layout_marginTop="1dp"
+                            android:layout_marginEnd="0dp"
+                            android:layout_marginBottom="1dp"
+                            android:layout_weight="0"
+                            android:background="@drawable/divider_bg"
+                            android:gravity="center">
+
+                        </View>
+
+                        <LinearLayout
+                            android:layout_width="0dp"
+                            android:layout_height="match_parent"
+                            android:layout_marginTop="0dp"
+                            android:layout_weight="1"
+                            android:gravity="center"
+                            android:orientation="vertical"
+                            android:padding="2dp">
+
+                            <TextView
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_weight="0"
+                                android:fontFamily="sans-serif-condensed"
+                                android:gravity="center"
+                                android:padding="2dp"
+                                android:text="Closing Time"
+                                android:textColor="@color/common_txt_color"
+                                android:textSize="13dp"
+                                android:textStyle="normal"
+                                tools:ignore="NestedWeights" />
+
+                            <TextView
+                                android:id="@+id/txt_time"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_weight="0"
+                                android:fontFamily="sans-serif-condensed"
+                                android:gravity="center"
+                                android:padding="2dp"
+                                android:text=" - "
+                                android:textColor="#4b536b"
+                                android:textSize="17dp"
+                                android:textStyle="bold"
+                                tools:ignore="NestedWeights" />
+                        </LinearLayout>
+
+                    </LinearLayout>
+                </LinearLayout>
+            </LinearLayout>
+        </androidx.cardview.widget.CardView>
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_below="@+id/report_layout"
+        android:layout_marginTop="0dp"
+        android:gravity="top"
+        android:orientation="vertical"
+        android:padding="0dp"
+        android:visibility="visible"
+        android:weightSum="2">
+
+        <LinearLayout
+            android:id="@+id/header"
+            android:layout_width="match_parent"
+            android:layout_height="27dp"
+            android:background="#407bdb"
+            android:orientation="horizontal"
+            android:padding="2dp"
+            android:visibility="gone">
+
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_marginStart="6dp"
+                android:layout_marginTop="3dp"
+                android:layout_weight="0.25"
+                android:fontFamily="sans-serif-medium"
+                android:gravity="center"
+                android:text="# "
+                android:textColor="@color/white"
+                android:textSize="13dp"
+                android:textStyle="bold">
+
+            </TextView>
+
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_marginStart="3dp"
+                android:layout_marginTop="3dp"
+                android:layout_weight="1.6"
+                android:fontFamily="sans-serif-medium"
+                android:gravity="left"
+                android:text="Customer Name"
+                android:textColor="@color/white"
+                android:textSize="13dp"
+                android:textStyle="bold">
+
+            </TextView>
+
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_marginTop="3dp"
+                android:layout_marginEnd="7dp"
+                android:layout_weight="0.9"
+                android:fontFamily="sans-serif-medium"
+                android:gravity="right"
+                android:text="Amount"
+                android:textColor="@color/white"
+                android:textSize="13dp"
+                android:textStyle="bold">
+
+            </TextView>
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/list_layout"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_marginTop="0dp"
+            android:layout_weight="1.56"
+            android:gravity="top"
+            android:orientation="vertical"
+            android:padding="0dp"
+            android:visibility="visible"
+            android:weightSum="2">
+
+            <FrameLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_marginStart="0dp"
+                android:layout_marginTop="0dp"
+                android:layout_marginEnd="0dp"
+                android:gravity="center"
+                android:orientation="vertical"
+                android:visibility="visible">
+
+                <ListView
+                    android:id="@+id/report_listview"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:divider="@null" />
+
+                <ProgressBar
+                    android:id="@+id/progress_bar"
+                    android:layout_width="45dp"
+                    android:layout_height="45dp"
+                    android:layout_gravity="center"
+                    android:background="@drawable/circular_progress_bar"
+                    android:gravity="center"
+                    android:theme="@style/progressColor"
+                    android:visibility="gone">
+
+                </ProgressBar>
+
+
+            </FrameLayout>
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="0dp"
+            android:background="#407bdb"
+            android:gravity="center"
+            android:orientation="horizontal"
+            android:padding="2dp"
+            android:weightSum="2"
+            android:visibility="gone">
+
+
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_marginTop="0dp"
+                android:layout_weight="0.5"
+                android:gravity="center"
+                android:orientation="vertical"
+                android:padding="0dp">
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_marginTop="0dp"
+                android:layout_weight="1.5"
+                android:gravity="end"
+                android:orientation="horizontal"
+                android:padding="0dp">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:layout_marginTop="0dp"
+                    android:layout_marginEnd="6dp"
+                    android:layout_marginBottom="0dp"
+                    android:fontFamily="sans-serif-condensed"
+                    android:gravity="center"
+                    android:padding="3dp"
+                    android:text="Total Collection"
+                    android:textColor="@color/white"
+                    android:textSize="14dp"
+                    android:textStyle="normal" />
+
+                <TextView
+                    android:id="@+id/tot_amount"
+                    android:layout_width="wrap_content"
+                    android:layout_height="35dp"
+                    android:layout_marginTop="0dp"
+                    android:layout_marginEnd="6dp"
+                    android:layout_marginBottom="0dp"
+                    android:fontFamily="sans-serif-condensed"
+                    android:gravity="center"
+                    android:padding="3dp"
+                    android:text=""
+                    android:textColor="@color/white"
+                    android:textSize="18dp"
+                    android:textStyle="bold" />
+            </LinearLayout>
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_marginTop="0dp"
+            android:layout_weight="0.44"
+            android:gravity="top"
+            android:orientation="vertical"
+            android:padding="2dp"
+            android:visibility="gone"
+            android:weightSum="2">
+
+            <ScrollView
+                android:id="@+id/cr_scrollview"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_marginLeft="0dp"
+                    android:layout_marginTop="1dp"
+                    android:layout_marginRight="0dp"
+                    android:gravity="start"
+                    android:orientation="vertical"
+                    android:padding="0dp"
+                    android:weightSum="1">
+
+                    <LinearLayout
+                        android:id="@+id/LL2000"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="0dp"
+                    android:layout_marginTop="1dp"
+                    android:layout_marginRight="0dp"
+                    android:gravity="start"
+                    android:orientation="horizontal"
+                    android:padding="3dp"
+                    android:weightSum="1"
+                        android:visibility="visible">
+
+                    <LinearLayout
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="end"
+                        android:layout_weight="0.7"
+                        android:gravity="left"
+                        android:orientation="horizontal"
+                        android:weightSum="3">
+
+                        <TextView
+                            android:id="@+id/cr_2000_tv"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_marginRight="0dp"
+                            android:layout_weight="0.7"
+                            android:focusable="false"
+                            android:focusableInTouchMode="false"
+                            android:fontFamily="sans-serif-condensed"
+                            android:gravity="end"
+                            android:inputType="numberDecimal"
+                            android:padding="0dp"
+                            android:text="2000  ×"
+                            android:textColor="@color/light_gray"
+                            android:textColorHint="@color/graycolor"
+                            android:textSize="16sp"
+                            android:textStyle="bold" />
+
+                        <TextView
+                            android:id="@+id/ct_2000_tv"
+                            android:layout_width="0dp"
+                            android:layout_height="30dp"
+                            android:layout_marginLeft="0dp"
+                            android:layout_marginRight="0dp"
+                            android:layout_weight="0.5"
+                            android:gravity="center"
+                            android:inputType="number"
+                            android:maxLength="4"
+                            android:textColor="@color/light_gray"
+                            android:textColorHint="@color/graycolor"
+                            android:textStyle="bold"
+                            android:fontFamily="sans-serif-condensed"
+                            android:text=""
+                            android:padding="0dp"
+                            android:textSize="16sp" />
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginLeft="3dp"
+                            android:layout_marginRight="3dp"
+                            android:layout_weight="0"
+                            android:focusable="false"
+                            android:focusableInTouchMode="false"
+                            android:fontFamily="sans-serif-condensed"
+                            android:gravity="end"
+                            android:inputType="numberDecimal"
+                            android:padding="0dp"
+                            android:text=" ="
+                            android:textColor="@color/light_gray"
+                            android:textColorHint="@color/graycolor"
+                            android:textSize="17sp"
+                            android:textStyle="bold" />
+
+                        <TextView
+                            android:id="@+id/tv_2000"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_marginLeft="3dp"
+                            android:layout_marginRight="3dp"
+                            android:layout_weight="0.7"
+                            android:focusable="false"
+                            android:focusableInTouchMode="false"
+                            android:fontFamily="sans-serif-condensed"
+                            android:gravity="end"
+                            android:inputType="numberDecimal"
+                            android:padding="0dp"
+                            android:text=""
+                            android:textColor="@color/logo_black"
+                            android:textColorHint="@color/graycolor"
+                            android:textSize="16sp"
+                            android:textStyle="bold" />
+                    </LinearLayout>
+                </LinearLayout>
+
+                    <LinearLayout
+                        android:id="@+id/LL500"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="0dp"
+                        android:layout_marginTop="1dp"
+                        android:layout_marginRight="0dp"
+                        android:gravity="start"
+                        android:orientation="horizontal"
+                        android:padding="3dp"
+                        android:weightSum="1"
+                        android:visibility="visible">
+
+                        <LinearLayout
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="end"
+                            android:layout_weight="0.7"
+                            android:gravity="left"
+                            android:orientation="horizontal"
+                            android:weightSum="3">
+
+                            <TextView
+                                android:id="@+id/cr_500_tv"
+                                android:layout_width="0dp"
+                                android:layout_height="wrap_content"
+                                android:layout_marginRight="0dp"
+                                android:layout_weight="0.7"
+                                android:focusable="false"
+                                android:focusableInTouchMode="false"
+                                android:fontFamily="sans-serif-condensed"
+                                android:gravity="end"
+                                android:inputType="numberDecimal"
+                                android:padding="0dp"
+                                android:text="500  ×"
+                                android:textColor="@color/light_gray"
+                                android:textColorHint="@color/graycolor"
+                                android:textSize="16sp"
+                                android:textStyle="bold" />
+
+                            <TextView
+                                android:id="@+id/ct_500_tv"
+                                android:layout_width="0dp"
+                                android:layout_height="30dp"
+                                android:layout_marginLeft="0dp"
+                                android:layout_marginRight="0dp"
+                                android:layout_weight="0.5"
+                                android:gravity="center"
+                                android:inputType="number"
+                                android:maxLength="4"
+                                android:textColor="@color/light_gray"
+                                android:textColorHint="@color/graycolor"
+                                android:textStyle="bold"
+                                android:fontFamily="sans-serif-condensed"
+                                android:text=""
+                                android:padding="0dp"
+                                android:textSize="16sp" />
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_marginLeft="3dp"
+                                android:layout_marginRight="3dp"
+                                android:layout_weight="0"
+                                android:focusable="false"
+                                android:focusableInTouchMode="false"
+                                android:fontFamily="sans-serif-condensed"
+                                android:gravity="end"
+                                android:inputType="numberDecimal"
+                                android:padding="0dp"
+                                android:text=" ="
+                                android:textColor="@color/light_gray"
+                                android:textColorHint="@color/graycolor"
+                                android:textSize="17sp"
+                                android:textStyle="bold" />
+
+                            <TextView
+                                android:id="@+id/tv_500"
+                                android:layout_width="0dp"
+                                android:layout_height="wrap_content"
+                                android:layout_marginLeft="3dp"
+                                android:layout_marginRight="3dp"
+                                android:layout_weight="0.7"
+                                android:focusable="false"
+                                android:focusableInTouchMode="false"
+                                android:fontFamily="sans-serif-condensed"
+                                android:gravity="end"
+                                android:inputType="numberDecimal"
+                                android:padding="0dp"
+                                android:text=""
+                                android:textColor="@color/logo_black"
+                                android:textColorHint="@color/graycolor"
+                                android:textSize="16sp"
+
+                                android:textStyle="bold" />
+                        </LinearLayout>
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:id="@+id/LL200"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="0dp"
+                        android:layout_marginTop="1dp"
+                        android:layout_marginRight="0dp"
+                        android:gravity="start"
+                        android:orientation="horizontal"
+                        android:padding="3dp"
+                        android:weightSum="1"
+                        android:visibility="visible">
+
+                        <LinearLayout
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="end"
+                            android:layout_weight="0.7"
+                            android:gravity="left"
+                            android:orientation="horizontal"
+                            android:weightSum="3">
+
+                            <TextView
+                                android:id="@+id/cr_200_tv"
+                                android:layout_width="0dp"
+                                android:layout_height="wrap_content"
+                                android:layout_marginRight="0dp"
+                                android:layout_weight="0.7"
+                                android:focusable="false"
+                                android:focusableInTouchMode="false"
+                                android:fontFamily="sans-serif-condensed"
+                                android:gravity="end"
+                                android:inputType="numberDecimal"
+                                android:padding="0dp"
+                                android:text="200  ×"
+                                android:textColor="@color/light_gray"
+                                android:textColorHint="@color/graycolor"
+                                android:textSize="16sp"
+                                android:textStyle="bold" />
+
+                            <TextView
+                                android:id="@+id/ct_200_tv"
+                                android:layout_width="0dp"
+                                android:layout_height="30dp"
+                                android:layout_marginLeft="0dp"
+                                android:layout_marginRight="0dp"
+                                android:layout_weight="0.5"
+                                android:gravity="center"
+                                android:inputType="number"
+                                android:maxLength="4"
+                                android:textColor="@color/light_gray"
+                                android:textColorHint="@color/graycolor"
+                                android:textStyle="bold"
+                                android:fontFamily="sans-serif-condensed"
+                                android:text=""
+                                android:padding="0dp"
+                                android:textSize="16sp" />
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_marginLeft="3dp"
+                                android:layout_marginRight="3dp"
+                                android:layout_weight="0"
+                                android:focusable="false"
+                                android:focusableInTouchMode="false"
+                                android:fontFamily="sans-serif-condensed"
+                                android:gravity="end"
+                                android:inputType="numberDecimal"
+                                android:padding="0dp"
+                                android:text=" ="
+                                android:textColor="@color/light_gray"
+                                android:textColorHint="@color/graycolor"
+                                android:textSize="17sp"
+                                android:textStyle="bold" />
+
+                            <TextView
+                                android:id="@+id/tv_200"
+                                android:layout_width="0dp"
+                                android:layout_height="wrap_content"
+                                android:layout_marginLeft="3dp"
+                                android:layout_marginRight="3dp"
+                                android:layout_weight="0.7"
+                                android:focusable="false"
+                                android:focusableInTouchMode="false"
+                                android:fontFamily="sans-serif-condensed"
+                                android:gravity="end"
+                                android:inputType="numberDecimal"
+                                android:padding="0dp"
+                                android:text=""
+                                android:textColor="@color/logo_black"
+                                android:textColorHint="@color/graycolor"
+                                android:textSize="16sp"
+
+                                android:textStyle="bold" />
+                        </LinearLayout>
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:id="@+id/LL100"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="0dp"
+                        android:layout_marginTop="1dp"
+                        android:layout_marginRight="0dp"
+                        android:gravity="start"
+                        android:orientation="horizontal"
+                        android:padding="3dp"
+                        android:weightSum="1"
+                        android:visibility="visible">
+
+                        <LinearLayout
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="end"
+                            android:layout_weight="0.7"
+                            android:gravity="left"
+                            android:orientation="horizontal"
+                            android:weightSum="3">
+
+                            <TextView
+                                android:id="@+id/cr_100_tv"
+                                android:layout_width="0dp"
+                                android:layout_height="wrap_content"
+                                android:layout_marginRight="0dp"
+                                android:layout_weight="0.7"
+                                android:focusable="false"
+                                android:focusableInTouchMode="false"
+                                android:fontFamily="sans-serif-condensed"
+                                android:gravity="end"
+                                android:inputType="numberDecimal"
+                                android:padding="0dp"
+                                android:text="100  ×"
+                                android:textColor="@color/light_gray"
+                                android:textColorHint="@color/graycolor"
+                                android:textSize="16sp"
+                                android:textStyle="bold" />
+
+                            <TextView
+                                android:id="@+id/ct_100_tv"
+                                android:layout_width="0dp"
+                                android:layout_height="30dp"
+                                android:layout_marginLeft="0dp"
+                                android:layout_marginRight="0dp"
+                                android:layout_weight="0.5"
+                                android:gravity="center"
+                                android:inputType="number"
+                                android:maxLength="4"
+                                android:textColor="@color/light_gray"
+                                android:textColorHint="@color/graycolor"
+                                android:textStyle="bold"
+                                android:fontFamily="sans-serif-condensed"
+                                android:text=""
+                                android:padding="0dp"
+                                android:textSize="16sp" />
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_marginLeft="3dp"
+                                android:layout_marginRight="3dp"
+                                android:layout_weight="0"
+                                android:focusable="false"
+                                android:focusableInTouchMode="false"
+                                android:fontFamily="sans-serif-condensed"
+                                android:gravity="end"
+                                android:inputType="numberDecimal"
+                                android:padding="0dp"
+                                android:text=" ="
+                                android:textColor="@color/light_gray"
+                                android:textColorHint="@color/graycolor"
+                                android:textSize="17sp"
+                                android:textStyle="bold" />
+
+                            <TextView
+                                android:id="@+id/tv_100"
+                                android:layout_width="0dp"
+                                android:layout_height="wrap_content"
+                                android:layout_marginLeft="3dp"
+                                android:layout_marginRight="3dp"
+                                android:layout_weight="0.7"
+                                android:focusable="false"
+                                android:focusableInTouchMode="false"
+                                android:fontFamily="sans-serif-condensed"
+                                android:gravity="end"
+                                android:inputType="numberDecimal"
+                                android:padding="0dp"
+                                android:text=""
+                                android:textColor="@color/logo_black"
+                                android:textColorHint="@color/graycolor"
+                                android:textSize="16sp"
+
+                                android:textStyle="bold" />
+                        </LinearLayout>
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:id="@+id/LL50"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="0dp"
+                        android:layout_marginTop="1dp"
+                        android:layout_marginRight="0dp"
+                        android:gravity="start"
+                        android:orientation="horizontal"
+                        android:padding="3dp"
+                        android:weightSum="1"
+                        android:visibility="visible">
+
+                        <LinearLayout
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="end"
+                            android:layout_weight="0.7"
+                            android:gravity="left"
+                            android:orientation="horizontal"
+                            android:weightSum="3">
+
+                            <TextView
+                                android:id="@+id/cr_50_tv"
+                                android:layout_width="0dp"
+                                android:layout_height="wrap_content"
+                                android:layout_marginRight="0dp"
+                                android:layout_weight="0.7"
+                                android:focusable="false"
+                                android:focusableInTouchMode="false"
+                                android:fontFamily="sans-serif-condensed"
+                                android:gravity="end"
+                                android:inputType="numberDecimal"
+                                android:padding="0dp"
+                                android:text="50  ×"
+                                android:textColor="@color/light_gray"
+                                android:textColorHint="@color/graycolor"
+                                android:textSize="16sp"
+                                android:textStyle="bold" />
+
+                            <TextView
+                                android:id="@+id/ct_50_tv"
+                                android:layout_width="0dp"
+                                android:layout_height="30dp"
+                                android:layout_marginLeft="0dp"
+                                android:layout_marginRight="0dp"
+                                android:layout_weight="0.5"
+                                android:gravity="center"
+                                android:inputType="number"
+                                android:maxLength="4"
+                                android:textColor="@color/light_gray"
+                                android:textColorHint="@color/graycolor"
+                                android:textStyle="bold"
+                                android:fontFamily="sans-serif-condensed"
+                                android:text=""
+                                android:padding="0dp"
+                                android:textSize="16sp" />
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_marginLeft="3dp"
+                                android:layout_marginRight="3dp"
+                                android:layout_weight="0"
+                                android:focusable="false"
+                                android:focusableInTouchMode="false"
+                                android:fontFamily="sans-serif-condensed"
+                                android:gravity="end"
+                                android:inputType="numberDecimal"
+                                android:padding="0dp"
+                                android:text=" ="
+                                android:textColor="@color/light_gray"
+                                android:textColorHint="@color/graycolor"
+                                android:textSize="17sp"
+                                android:textStyle="bold" />
+
+                            <TextView
+                                android:id="@+id/tv_50"
+                                android:layout_width="0dp"
+                                android:layout_height="wrap_content"
+                                android:layout_marginLeft="3dp"
+                                android:layout_marginRight="3dp"
+                                android:layout_weight="0.7"
+                                android:focusable="false"
+                                android:focusableInTouchMode="false"
+                                android:fontFamily="sans-serif-condensed"
+                                android:gravity="end"
+                                android:inputType="numberDecimal"
+                                android:padding="0dp"
+                                android:text=""
+                                android:textColor="@color/logo_black"
+                                android:textColorHint="@color/graycolor"
+                                android:textSize="16sp"
+
+                                android:textStyle="bold" />
+                        </LinearLayout>
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:id="@+id/LL20"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="0dp"
+                        android:layout_marginTop="1dp"
+                        android:layout_marginRight="0dp"
+                        android:gravity="start"
+                        android:orientation="horizontal"
+                        android:padding="3dp"
+                        android:weightSum="1"
+                        android:visibility="visible">
+
+                        <LinearLayout
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="end"
+                            android:layout_weight="0.7"
+                            android:gravity="left"
+                            android:orientation="horizontal"
+                            android:weightSum="3">
+
+                            <TextView
+                                android:id="@+id/cr_20_tv"
+                                android:layout_width="0dp"
+                                android:layout_height="wrap_content"
+                                android:layout_marginRight="0dp"
+                                android:layout_weight="0.7"
+                                android:focusable="false"
+                                android:focusableInTouchMode="false"
+                                android:fontFamily="sans-serif-condensed"
+                                android:gravity="end"
+                                android:inputType="numberDecimal"
+                                android:padding="0dp"
+                                android:text="20  ×"
+                                android:textColor="@color/light_gray"
+                                android:textColorHint="@color/graycolor"
+                                android:textSize="16sp"
+                                android:textStyle="bold" />
+
+                            <TextView
+                                android:id="@+id/ct_20_tv"
+                                android:layout_width="0dp"
+                                android:layout_height="30dp"
+                                android:layout_marginLeft="0dp"
+                                android:layout_marginRight="0dp"
+                                android:layout_weight="0.5"
+                                android:gravity="center"
+                                android:inputType="number"
+                                android:maxLength="4"
+                                android:textColor="@color/light_gray"
+                                android:textColorHint="@color/graycolor"
+                                android:textStyle="bold"
+                                android:fontFamily="sans-serif-condensed"
+                                android:text=""
+                                android:padding="0dp"
+                                android:textSize="16sp" />
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_marginLeft="3dp"
+                                android:layout_marginRight="3dp"
+                                android:layout_weight="0"
+                                android:focusable="false"
+                                android:focusableInTouchMode="false"
+                                android:fontFamily="sans-serif-condensed"
+                                android:gravity="end"
+                                android:inputType="numberDecimal"
+                                android:padding="0dp"
+                                android:text=" ="
+                                android:textColor="@color/light_gray"
+                                android:textColorHint="@color/graycolor"
+                                android:textSize="17sp"
+                                android:textStyle="bold" />
+
+                            <TextView
+                                android:id="@+id/tv_20"
+                                android:layout_width="0dp"
+                                android:layout_height="wrap_content"
+                                android:layout_marginLeft="3dp"
+                                android:layout_marginRight="3dp"
+                                android:layout_weight="0.7"
+                                android:focusable="false"
+                                android:focusableInTouchMode="false"
+                                android:fontFamily="sans-serif-condensed"
+                                android:gravity="end"
+                                android:inputType="numberDecimal"
+                                android:padding="0dp"
+                                android:text=""
+                                android:textColor="@color/logo_black"
+                                android:textColorHint="@color/graycolor"
+                                android:textSize="16sp"
+
+                                android:textStyle="bold" />
+                        </LinearLayout>
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:id="@+id/LL10"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="0dp"
+                        android:layout_marginTop="1dp"
+                        android:layout_marginRight="0dp"
+                        android:gravity="start"
+                        android:orientation="horizontal"
+                        android:padding="3dp"
+                        android:weightSum="1"
+                        android:visibility="visible">
+
+                        <LinearLayout
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="end"
+                            android:layout_weight="0.7"
+                            android:gravity="left"
+                            android:orientation="horizontal"
+                            android:weightSum="3">
+
+                            <TextView
+                                android:id="@+id/cr_10_tv"
+                                android:layout_width="0dp"
+                                android:layout_height="wrap_content"
+                                android:layout_marginRight="0dp"
+                                android:layout_weight="0.7"
+                                android:focusable="false"
+                                android:focusableInTouchMode="false"
+                                android:fontFamily="sans-serif-condensed"
+                                android:gravity="end"
+                                android:inputType="numberDecimal"
+                                android:padding="0dp"
+                                android:text="10  ×"
+                                android:textColor="@color/light_gray"
+                                android:textColorHint="@color/graycolor"
+                                android:textSize="16sp"
+                                android:textStyle="bold" />
+
+                            <TextView
+                                android:id="@+id/ct_10_tv"
+                                android:layout_width="0dp"
+                                android:layout_height="30dp"
+                                android:layout_marginLeft="0dp"
+                                android:layout_marginRight="0dp"
+                                android:layout_weight="0.5"
+                                android:gravity="center"
+                                android:inputType="number"
+                                android:maxLength="4"
+                                android:textColor="@color/light_gray"
+                                android:textColorHint="@color/graycolor"
+                                android:textStyle="bold"
+                                android:fontFamily="sans-serif-condensed"
+                                android:text=""
+                                android:padding="0dp"
+                                android:textSize="16sp" />
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_marginLeft="3dp"
+                                android:layout_marginRight="3dp"
+                                android:layout_weight="0"
+                                android:focusable="false"
+                                android:focusableInTouchMode="false"
+                                android:fontFamily="sans-serif-condensed"
+                                android:gravity="end"
+                                android:inputType="numberDecimal"
+                                android:padding="0dp"
+                                android:text=" ="
+                                android:textColor="@color/light_gray"
+                                android:textColorHint="@color/graycolor"
+                                android:textSize="17sp"
+                                android:textStyle="bold" />
+
+                            <TextView
+                                android:id="@+id/tv_10"
+                                android:layout_width="0dp"
+                                android:layout_height="wrap_content"
+                                android:layout_marginLeft="3dp"
+                                android:layout_marginRight="3dp"
+                                android:layout_weight="0.7"
+                                android:focusable="false"
+                                android:focusableInTouchMode="false"
+                                android:fontFamily="sans-serif-condensed"
+                                android:gravity="end"
+                                android:inputType="numberDecimal"
+                                android:padding="0dp"
+                                android:text=""
+                                android:textColor="@color/logo_black"
+                                android:textColorHint="@color/graycolor"
+                                android:textSize="16sp"
+                                android:textStyle="bold" />
+                        </LinearLayout>
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:id="@+id/LL5"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="0dp"
+                        android:layout_marginTop="1dp"
+                        android:layout_marginRight="0dp"
+                        android:gravity="start"
+                        android:orientation="horizontal"
+                        android:padding="3dp"
+                        android:weightSum="1"
+                        android:visibility="visible">
+
+                        <LinearLayout
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="end"
+                            android:layout_weight="0.7"
+                            android:gravity="left"
+                            android:orientation="horizontal"
+                            android:weightSum="3">
+
+                            <TextView
+                                android:id="@+id/cr_5_tv"
+                                android:layout_width="0dp"
+                                android:layout_height="wrap_content"
+                                android:layout_marginRight="0dp"
+                                android:layout_weight="0.7"
+                                android:focusable="false"
+                                android:focusableInTouchMode="false"
+                                android:fontFamily="sans-serif-condensed"
+                                android:gravity="end"
+                                android:inputType="numberDecimal"
+                                android:padding="0dp"
+                                android:text="5  ×"
+                                android:textColor="@color/light_gray"
+                                android:textColorHint="@color/graycolor"
+                                android:textSize="16sp"
+                                android:textStyle="bold" />
+
+                            <TextView
+                                android:id="@+id/ct_5_tv"
+                                android:layout_width="0dp"
+                                android:layout_height="30dp"
+                                android:layout_marginLeft="0dp"
+                                android:layout_marginRight="0dp"
+                                android:layout_weight="0.5"
+                                android:gravity="center"
+                                android:inputType="number"
+                                android:maxLength="4"
+                                android:textColor="@color/light_gray"
+                                android:textColorHint="@color/graycolor"
+                                android:textStyle="bold"
+                                android:fontFamily="sans-serif-condensed"
+                                android:text=""
+                                android:padding="0dp"
+                                android:textSize="16sp" />
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_marginLeft="3dp"
+                                android:layout_marginRight="3dp"
+                                android:layout_weight="0"
+                                android:focusable="false"
+                                android:focusableInTouchMode="false"
+                                android:fontFamily="sans-serif-condensed"
+                                android:gravity="end"
+                                android:inputType="numberDecimal"
+                                android:padding="0dp"
+                                android:text=" ="
+                                android:textColor="@color/light_gray"
+                                android:textColorHint="@color/graycolor"
+                                android:textSize="17sp"
+                                android:textStyle="bold" />
+
+                            <TextView
+                                android:id="@+id/tv_5"
+                                android:layout_width="0dp"
+                                android:layout_height="wrap_content"
+                                android:layout_marginLeft="3dp"
+                                android:layout_marginRight="3dp"
+                                android:layout_weight="0.7"
+                                android:focusable="false"
+                                android:focusableInTouchMode="false"
+                                android:fontFamily="sans-serif-condensed"
+                                android:gravity="end"
+                                android:inputType="numberDecimal"
+                                android:padding="0dp"
+                                android:text=""
+                                android:textColor="@color/logo_black"
+                                android:textColorHint="@color/graycolor"
+                                android:textSize="16sp"
+
+                                android:textStyle="bold" />
+                        </LinearLayout>
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:id="@+id/LLCoins"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="0dp"
+                        android:layout_marginTop="1dp"
+                        android:layout_marginRight="0dp"
+                        android:gravity="start"
+                        android:orientation="horizontal"
+                        android:padding="3dp"
+                        android:weightSum="1"
+                        android:visibility="visible">
+
+                        <LinearLayout
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="end"
+                            android:layout_weight="0.7"
+                            android:gravity="left"
+                            android:orientation="horizontal"
+                            android:weightSum="3">
+
+                            <TextView
+                                android:id="@+id/cr_coins_tv"
+                                android:layout_width="0dp"
+                                android:layout_height="wrap_content"
+                                android:layout_marginRight="0dp"
+                                android:layout_weight="0.7"
+                                android:focusable="false"
+                                android:focusableInTouchMode="false"
+                                android:fontFamily="sans-serif-condensed"
+                                android:gravity="end"
+                                android:inputType="numberDecimal"
+                                android:padding="0dp"
+                                android:text="Coins "
+                                android:textColor="@color/light_gray"
+                                android:textColorHint="@color/graycolor"
+                                android:textSize="16sp"
+                                android:textStyle="bold" />
+
+                            <TextView
+                                android:id="@+id/ct_coins_tv"
+                                android:layout_width="0dp"
+                                android:layout_height="30dp"
+                                android:layout_marginLeft="0dp"
+                                android:layout_marginRight="0dp"
+                                android:layout_weight="0.5"
+                                android:gravity="center"
+                                android:inputType="number"
+                                android:maxLength="4"
+                                android:textColor="@color/light_gray"
+                                android:textColorHint="@color/graycolor"
+                                android:textStyle="bold"
+                                android:fontFamily="sans-serif-condensed"
+                                android:text=""
+                                android:padding="0dp"
+                                android:textSize="16sp" />
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_marginLeft="3dp"
+                                android:layout_marginRight="3dp"
+                                android:layout_weight="0"
+                                android:focusable="false"
+                                android:focusableInTouchMode="false"
+                                android:fontFamily="sans-serif-condensed"
+                                android:gravity="end"
+                                android:inputType="numberDecimal"
+                                android:padding="0dp"
+                                android:text=" ="
+                                android:textColor="@color/light_gray"
+                                android:textColorHint="@color/graycolor"
+                                android:textSize="17sp"
+                                android:textStyle="bold" />
+
+                            <TextView
+                                android:id="@+id/tv_coins"
+                                android:layout_width="0dp"
+                                android:layout_height="wrap_content"
+                                android:layout_marginLeft="3dp"
+                                android:layout_marginRight="3dp"
+                                android:layout_weight="0.7"
+                                android:focusable="false"
+                                android:focusableInTouchMode="false"
+                                android:gravity="end"
+                                android:inputType="numberDecimal"
+                                android:padding="0dp"
+                                android:text=""
+                                android:textColor="@color/logo_black"
+                                android:textColorHint="@color/graycolor"
+                                android:textSize="16sp"
+                                android:textStyle="bold"
+                                android:fontFamily="sans-serif-condensed" />
+                        </LinearLayout>
+                    </LinearLayout>
+
+                </LinearLayout>
+
+
+            </ScrollView>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="0dp"
+                android:layout_weight="0"
+                android:gravity="start"
+                android:orientation="horizontal"
+                android:padding="0dp">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:layout_marginTop="0dp"
+                    android:layout_marginEnd="0dp"
+                    android:layout_marginBottom="0dp"
+                    android:fontFamily="sans-serif-condensed"
+                    android:gravity="center"
+                    android:padding="3dp"
+                    android:text="500 * 2"
+                    android:textColor="@color/common_txt_color"
+                    android:textSize="14dp"
+                    android:textStyle="bold" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="35dp"
+                    android:layout_marginTop="0dp"
+                    android:layout_marginEnd="2dp"
+                    android:layout_marginBottom="0dp"
+                    android:fontFamily="sans-serif-condensed"
+                    android:gravity="center"
+                    android:padding="3dp"
+                    android:text="= 2000"
+                    android:textColor="@color/common_txt_color"
+                    android:textSize="14dp"
+                    android:textStyle="bold" />
+            </LinearLayout>
+
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="0dp"
+                android:layout_weight="0"
+                android:gravity="start"
+                android:orientation="horizontal"
+                android:padding="0dp">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:layout_marginTop="0dp"
+                    android:layout_marginEnd="0dp"
+                    android:layout_marginBottom="0dp"
+                    android:fontFamily="sans-serif-condensed"
+                    android:gravity="center"
+                    android:padding="3dp"
+                    android:text="500 * 2"
+                    android:textColor="@color/common_txt_color"
+                    android:textSize="14dp"
+                    android:textStyle="bold" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="35dp"
+                    android:layout_marginTop="0dp"
+                    android:layout_marginEnd="6dp"
+                    android:layout_marginBottom="0dp"
+                    android:fontFamily="sans-serif-condensed"
+                    android:gravity="center"
+                    android:padding="3dp"
+                    android:text="= 2000"
+                    android:textColor="@color/common_txt_color"
+                    android:textSize="14dp"
+                    android:textStyle="bold" />
+            </LinearLayout>
+        </LinearLayout>
+    </LinearLayout>
+
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
+        android:id="@+id/consolidated_print"
+        android:layout_width="65dp"
+        android:layout_height="65dp"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentBottom="true"
+        android:layout_gravity="bottom|end"
+        android:layout_marginRight="20dp"
+        android:layout_marginBottom="20dp"
+        android:gravity="center"
+        android:visibility="visible"
+        app:backgroundTint="#de2c41"
+        app:srcCompat="@drawable/ic_baseline_print_24" />
+</RelativeLayout>

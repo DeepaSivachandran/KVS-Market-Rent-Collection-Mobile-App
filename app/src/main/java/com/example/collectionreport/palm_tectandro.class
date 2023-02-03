@@ -1,0 +1,41 @@
+package com.example.collectionreport;
+
+//
+// Source code recreated from a .class file by IntelliJ IDEA
+// (powered by FernFlower decompiler)
+//
+
+
+import android.content.Context;
+
+import java.util.Objects;
+
+public class palm_tectandro {
+//    public static Context context;
+    public palm_tectandro( ) {
+      //  this.context = context;
+    }
+
+    public static native int jnidevOpen(int var0);
+
+    public static native int jnidevClose();
+
+    public static native int jnidevDataWrite(int[] var0, int var1);
+
+    public static native int jnidevDataByteWrite(byte[] var0, int var1);
+
+    public static native String jnidevDataRead();
+
+    public static native byte[] jnidevDataByteRead();
+
+    public static native int jnidevPrint();
+
+    public static native int jnidevBaudrateSet();
+
+    public static native String jnidevReadBarcode();
+
+    static {
+       System.loadLibrary("palmtecandro");
+       // ReLinker.loadLibrary(context, "mylibrary");
+    }
+}

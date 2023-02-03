@@ -1,0 +1,539 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:tools="http://schemas.android.com/tools"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:background="#ffedeb">
+
+
+    <TextView
+        android:id="@+id/sub_name"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_above="@id/user_name_tv"
+        android:layout_centerInParent="true"
+        android:layout_marginBottom="10dp"
+        android:fontFamily="sans-serif"
+        android:text="Confirm Pin "
+        android:textColor="#808080"
+        android:textSize="22sp"
+        android:textStyle="bold" />
+
+    <TextView
+        android:id="@+id/user_name_tv"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_above="@id/dot_layout"
+        android:layout_centerInParent="true"
+        android:layout_marginBottom="40dp"
+        android:fontFamily="sans-serif-condensed"
+        android:text=""
+        android:textColor="#3d3d40"
+        android:textSize="25sp"
+        android:textStyle="normal" />
+
+    <LinearLayout
+        android:id="@+id/copy_deviceid"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:layout_above="@+id/dot_layout"
+        android:gravity="center"
+        android:layout_marginBottom="3dp"
+        android:visibility="gone">
+        <TextView
+            android:id="@+id/tv_deviceid"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Device ID"
+            android:textSize="23dp"
+            android:textStyle="bold"
+            android:textColor="@color/white"
+            android:layout_marginRight="5dp"/>
+        <ImageView
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:src="@drawable/ic_copy"/>
+    </LinearLayout>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerInParent="true"
+        android:layout_above="@id/lock"
+        android:id="@+id/username"
+        android:textSize="30dp"
+        android:textColor="@android:color/white"
+        android:textStyle="bold"
+        android:layout_marginBottom="5dp"/>
+
+    <LinearLayout
+
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:layout_above="@+id/lock_keypad"
+        android:layout_marginBottom="10dp"
+        android:gravity="center"
+        android:visibility="gone"
+        android:orientation="horizontal">
+
+        <Button
+            android:id="@+id/dot_1"
+            android:layout_width="20dp"
+            android:layout_height="20dp"
+            android:background="@drawable/paswd_disable" />
+
+        <Button
+            android:id="@+id/dot_2"
+            android:layout_width="20dp"
+            android:layout_height="20dp"
+            android:layout_marginLeft="10dp"
+            android:background="@drawable/paswd_disable" />
+
+        <Button
+            android:id="@+id/dot_3"
+            android:layout_width="20dp"
+            android:layout_height="20dp"
+            android:layout_marginLeft="10dp"
+            android:background="@drawable/paswd_disable" />
+
+        <Button
+            android:id="@+id/dot_4"
+            android:layout_width="20dp"
+            android:layout_height="20dp"
+            android:layout_marginLeft="10dp"
+            android:background="@drawable/paswd_disable" />
+
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/dot_layout"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:layout_above="@+id/lock_keypad"
+        android:layout_gravity="center"
+        android:layout_marginBottom="70dp"
+        android:gravity="center"
+        android:orientation="vertical">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="3dp"
+            android:gravity="center"
+            android:orientation="horizontal">
+
+            <LinearLayout
+                android:layout_width="25dp"
+                android:layout_height="20dp"
+                android:gravity="bottom"
+                android:orientation="vertical">
+
+                <View
+                    android:id="@+id/point_1"
+                    android:layout_width="10dp"
+                    android:layout_height="10dp"
+                    android:layout_gravity="center|center_vertical"
+                    android:layout_marginTop="6dp"
+                    android:layout_marginBottom="6dp"
+                    android:background="@drawable/paswd_disable"
+                    android:gravity="center"
+                    android:visibility="gone" />
+
+                <TextView
+                    android:id="@+id/tv_1"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="sans-serif-condensed"
+                    android:gravity="center"
+                    android:text=""
+                    android:textColor="#b4a2db"
+                    android:textSize="14sp"
+                    android:textStyle="bold" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="25dp"
+                android:layout_height="20dp"
+                android:layout_marginLeft="10dp"
+                android:gravity="center"
+                android:orientation="vertical">
+
+                <View
+                    android:id="@+id/point_2"
+                    android:layout_width="10dp"
+                    android:layout_height="10dp"
+                    android:layout_gravity="center|center_vertical"
+                    android:layout_marginTop="6dp"
+                    android:layout_marginBottom="6dp"
+                    android:background="@drawable/paswd_disable"
+                    android:gravity="center"
+                    android:visibility="gone" />
+
+                <TextView
+                    android:id="@+id/tv_2"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="sans-serif-condensed"
+                    android:gravity="center"
+                    android:text=""
+                    android:textColor="#b4a2db"
+                    android:textSize="14sp"
+                    android:textStyle="bold" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="25dp"
+                android:layout_height="20dp"
+                android:layout_marginLeft="10dp"
+                android:gravity="center"
+                android:orientation="vertical">
+
+                <View
+                    android:id="@+id/point_3"
+                    android:layout_width="10dp"
+                    android:layout_height="10dp"
+                    android:layout_gravity="center|center_vertical"
+                    android:layout_marginTop="6dp"
+                    android:layout_marginBottom="6dp"
+                    android:background="@drawable/paswd_disable"
+                    android:gravity="center"
+                    android:visibility="gone" />
+
+                <TextView
+                    android:id="@+id/tv_3"
+                    android:layout_width="25dp"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="sans-serif-condensed"
+                    android:gravity="center"
+                    android:text=""
+                    android:textColor="#b4a2db"
+                    android:textSize="14sp"
+                    android:textStyle="bold" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="25dp"
+                android:layout_height="20dp"
+                android:layout_marginLeft="10dp"
+                android:gravity="center"
+                android:orientation="vertical">
+
+                <View
+                    android:id="@+id/point_4"
+                    android:layout_width="10dp"
+                    android:layout_height="10dp"
+                    android:layout_gravity="center|center_vertical"
+                    android:layout_marginTop="6dp"
+                    android:layout_marginBottom="6dp"
+                    android:background="@drawable/paswd_disable"
+                    android:gravity="center"
+                    android:visibility="gone" />
+
+                <TextView
+                    android:id="@+id/tv_4"
+                    android:layout_width="25dp"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="sans-serif-condensed"
+                    android:gravity="center"
+                    android:text=""
+                    android:textColor="#b4a2db"
+                    android:textSize="14sp"
+                    android:textStyle="bold" />
+            </LinearLayout>
+
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/bar_layout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="0dp"
+            android:gravity="center"
+            android:orientation="horizontal">
+
+            <LinearLayout
+                android:layout_width="25dp"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:orientation="vertical">
+
+                <View
+                    android:layout_width="10dp"
+                    android:layout_height="10dp"
+                    android:layout_marginBottom="6dp"
+                    android:background="@drawable/paswd_disable"
+                    android:visibility="gone" />
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="3dp"
+                    android:background="@color/white" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="25dp"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="10dp"
+                android:gravity="center"
+                android:orientation="vertical">
+
+                <View
+                    android:layout_width="10dp"
+                    android:layout_height="10dp"
+                    android:layout_marginBottom="6dp"
+                    android:background="@drawable/paswd_disable"
+                    android:visibility="gone" />
+
+                <View
+                    android:id="@+id/bar_2"
+                    android:layout_width="match_parent"
+                    android:layout_height="3dp"
+                    android:layout_marginLeft="0dp"
+                    android:background="@color/white" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="25dp"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="10dp"
+                android:gravity="center"
+                android:orientation="vertical">
+
+                <View
+                    android:layout_width="10dp"
+                    android:layout_height="10dp"
+                    android:layout_marginBottom="6dp"
+                    android:background="@drawable/paswd_disable"
+                    android:visibility="gone" />
+
+                <View
+                    android:id="@+id/bar_3"
+                    android:layout_width="match_parent"
+                    android:layout_height="3dp"
+                    android:layout_marginLeft="0dp"
+                    android:background="@color/white" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="25dp"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="10dp"
+                android:gravity="center"
+                android:orientation="vertical">
+
+                <View
+                    android:layout_width="10dp"
+                    android:layout_height="10dp"
+                    android:layout_marginBottom="6dp"
+                    android:background="@drawable/paswd_disable"
+                    android:visibility="gone" />
+
+                <View
+                    android:id="@+id/bar_4"
+                    android:layout_width="30dp"
+                    android:layout_height="3dp"
+                    android:layout_marginLeft="0dp"
+                    android:background="@color/white" />
+            </LinearLayout>
+
+
+        </LinearLayout>
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/lock_keypad"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_above="@id/app_version"
+        android:layout_alignParentBottom="true"
+        android:background="@drawable/dial_pad_bg"
+        android:gravity="start"
+        android:orientation="vertical">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="15dp"
+            android:gravity="center_horizontal">
+
+            <Button
+                android:id="@+id/btn1"
+                android:layout_width="60dp"
+                android:layout_height="60dp"
+                android:layout_margin="2dp"
+                android:layout_marginLeft="10dp"
+                android:background="@drawable/custom_borberless_ripple"
+                android:padding="10dp"
+                android:text="1"
+                android:textColor="@color/btn_and_title_color"
+                android:textSize="20dp" />
+
+            <Button
+                android:id="@+id/btn2"
+                android:layout_width="60dp"
+                android:layout_height="60dp"
+                android:layout_marginLeft="40dp"
+                android:background="@drawable/custom_borberless_ripple"
+                android:padding="10dp"
+                android:text="2"
+                android:textColor="@color/btn_and_title_color"
+                android:textSize="20dp" />
+
+            <Button
+                android:id="@+id/btn3"
+                android:layout_width="60dp"
+                android:layout_height="60dp"
+                android:layout_marginLeft="40dp"
+                android:background="@drawable/custom_borberless_ripple"
+                android:padding="10dp"
+                android:text="3"
+                android:textColor="@color/btn_and_title_color"
+                android:textSize="20dp" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="15dp"
+            android:gravity="center_horizontal">
+
+            <Button
+                android:id="@+id/btn4"
+                android:layout_width="60dp"
+                android:layout_height="60dp"
+                android:layout_margin="2dp"
+                android:layout_marginLeft="10dp"
+                android:background="@drawable/custom_borberless_ripple"
+                android:padding="10dp"
+                android:text="4"
+                android:textColor="@color/btn_and_title_color"
+                android:textSize="20dp" />
+
+            <Button
+                android:id="@+id/btn5"
+                android:layout_width="60dp"
+                android:layout_height="60dp"
+                android:layout_marginLeft="40dp"
+                android:background="@drawable/custom_borberless_ripple"
+                android:padding="10dp"
+                android:text="5"
+                android:textColor="@color/btn_and_title_color"
+                android:textSize="20dp" />
+
+            <Button
+                android:id="@+id/btn6"
+                android:layout_width="60dp"
+                android:layout_height="60dp"
+                android:layout_marginLeft="40dp"
+                android:background="@drawable/custom_borberless_ripple"
+                android:padding="10dp"
+                android:text="6"
+                android:textColor="@color/btn_and_title_color"
+                android:textSize="20dp" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="15dp"
+            android:gravity="center_horizontal">
+
+            <Button
+                android:id="@+id/btn7"
+                android:layout_width="60dp"
+                android:layout_height="60dp"
+                android:layout_margin="2dp"
+                android:layout_marginLeft="10dp"
+                android:background="@drawable/custom_borberless_ripple"
+                android:padding="10dp"
+                android:text="7"
+                android:textColor="@color/btn_and_title_color"
+                android:textSize="20dp" />
+
+            <Button
+                android:id="@+id/btn8"
+                android:layout_width="60dp"
+                android:layout_height="60dp"
+                android:layout_marginLeft="40dp"
+                android:background="@drawable/custom_borberless_ripple"
+                android:padding="10dp"
+                android:text="8"
+                android:textColor="@color/btn_and_title_color"
+                android:textSize="20dp" />
+
+            <Button
+                android:id="@+id/btn9"
+                android:layout_width="60dp"
+                android:layout_height="60dp"
+                android:layout_marginLeft="40dp"
+                android:background="@drawable/custom_borberless_ripple"
+                android:padding="10dp"
+                android:text="9"
+                android:textColor="@color/btn_and_title_color"
+                android:textSize="20dp" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="15dp"
+            android:layout_marginBottom="10dp"
+            android:gravity="center_horizontal">
+
+            <Button
+                android:id="@+id/clean"
+                android:layout_width="60dp"
+                android:layout_height="60dp"
+                android:layout_margin="2dp"
+                android:layout_marginLeft="10dp"
+                android:background="@drawable/custom_borberless_ripple"
+                android:padding="10dp"
+                android:text="C"
+                android:textColor="@color/btn_and_title_color"
+                android:textSize="20dp" />
+
+            <Button
+                android:id="@+id/btn0"
+                android:layout_width="60dp"
+                android:layout_height="60dp"
+                android:layout_marginLeft="40dp"
+                android:background="@drawable/custom_borberless_ripple"
+                android:padding="10dp"
+                android:text="0"
+                android:textColor="@color/btn_and_title_color"
+                android:textSize="20dp" />
+
+            <Button
+                android:id="@+id/btn_back"
+                android:layout_width="60dp"
+                android:layout_height="60dp"
+                android:layout_gravity="center"
+                android:layout_marginLeft="40dp"
+                android:background="@drawable/custom_borberless_ripple"
+                android:drawableLeft="@drawable/ic_baseline_backspace_24"
+                android:gravity="center"
+                android:padding="13dp"
+                android:textSize="20dp" />
+        </LinearLayout>
+    </LinearLayout>
+
+
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/app_version"
+        android:textSize="12dp"
+        android:textColor="@android:color/white"
+        android:text="V1.0"
+        android:layout_alignParentBottom="true"
+        android:visibility="visible"
+        android:layout_marginLeft="10dp"/>
+
+
+
+</RelativeLayout>

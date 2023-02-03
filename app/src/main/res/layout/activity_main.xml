@@ -1,0 +1,1366 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/comman_bg">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/comman_bg"
+        android:orientation="vertical">
+
+        <com.google.android.material.appbar.AppBarLayout
+            android:layout_width="match_parent"
+            android:layout_height="55dp"
+            android:background="@color/common_bar_bg"
+            android:padding="4dp">
+
+            <LinearLayout
+                android:layout_width="fill_parent"
+                android:layout_height="match_parent"
+                android:layout_marginStart="2dp"
+                android:layout_marginEnd="2dp"
+                android:orientation="horizontal"
+                android:padding="4dp"
+                android:weightSum="2">
+
+                <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:layout_weight="0.2"
+                    android:gravity="left"
+                    android:visibility="gone">
+
+                    <ImageView
+                        android:id="@+id/home"
+                        android:layout_width="30dp"
+                        android:layout_height="30dp"
+                        android:background="@drawable/ic_baseline_arrow_back_24">
+
+                    </ImageView>
+                </LinearLayout>
+
+                <TextView
+                    android:id="@+id/title_tv"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:layout_marginStart="0dp"
+                    android:layout_weight="1"
+                    android:ellipsize="end"
+                    android:fontFamily="sans-serif"
+                    android:maxLines="1"
+                    android:text="Collect Buddy"
+                    android:textColor="@color/white"
+                    android:textSize="19dp"
+                    android:textStyle="bold">
+
+                </TextView>
+
+                <LinearLayout
+                    android:layout_width="35dp"
+                    android:layout_height="match_parent"
+                    android:layout_gravity="end"
+                    android:layout_weight="1"
+                    android:gravity="end"
+                    android:orientation="horizontal"
+                    android:padding="0dp">
+
+                    <TextView
+                        android:id="@+id/date_tv"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:layout_marginStart="10dp"
+                        android:layout_marginEnd="10dp"
+                        android:fontFamily="sans-serif"
+                        android:gravity="right"
+                        android:text=""
+                        android:textColor="@color/white"
+                        android:textSize="18dp"
+                        android:textStyle="bold">
+
+                    </TextView>
+
+                    <ImageView
+                        android:id="@+id/menu_img"
+                        android:layout_width="30dp"
+                        android:layout_height="30dp"
+                        android:layout_gravity="center"
+                        android:layout_weight="0"
+                        android:background="@drawable/ic_baseline_menu_24"
+                        android:gravity="end" />
+                </LinearLayout>
+            </LinearLayout>
+        </com.google.android.material.appbar.AppBarLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="12dp"
+            android:layout_marginTop="5dp"
+            android:layout_marginEnd="12dp"
+            android:layout_marginBottom="0dp"
+            android:gravity="center"
+            android:orientation="horizontal"
+            android:padding="2dp"
+            android:visibility="gone">
+
+            <TextView
+                android:id="@+id/company_name_tv"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:fontFamily="sans-serif-condensed"
+                android:gravity="start"
+                android:text=""
+                android:textColor="@color/tot_customer"
+                android:textSize="18dp"
+                android:textStyle="bold" />
+
+            <TextView
+                android:id="@+id/agent_name_tv"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:fontFamily="sans-serif-condensed"
+                android:gravity="end"
+                android:text=""
+                android:textColor="@color/tot_customer"
+                android:textSize="18dp"
+                android:textStyle="bold" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="5dp"
+            android:layout_marginTop="5dp"
+            android:layout_marginEnd="5dp"
+            android:layout_marginBottom="10dp"
+            android:orientation="horizontal"
+            android:weightSum="2">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:weightSum="2">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="45dp"
+                    android:layout_marginTop="5dp"
+                    android:layout_marginBottom="2dp"
+                    android:gravity="center"
+                    android:padding="0dp"
+                    android:visibility="gone">
+
+                    <LinearLayout
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent"
+                        android:layout_marginLeft="2dp"
+                        android:layout_marginTop="0dp"
+                        android:layout_marginRight="1dp"
+                        android:layout_weight="1"
+                        android:background="@drawable/total_customer_bg"
+                        android:gravity="center"
+                        android:orientation="vertical"
+                        android:visibility="visible">
+
+                        <TextView
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:fontFamily="sans-serif-condensed"
+                            android:gravity="center"
+                            android:text="Total"
+                            android:textSize="11dp"
+                            android:textStyle="normal" />
+
+                        <TextView
+                            android:id="@+id/total_customer_tv"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:fontFamily="sans-serif-condensed"
+                            android:gravity="center"
+                            android:text="-"
+                            android:textColor="@color/white"
+                            android:textSize="17dp"
+                            android:textStyle="bold" />
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent"
+                        android:layout_marginLeft="1dp"
+                        android:layout_marginTop="0dp"
+                        android:layout_marginRight="1dp"
+                        android:layout_weight="1"
+                        android:background="@drawable/active_customer_bg"
+                        android:gravity="center"
+                        android:orientation="vertical"
+                        android:visibility="visible">
+
+                        <TextView
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:fontFamily="sans-serif-condensed"
+                            android:gravity="center"
+                            android:text="Active"
+                            android:textSize="11dp"
+                            android:textStyle="normal" />
+
+                        <TextView
+                            android:id="@+id/active_customer_tv"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:fontFamily="sans-serif-condensed"
+                            android:gravity="center"
+                            android:text="-"
+                            android:textColor="@color/white"
+                            android:textSize="17dp"
+                            android:textStyle="bold" />
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent"
+                        android:layout_marginLeft="1dp"
+                        android:layout_marginTop="0dp"
+                        android:layout_marginRight="1dp"
+                        android:layout_weight="1"
+                        android:background="@drawable/inactive_customer_bg"
+                        android:gravity="center"
+                        android:orientation="vertical"
+                        android:visibility="visible">
+
+                        <TextView
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:fontFamily="sans-serif-condensed"
+                            android:gravity="center"
+                            android:text="Inactive"
+                            android:textSize="11dp"
+                            android:textStyle="normal" />
+
+                        <TextView
+                            android:id="@+id/inactive_customer_tv"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:fontFamily="sans-serif-condensed"
+                            android:gravity="center"
+                            android:text="-"
+                            android:textColor="@color/white"
+                            android:textSize="17dp"
+                            android:textStyle="bold" />
+                    </LinearLayout>
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="5dp"
+                    android:gravity="center"
+                    android:orientation="vertical"
+                    android:visibility="gone"
+                    android:padding="0dp">
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="0dp"
+                        android:gravity="center"
+                        android:orientation="horizontal"
+                        android:padding="2dp"
+                        android:weightSum="3">
+
+
+                        <androidx.cardview.widget.CardView
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_marginStart="2dp"
+                            android:layout_marginTop="4dp"
+                            android:layout_marginEnd="2dp"
+                            android:layout_marginBottom="6dp"
+                            android:layout_weight="1.5"
+                            app:cardBackgroundColor="@color/white"
+                            app:cardCornerRadius="7dp"
+                            app:cardElevation="7dp"
+                            app:cardMaxElevation="7dp"
+                            app:cardPreventCornerOverlap="true"
+                            app:cardUseCompatPadding="false">
+
+                            <LinearLayout
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_marginTop="0dp"
+                                android:layout_weight="1"
+                                android:gravity="center"
+                                android:orientation="vertical"
+                                android:padding="0dp">
+
+                                <TextView
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:background="#2561c2"
+                                    android:fontFamily="sans-serif-condensed"
+                                    android:gravity="center"
+                                    android:padding="5dp"
+                                    android:text="Expected Collection"
+                                    android:textColor="@color/white"
+                                    android:textSize="11sp"
+                                    android:textStyle="normal"
+                                    tools:ignore="NestedWeights" />
+
+                                <TextView
+                                    android:id="@+id/expected_collection_tv"
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:fontFamily="sans-serif-condensed-light"
+                                    android:gravity="center"
+                                    android:padding="5dp"
+                                    android:text="\u20B9 0"
+                                    android:textColor="#b31414"
+                                    android:textSize="15sp"
+                                    android:textStyle="bold"
+                                    tools:ignore="NestedWeights" />
+                            </LinearLayout>
+                        </androidx.cardview.widget.CardView>
+
+                        <androidx.cardview.widget.CardView
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_marginStart="2dp"
+                            android:layout_marginTop="4dp"
+                            android:layout_marginEnd="2dp"
+                            android:layout_marginBottom="6dp"
+                            android:layout_weight="1.5"
+                            app:cardBackgroundColor="@color/white"
+                            app:cardCornerRadius="7dp"
+                            app:cardElevation="8dp"
+                            app:cardMaxElevation="9dp"
+                            app:cardPreventCornerOverlap="true"
+                            app:cardUseCompatPadding="false">
+
+                            <LinearLayout
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_marginTop="0dp"
+                                android:gravity="center"
+                                android:orientation="vertical"
+                                android:padding="0dp">
+
+                                <TextView
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:layout_weight="1"
+                                    android:background="#2561c2"
+                                    android:fontFamily="sans-serif-condensed"
+                                    android:gravity="center"
+                                    android:padding="5dp"
+                                    android:text="Actual Collection"
+                                    android:textColor="@color/white"
+                                    android:textSize="11sp"
+                                    android:textStyle="normal"
+                                    tools:ignore="NestedWeights" />
+
+                                <TextView
+                                    android:id="@+id/actual_collection_tv"
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:fontFamily="sans-serif-condensed-light"
+                                    android:gravity="center"
+                                    android:padding="5dp"
+                                    android:text="\u20B9 0"
+                                    android:textColor="#239e18"
+                                    android:textSize="15sp"
+                                    android:textStyle="bold"
+                                    tools:ignore="NestedWeights" />
+                            </LinearLayout>
+                        </androidx.cardview.widget.CardView>
+
+                        <androidx.cardview.widget.CardView
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_marginStart="2dp"
+                            android:layout_marginTop="4dp"
+                            android:layout_marginEnd="2dp"
+                            android:layout_marginBottom="6dp"
+                            android:layout_weight="1"
+                            app:cardBackgroundColor="@color/white"
+                            app:cardCornerRadius="7dp"
+                            app:cardElevation="8dp"
+                            app:cardMaxElevation="9dp"
+                            app:cardPreventCornerOverlap="true"
+                            app:cardUseCompatPadding="false"
+                            android:visibility="gone">
+
+                            <LinearLayout
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_marginTop="0dp"
+                                android:gravity="center"
+                                android:orientation="vertical"
+                                android:padding="0dp">
+
+                                <TextView
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:layout_weight="1"
+                                    android:background="#2561c2"
+                                    android:fontFamily="sans-serif-condensed"
+                                    android:gravity="center"
+                                    android:padding="5dp"
+                                    android:text="Over Due "
+                                    android:textColor="@color/white"
+                                    android:textSize="11sp"
+                                    android:textStyle="normal"
+                                    tools:ignore="NestedWeights" />
+
+                                <TextView
+                                    android:id="@+id/extra_collection_tv"
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:fontFamily="sans-serif-condensed-light"
+                                    android:gravity="center"
+                                    android:padding="5dp"
+                                    android:text="\u20B9 0"
+                                    android:textColor="#6e352c"
+                                    android:textSize="15sp"
+                                    android:textStyle="bold"
+                                    tools:ignore="NestedWeights" />
+                            </LinearLayout>
+                        </androidx.cardview.widget.CardView>
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="0dp"
+                        android:gravity="center"
+                        android:orientation="horizontal"
+                        android:padding="2dp"
+                        android:visibility="gone"
+                        android:weightSum="2">
+
+                        <androidx.cardview.widget.CardView
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_marginStart="4dp"
+                            android:layout_marginTop="2dp"
+                            android:layout_marginEnd="4dp"
+                            android:layout_marginBottom="6dp"
+                            android:layout_weight="1"
+                            app:cardBackgroundColor="@color/white"
+                            app:cardCornerRadius="7dp"
+                            app:cardElevation="8dp"
+                            app:cardMaxElevation="9dp"
+                            app:cardPreventCornerOverlap="true"
+                            app:cardUseCompatPadding="false">
+
+                            <LinearLayout
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_marginTop="0dp"
+                                android:gravity="center"
+                                android:orientation="vertical"
+                                android:padding="0dp"
+                                android:visibility="visible">
+
+                                <TextView
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:background="#249ebd"
+                                    android:fontFamily="sans-serif-condensed"
+                                    android:gravity="center"
+                                    android:padding="5dp"
+                                    android:text="Expected Recovery"
+                                    android:textColor="@color/white"
+                                    android:textSize="14sp"
+                                    android:textStyle="normal"
+                                    tools:ignore="NestedWeights" />
+
+                                <TextView
+                                    android:id="@+id/amount_tv"
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:fontFamily="sans-serif-condensed-light"
+                                    android:gravity="center"
+                                    android:padding="5dp"
+                                    android:text="100000.00"
+                                    android:textColor="#806368"
+                                    android:textSize="17sp"
+                                    android:textStyle="bold"
+                                    tools:ignore="NestedWeights" />
+                            </LinearLayout>
+                        </androidx.cardview.widget.CardView>
+
+                        <androidx.cardview.widget.CardView
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_marginStart="4dp"
+                            android:layout_marginTop="2dp"
+                            android:layout_marginEnd="4dp"
+                            android:layout_marginBottom="6dp"
+                            android:layout_weight="1"
+                            app:cardBackgroundColor="@color/white"
+                            app:cardCornerRadius="7dp"
+                            app:cardElevation="8dp"
+                            app:cardMaxElevation="9dp"
+                            app:cardPreventCornerOverlap="true"
+                            app:cardUseCompatPadding="false">
+
+                            <LinearLayout
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_marginTop="0dp"
+                                android:gravity="center"
+                                android:orientation="vertical"
+                                android:padding="0dp">
+
+                                <TextView
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:background="#249ebd"
+                                    android:fontFamily="sans-serif-condensed"
+                                    android:gravity="center"
+                                    android:padding="5dp"
+                                    android:text="Total Outstaning"
+                                    android:textColor="@color/white"
+                                    android:textSize="14sp"
+                                    android:textStyle="normal"
+                                    tools:ignore="NestedWeights" />
+
+                                <TextView
+                                    android:id="@+id/amount_tv"
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:fontFamily="sans-serif-condensed-light"
+                                    android:gravity="center"
+                                    android:padding="5dp"
+                                    android:text="100000.00"
+                                    android:textColor="#db0b2e"
+                                    android:textSize="17sp"
+                                    android:textStyle="bold"
+                                    tools:ignore="NestedWeights" />
+                            </LinearLayout>
+                        </androidx.cardview.widget.CardView>
+                    </LinearLayout>
+
+                </LinearLayout>
+            </LinearLayout>
+        </LinearLayout>
+
+        <com.google.android.material.tabs.TabLayout
+            android:id="@+id/tabs"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="7dp"
+            android:layout_marginLeft="7dp"
+            android:layout_marginTop="7dp"
+            android:layout_marginEnd="7dp"
+            android:layout_marginRight="7dp"
+            android:layout_marginBottom="7dp"
+            android:background="@drawable/tab_background"
+            app:tabBackground="@drawable/tab_selector"
+            app:tabIndicatorColor="@color/transparent"
+            app:tabRippleColor="@null"
+            app:tabIndicator="@null"
+            app:tabSelectedTextColor="@color/white"
+            app:tabTextColor="@color/common_bar_bg">
+
+        </com.google.android.material.tabs.TabLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="10dp"
+            android:layout_marginTop="10dp"
+            android:layout_marginEnd="10dp"
+            android:gravity="center"
+            android:orientation="horizontal"
+            android:padding="4dp"
+            android:visibility="gone">
+
+            <androidx.cardview.widget.CardView
+                android:layout_width="match_parent"
+                android:layout_height="110dp"
+                android:layout_marginStart="10dp"
+                android:layout_marginTop="10dp"
+                android:layout_marginEnd="10dp"
+                android:layout_marginBottom="10dp"
+                app:cardBackgroundColor="@color/white"
+                app:cardCornerRadius="10dp"
+                app:cardElevation="5dp"
+                app:cardMaxElevation="8dp"
+                app:cardPreventCornerOverlap="true"
+                app:cardUseCompatPadding="false">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="5dp"
+                    android:gravity="center"
+                    android:padding="4dp"
+                    android:weightSum="2">
+
+                    <LinearLayout
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent"
+                        android:layout_marginTop="0dp"
+                        android:layout_weight="0.9"
+                        android:gravity="center"
+                        android:orientation="vertical"
+                        android:padding="4dp">
+
+                        <TextView
+                            android:id="@+id/txt"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:fontFamily="sans-serif-condensed"
+                            android:gravity="center"
+                            android:padding="4dp"
+                            android:text="Total "
+                            android:textColor="@color/common_txt_color"
+                            android:textSize="14dp"
+                            android:textStyle="bold"
+                            android:weightSum="1"
+                            tools:ignore="NestedWeights" />
+
+                        <TextView
+                            android:id="@+id/txt_total"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:fontFamily="sans-serif"
+                            android:gravity="center"
+                            android:padding="4dp"
+                            android:text="350"
+                            android:textColor="@color/tot_customer"
+                            android:textSize="26sp"
+                            android:textStyle="bold"
+                            android:weightSum="1"
+                            tools:ignore="NestedWeights" />
+
+                    </LinearLayout>
+
+                    <View
+                        android:layout_width="1dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="1dp"
+                        android:layout_marginBottom="1dp"
+                        android:layout_weight="0"
+                        android:background="@drawable/divider_bg"
+                        android:gravity="center">
+
+                    </View>
+
+                    <LinearLayout
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent"
+                        android:layout_marginTop="0dp"
+                        android:layout_weight="1.1"
+                        android:gravity="center"
+                        android:orientation="vertical"
+                        android:padding="2dp">
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="0dp"
+                            android:layout_weight="1"
+                            android:gravity="center"
+                            android:orientation="horizontal"
+                            android:weightSum="2">
+
+                            <TextView
+                                android:layout_width="0dp"
+                                android:layout_height="wrap_content"
+                                android:layout_marginRight="0dp"
+                                android:layout_weight="1"
+                                android:fontFamily="sans-serif-condensed"
+                                android:gravity="right"
+                                android:padding="0dp"
+                                android:text="Active"
+                                android:textColor="@color/common_txt_color"
+                                android:textSize="14dp"
+                                android:textStyle="bold"
+                                tools:ignore="NestedWeights" />
+
+                            <TextView
+                                android:id="@+id/txt_active"
+                                android:layout_width="0dp"
+                                android:layout_height="wrap_content"
+                                android:layout_weight="1"
+                                android:fontFamily="sans-serif"
+                                android:gravity="center"
+                                android:padding="0dp"
+                                android:text="200"
+                                android:textColor="@color/green"
+                                android:textSize="20sp"
+                                android:textStyle="bold"
+                                tools:ignore="NestedWeights" />
+
+                        </LinearLayout>
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="0dp"
+                            android:layout_weight="1"
+                            android:gravity="center"
+                            android:orientation="horizontal"
+                            android:weightSum="2">
+
+                            <TextView
+                                android:layout_width="0dp"
+                                android:layout_height="wrap_content"
+                                android:layout_marginRight="0dp"
+                                android:layout_weight="1"
+                                android:fontFamily="sans-serif-condensed"
+                                android:gravity="right"
+                                android:padding="0dp"
+                                android:text="Pending"
+                                android:textColor="@color/common_txt_color"
+                                android:textSize="14dp"
+                                android:textStyle="bold"
+                                tools:ignore="NestedWeights" />
+
+                            <TextView
+                                android:id="@+id/txt_pending"
+                                android:layout_width="0dp"
+                                android:layout_height="wrap_content"
+                                android:layout_weight="1"
+                                android:fontFamily="sans-serif"
+                                android:gravity="center"
+                                android:padding="0dp"
+                                android:text="50"
+                                android:textColor="#fc8021"
+                                android:textSize="20sp"
+                                android:textStyle="bold"
+                                tools:ignore="NestedWeights" />
+
+                        </LinearLayout>
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="0dp"
+                            android:layout_weight="1"
+                            android:gravity="center"
+                            android:orientation="horizontal"
+                            android:weightSum="2">
+
+                            <TextView
+                                android:layout_width="0dp"
+                                android:layout_height="wrap_content"
+                                android:layout_marginRight="0dp"
+                                android:layout_weight="1"
+                                android:fontFamily="sans-serif-condensed"
+                                android:gravity="right"
+                                android:padding="0dp"
+                                android:text="Inactive"
+                                android:textColor="@color/common_txt_color"
+                                android:textSize="14dp"
+                                android:textStyle="bold"
+                                tools:ignore="NestedWeights" />
+
+                            <TextView
+                                android:id="@+id/txt_inactive"
+                                android:layout_width="0dp"
+                                android:layout_height="wrap_content"
+                                android:layout_weight="1"
+                                android:fontFamily="sans-serif"
+                                android:gravity="center"
+                                android:padding="0dp"
+                                android:text="100"
+                                android:textColor="@color/red"
+                                android:textSize="20sp"
+                                android:textStyle="bold"
+                                tools:ignore="NestedWeights" />
+
+                        </LinearLayout>
+                    </LinearLayout>
+
+                </LinearLayout>
+            </androidx.cardview.widget.CardView>
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="0dp"
+            android:gravity="center"
+            android:orientation="horizontal"
+            android:visibility="gone"
+            android:weightSum="2">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="0dp"
+                android:layout_marginBottom="0dp"
+                android:gravity="center"
+                android:padding="4dp"
+                android:weightSum="2">
+
+                <androidx.cardview.widget.CardView
+                    android:id="@+id/collection_card"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="10dp"
+                    android:layout_weight="1"
+                    app:cardBackgroundColor="@color/white"
+                    app:cardCornerRadius="8dp"
+                    app:cardElevation="6dp"
+                    app:cardMaxElevation="8dp"
+                    app:cardPreventCornerOverlap="true"
+                    app:cardUseCompatPadding="false">
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="0dp"
+                        android:gravity="center"
+                        android:orientation="vertical"
+                        android:padding="8dp">
+
+                        <ImageView
+                            android:layout_width="60dp"
+                            android:layout_height="60dp"
+                            android:layout_marginTop="4dp"
+                            android:layout_marginBottom="4dp"
+                            android:background="@drawable/circle_shape"
+                            android:padding="10dp" />
+
+                        <TextView
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:fontFamily="sans-serif-condensed"
+                            android:gravity="center"
+                            android:padding="4dp"
+                            android:text="Collection"
+                            android:textColor="@color/common_txt_color"
+                            android:textSize="20dp"
+                            android:textStyle="bold"
+                            android:weightSum="1"
+                            tools:ignore="NestedWeights" />
+
+                    </LinearLayout>
+                </androidx.cardview.widget.CardView>
+
+                <androidx.cardview.widget.CardView
+                    android:id="@+id/report_card"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="10dp"
+                    android:layout_weight="1"
+                    app:cardBackgroundColor="@color/white"
+                    app:cardCornerRadius="8dp"
+                    app:cardElevation="6dp"
+                    app:cardMaxElevation="8dp"
+                    app:cardPreventCornerOverlap="true"
+                    app:cardUseCompatPadding="false">
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="0dp"
+                        android:gravity="center"
+                        android:orientation="vertical"
+                        android:padding="8dp">
+
+                        <ImageView
+                            android:layout_width="60dp"
+                            android:layout_height="60dp"
+                            android:layout_marginTop="4dp"
+                            android:layout_marginBottom="4dp"
+                            android:padding="10dp" />
+
+                        <TextView
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:fontFamily="sans-serif-condensed"
+                            android:gravity="center"
+                            android:padding="4dp"
+                            android:text="Report"
+                            android:textColor="@color/common_txt_color"
+                            android:textSize="20dp"
+                            android:textStyle="bold"
+                            android:weightSum="1"
+                            tools:ignore="NestedWeights" />
+
+                    </LinearLayout>
+                </androidx.cardview.widget.CardView>
+            </LinearLayout>
+        </LinearLayout>
+
+        <androidx.viewpager.widget.ViewPager
+            android:id="@+id/viewpage_container"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginTop="3dp"
+            android:visibility="visible" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginStart="0dp"
+            android:layout_marginTop="0dp"
+            android:layout_marginEnd="0dp"
+            android:gravity="center"
+            android:orientation="vertical"
+            android:visibility="visible"
+            android:weightSum="2">
+
+            <ListView
+                android:id="@+id/customer_Listview"
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_below="@+id/search_layout"
+                android:layout_weight="1.70"
+                android:divider="@null"
+                android:visibility="visible" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_marginTop="0dp"
+                android:layout_weight="0.30"
+                android:background="@color/white"
+                android:gravity="center"
+                android:orientation="horizontal"
+                android:padding="0dp"
+                android:weightSum="2">
+
+
+                <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="0dp"
+                    android:layout_weight="1.6"
+                    android:gravity="center"
+                    android:orientation="vertical"
+                    android:padding="0dp"
+                    android:weightSum="0">
+
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="0dp"
+                        android:gravity="end"
+                        android:orientation="horizontal"
+                        android:padding="0dp"
+                        android:weightSum="1">
+
+                        <LinearLayout
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="0dp"
+                            android:layout_weight="1"
+                            android:gravity="start"
+                            android:orientation="horizontal"
+                            android:padding="5dp">
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:fontFamily="sans-serif-condensed"
+                                android:gravity="center"
+                                android:padding="1dp"
+                                android:text="Total  "
+                                android:textColor="#4a4e54"
+                                android:textSize="17sp"
+                                android:textStyle="normal"
+                                tools:ignore="NestedWeights" />
+
+                            <TextView
+                                android:id="@+id/due_amount_tv"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:fontFamily="sans-serif-condensed-light"
+                                android:gravity="center"
+                                android:padding="0dp"
+                                android:text="\u20B9 1000"
+                                android:textColor="#173bb0"
+                                android:textSize="17sp"
+                                android:textStyle="bold"
+                                tools:ignore="NestedWeights" />
+                        </LinearLayout>
+
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="0dp"
+                        android:gravity="start"
+                        android:orientation="horizontal"
+                        android:padding="0dp"
+                        android:visibility="gone"
+                        android:weightSum="2">
+
+                        <TextView
+                            android:id="@+id/product_tv"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_marginStart="1dp"
+                            android:layout_weight="1.2"
+                            android:fontFamily="sans-serif-condensed-light"
+                            android:gravity="start"
+                            android:padding="1dp"
+                            android:text="Maran 25000/1"
+                            android:textColor="#8b8c8c"
+                            android:textSize="14sp"
+                            android:textStyle="bold"
+                            tools:ignore="NestedWeights" />
+
+                        <TextView
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="0.8"
+                            android:fontFamily="sans-serif-condensed-light"
+                            android:gravity="end"
+                            android:padding="1dp"
+                            android:text="0.00"
+                            android:textColor="#3a74ab"
+                            android:textSize="14sp"
+                            android:textStyle="bold"
+                            tools:ignore="NestedWeights" />
+
+                    </LinearLayout>
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="0dp"
+                    android:layout_weight="0.4"
+                    android:gravity="center"
+                    android:orientation="vertical"
+                    android:padding="0dp"
+                    android:weightSum="0">
+
+
+                    <ImageView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:background="@drawable/print_bg"
+                        android:gravity="center"
+                        android:padding="7dp"
+                        android:src="@drawable/ic_baseline_print_24"
+                        android:textColor="@color/white"
+                        android:textSize="13sp"
+                        android:textStyle="normal"
+                        tools:ignore="NestedWeights" />
+
+                </LinearLayout>
+            </LinearLayout>
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="120dp"
+            android:layout_marginStart="0dp"
+            android:layout_marginTop="10dp"
+            android:layout_marginEnd="0dp"
+            android:gravity="center"
+            android:orientation="horizontal"
+            android:visibility="gone"
+            android:weightSum="2">
+
+            <androidx.cardview.widget.CardView
+                android:id="@+id/collection_cv"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_marginStart="18dp"
+                android:layout_marginTop="10dp"
+                android:layout_marginEnd="18dp"
+                android:layout_marginBottom="10dp"
+                app:cardBackgroundColor="@color/white"
+                app:cardCornerRadius="8dp"
+                app:cardElevation="6dp"
+                app:cardMaxElevation="8dp"
+                app:cardPreventCornerOverlap="true"
+                app:cardUseCompatPadding="false">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_marginTop="0dp"
+                    android:gravity="center"
+                    android:orientation="horizontal"
+                    android:padding="0dp"
+                    android:weightSum="2">
+
+                    <LinearLayout
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent"
+                        android:layout_marginTop="0dp"
+                        android:layout_weight="0.8"
+                        android:background="@color/main_collect"
+                        android:gravity="center">
+
+                        <ImageView
+                            android:layout_width="72dp"
+                            android:layout_height="72dp"
+                            android:layout_marginTop="0dp"
+                            android:layout_marginBottom="0dp"
+                            android:background="@drawable/circle_shape"
+                            android:padding="14dp"
+                            android:src="@drawable/collection" />
+                    </LinearLayout>
+
+                    <TextView
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1.2"
+                        android:fontFamily="sans-serif-condensed"
+                        android:gravity="center"
+                        android:padding="4dp"
+                        android:text="Collection"
+                        android:textColor="@color/common_txt_color"
+                        android:textSize="20dp"
+                        android:textStyle="bold"
+                        tools:ignore="NestedWeights" />
+
+                </LinearLayout>
+            </androidx.cardview.widget.CardView>
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="120dp"
+            android:layout_marginStart="0dp"
+            android:layout_marginTop="10dp"
+            android:layout_marginEnd="0dp"
+            android:gravity="center"
+            android:orientation="horizontal"
+            android:visibility="gone"
+            android:weightSum="2">
+
+            <androidx.cardview.widget.CardView
+                android:id="@+id/report_cv"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_marginStart="18dp"
+                android:layout_marginTop="10dp"
+                android:layout_marginEnd="18dp"
+                android:layout_marginBottom="10dp"
+                app:cardBackgroundColor="@color/white"
+                app:cardCornerRadius="8dp"
+                app:cardElevation="6dp"
+                app:cardMaxElevation="8dp"
+                app:cardPreventCornerOverlap="true"
+                app:cardUseCompatPadding="false">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_marginTop="0dp"
+                    android:gravity="center"
+                    android:orientation="horizontal"
+                    android:padding="0dp"
+                    android:weightSum="2">
+
+                    <LinearLayout
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent"
+                        android:layout_marginTop="0dp"
+                        android:layout_weight="0.8"
+                        android:background="#9b7fb0"
+                        android:gravity="center">
+
+                        <ImageView
+                            android:layout_width="72dp"
+                            android:layout_height="72dp"
+                            android:layout_marginTop="0dp"
+                            android:layout_marginBottom="0dp"
+                            android:background="@drawable/circle_shape"
+                            android:padding="14dp"
+                            android:src="@drawable/time" />
+                    </LinearLayout>
+
+                    <TextView
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1.2"
+                        android:fontFamily="sans-serif-condensed"
+                        android:gravity="center"
+                        android:padding="4dp"
+                        android:text="Report"
+                        android:textColor="@color/common_txt_color"
+                        android:textSize="20dp"
+                        android:textStyle="bold"
+                        tools:ignore="NestedWeights" />
+
+                </LinearLayout>
+            </androidx.cardview.widget.CardView>
+        </LinearLayout>
+
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="120dp"
+            android:layout_marginStart="0dp"
+            android:layout_marginTop="10dp"
+            android:layout_marginEnd="0dp"
+            android:gravity="center"
+            android:orientation="horizontal"
+            android:visibility="gone"
+            android:weightSum="2">
+
+            <androidx.cardview.widget.CardView
+                android:id="@+id/report_cv1"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_marginStart="20dp"
+                android:layout_marginTop="10dp"
+                android:layout_marginEnd="20dp"
+                android:layout_marginBottom="10dp"
+                app:cardBackgroundColor="@color/white"
+                app:cardCornerRadius="8dp"
+                app:cardElevation="6dp"
+                app:cardMaxElevation="8dp"
+                app:cardPreventCornerOverlap="true"
+                app:cardUseCompatPadding="false">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_marginTop="0dp"
+                    android:gravity="center"
+                    android:orientation="horizontal"
+                    android:padding="0dp"
+                    android:weightSum="2">
+
+                    <LinearLayout
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent"
+                        android:layout_marginTop="0dp"
+                        android:layout_weight="0.8"
+                        android:background="#c97990"
+                        android:gravity="center">
+
+                        <ImageView
+                            android:layout_width="78dp"
+                            android:layout_height="78dp"
+                            android:layout_marginTop="0dp"
+                            android:layout_marginBottom="0dp"
+                            android:padding="10dp" />
+                    </LinearLayout>
+
+                    <TextView
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1.2"
+                        android:fontFamily="sans-serif-condensed"
+                        android:gravity="center"
+                        android:padding="4dp"
+                        android:text="Download"
+                        android:textColor="@color/common_txt_color"
+                        android:textSize="20dp"
+                        android:textStyle="bold"
+                        tools:ignore="NestedWeights" />
+
+                </LinearLayout>
+            </androidx.cardview.widget.CardView>
+        </LinearLayout>
+
+    </LinearLayout>
+
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
+        android:id="@+id/fab5"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentBottom="true"
+        android:layout_gravity="bottom|end"
+        android:layout_marginRight="23dp"
+        android:layout_marginBottom="20dp"
+        android:gravity="center"
+        android:visibility="gone"
+        app:backgroundTint="#de2c41"
+        app:srcCompat="@drawable/ic_rupee_symbol" />
+
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
+        android:id="@+id/fab4"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentBottom="true"
+        android:layout_gravity="bottom|end"
+        android:layout_marginRight="23dp"
+        android:layout_marginBottom="20dp"
+        android:gravity="center"
+        app:backgroundTint="#de2c41"
+        android:visibility="gone"
+        app:srcCompat="@drawable/ic_baseline_lock_24" />
+
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
+        android:id="@+id/fab3"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentBottom="true"
+        android:layout_gravity="bottom|end"
+        android:layout_marginRight="23dp"
+        android:layout_marginBottom="20dp"
+        android:gravity="center"
+        app:backgroundTint="#de2c41"
+        android:visibility="gone"
+        app:srcCompat="@drawable/ic_baseline_person_24"
+        />
+
+
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
+        android:id="@+id/fab2"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentBottom="true"
+        android:layout_marginRight="23dp"
+        android:layout_gravity="bottom|end"
+        android:layout_marginBottom="20dp"
+        android:gravity="center"
+        app:backgroundTint="#de2c41"
+        android:visibility="gone"
+        app:srcCompat="@drawable/ic_baseline_sync_24" />
+
+
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
+        android:id="@+id/fab1"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentBottom="true"
+        android:layout_marginRight="23dp"
+        android:layout_gravity="bottom|end"
+        android:layout_marginBottom="20dp"
+        app:backgroundTint="#de2c41"
+        android:gravity="center"
+        android:visibility="gone"
+        app:srcCompat="@drawable/ic_baseline_cloud_download_24" />
+
+
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
+        android:id="@+id/fab"
+        android:layout_width="65dp"
+        android:layout_height="65dp"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentBottom="true"
+        android:layout_gravity="bottom|end"
+        android:layout_marginRight="20dp"
+        android:layout_marginBottom="20dp"
+        android:gravity="center"
+        app:backgroundTint="#de2c41"
+        android:visibility="gone"
+        app:srcCompat="@drawable/ic_baseline_add_24" />
+</RelativeLayout>

@@ -1,0 +1,135 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="DesignSurface">
+    <option name="filePathToZoomLevelMap">
+      <map>
+        <entry key="..\:/Collectbuddy_market_gitsource/CollectionReport_v1.0/app/src/main/res/drawable-v24/ic_baseline_menu_24.xml" value="0.1955" />
+        <entry key="..\:/Collectbuddy_market_gitsource/CollectionReport_v1.0/app/src/main/res/drawable/amount_input_bg.xml" value="0.1685" />
+        <entry key="..\:/Collectbuddy_market_gitsource/CollectionReport_v1.0/app/src/main/res/drawable/paid_bg.xml" value="0.1" />
+        <entry key="..\:/Collectbuddy_market_gitsource/CollectionReport_v1.0/app/src/main/res/drawable/print_bg.xml" value="0.1965" />
+        <entry key="..\:/Collectbuddy_market_gitsource/CollectionReport_v1.0/app/src/main/res/drawable/tab_background.xml" value="0.2005" />
+        <entry key="..\:/Collectbuddy_market_gitsource/CollectionReport_v1.0/app/src/main/res/drawable/tab_selected.xml" value="0.2005" />
+        <entry key="..\:/Collectbuddy_market_gitsource/CollectionReport_v1.0/app/src/main/res/drawable/tab_selector.xml" value="0.2005" />
+        <entry key="..\:/Collectbuddy_market_gitsource/CollectionReport_v1.0/app/src/main/res/drawable/tab_unselected.xml" value="0.2005" />
+        <entry key="..\:/Collectbuddy_market_gitsource/CollectionReport_v1.0/app/src/main/res/drawable/teb_selected.xml" value="0.2005" />
+        <entry key="..\:/Collectbuddy_market_gitsource/CollectionReport_v1.0/app/src/main/res/drawable/toast_bg.xml" value="0.147" />
+        <entry key="..\:/Collectbuddy_market_gitsource/CollectionReport_v1.0/app/src/main/res/layout/activity_login.xml" value="0.273058884835852" />
+        <entry key="..\:/Collectbuddy_market_gitsource/CollectionReport_v1.0/app/src/main/res/layout/activity_main.xml" value="0.33" />
+        <entry key="..\:/Collectbuddy_market_gitsource/CollectionReport_v1.0/app/src/main/res/layout/areawise_activity.xml" value="0.19270833333333334" />
+        <entry key="..\:/Collectbuddy_market_gitsource/CollectionReport_v1.0/app/src/main/res/layout/collection_report_card.xml" value="0.33" />
+        <entry key="..\:/Collectbuddy_market_gitsource/CollectionReport_v1.0/app/src/main/res/layout/content_login.xml" value="0.33" />
+        <entry key="..\:/Collectbuddy_market_gitsource/CollectionReport_v1.0/app/src/main/res/layout/customer_card_list.xml" value="0.21979166666666666" />
+        <entry key="..\:/Collectbuddy_market_gitsource/CollectionReport_v1.0/app/src/main/res/layout/daily_fragment.xml" value="0.2" />
+        <entry key="..\:/Collectbuddy_market_gitsource/CollectionReport_v1.0/app/src/main/res/layout/main_card.xml" value="0.5" />
+        <entry key="..\:/Collectbuddy_market_gitsource/CollectionReport_v1.0/app/src/main/res/layout/monthly_fragment.xml" value="0.25" />
+        <entry key="..\:/Collectbuddy_market_gitsource/CollectionReport_v1.0/app/src/main/res/layout/report_shift_activity.xml" value="0.33" />
+        <entry key="..\:/Collectbuddy_market_gitsource/CollectionReport_v1.0/app/src/main/res/menu/menu_main.xml" value="0.1875" />
+        <entry key="..\:/CollectionReport_v1.0_Git_Source/CollectionReport_v1.0/app/src/main/res/drawable-v24/editbackground.xml" value="0.1975" />
+        <entry key="..\:/CollectionReport_v1.0_Git_Source/CollectionReport_v1.0/app/src/main/res/drawable-v24/ic_close.xml" value="0.1975" />
+        <entry key="..\:/CollectionReport_v1.0_Git_Source/CollectionReport_v1.0/app/src/main/res/drawable-v24/ic_keyboard_arrow_down.xml" value="0.1955" />
+        <entry key="..\:/CollectionReport_v1.0_Git_Source/CollectionReport_v1.0/app/src/main/res/drawable-v24/ic_launcher_foreground.xml" value="0.1825" />
+        <entry key="..\:/CollectionReport_v1.0_Git_Source/CollectionReport_v1.0/app/src/main/res/drawable/active_customer_bg.xml" value="0.155" />
+        <entry key="..\:/CollectionReport_v1.0_Git_Source/CollectionReport_v1.0/app/src/main/res/drawable/circle_shape.xml" value="0.2105" />
+        <entry key="..\:/CollectionReport_v1.0_Git_Source/CollectionReport_v1.0/app/src/main/res/drawable/completed_customer_bg.xml" value="0.2105" />
+        <entry key="..\:/CollectionReport_v1.0_Git_Source/CollectionReport_v1.0/app/src/main/res/drawable/custom_borberless_ripple.xml" value="0.183" />
+        <entry key="..\:/CollectionReport_v1.0_Git_Source/CollectionReport_v1.0/app/src/main/res/drawable/ic_baseline_add_24.xml" value="0.214" />
+        <entry key="..\:/CollectionReport_v1.0_Git_Source/CollectionReport_v1.0/app/src/main/res/drawable/ic_baseline_clear_24.xml" value="0.1775" />
+        <entry key="..\:/CollectionReport_v1.0_Git_Source/CollectionReport_v1.0/app/src/main/res/drawable/ic_baseline_cloud_download_24.xml" value="0.133" />
+        <entry key="..\:/CollectionReport_v1.0_Git_Source/CollectionReport_v1.0/app/src/main/res/drawable/ic_baseline_lock_24.xml" value="0.155" />
+        <entry key="..\:/CollectionReport_v1.0_Git_Source/CollectionReport_v1.0/app/src/main/res/drawable/ic_baseline_person_24.xml" value="0.189" />
+        <entry key="..\:/CollectionReport_v1.0_Git_Source/CollectionReport_v1.0/app/src/main/res/drawable/ic_baseline_phone_24.xml" value="0.193" />
+        <entry key="..\:/CollectionReport_v1.0_Git_Source/CollectionReport_v1.0/app/src/main/res/drawable/ic_baseline_sync_24.xml" value="0.133" />
+        <entry key="..\:/CollectionReport_v1.0_Git_Source/CollectionReport_v1.0/app/src/main/res/drawable/ic_outline_check_24.xml" value="0.1815" />
+        <entry key="..\:/CollectionReport_v1.0_Git_Source/CollectionReport_v1.0/app/src/main/res/drawable/ic_rupee_symbol.xml" value="0.1275" />
+        <entry key="..\:/CollectionReport_v1.0_Git_Source/CollectionReport_v1.0/app/src/main/res/drawable/ic_rupee_symbol_white.xml" value="0.1475" />
+        <entry key="..\:/CollectionReport_v1.0_Git_Source/CollectionReport_v1.0/app/src/main/res/drawable/inactive_customer_bg.xml" value="0.2445" />
+        <entry key="..\:/CollectionReport_v1.0_Git_Source/CollectionReport_v1.0/app/src/main/res/drawable/main_pending_customer.xml" value="0.136" />
+        <entry key="..\:/CollectionReport_v1.0_Git_Source/CollectionReport_v1.0/app/src/main/res/drawable/paswd_disable.xml" value="0.1865" />
+        <entry key="..\:/CollectionReport_v1.0_Git_Source/CollectionReport_v1.0/app/src/main/res/drawable/pending_customer_bg.xml" value="0.153" />
+        <entry key="..\:/CollectionReport_v1.0_Git_Source/CollectionReport_v1.0/app/src/main/res/drawable/plus_two.xml" value="0.214" />
+        <entry key="..\:/CollectionReport_v1.0_Git_Source/CollectionReport_v1.0/app/src/main/res/drawable/print_bg.xml" value="0.193" />
+        <entry key="..\:/CollectionReport_v1.0_Git_Source/CollectionReport_v1.0/app/src/main/res/drawable/rupee_icon.xml" value="0.174" />
+        <entry key="..\:/CollectionReport_v1.0_Git_Source/CollectionReport_v1.0/app/src/main/res/drawable/search_background.xml" value="0.1695" />
+        <entry key="..\:/CollectionReport_v1.0_Git_Source/CollectionReport_v1.0/app/src/main/res/drawable/search_clear.xml" value="0.1775" />
+        <entry key="..\:/CollectionReport_v1.0_Git_Source/CollectionReport_v1.0/app/src/main/res/drawable/tab_background.xml" value="0.2205" />
+        <entry key="..\:/CollectionReport_v1.0_Git_Source/CollectionReport_v1.0/app/src/main/res/drawable/tab_selected.xml" value="0.109" />
+        <entry key="..\:/CollectionReport_v1.0_Git_Source/CollectionReport_v1.0/app/src/main/res/drawable/tab_selector.xml" value="0.109" />
+        <entry key="..\:/CollectionReport_v1.0_Git_Source/CollectionReport_v1.0/app/src/main/res/drawable/toast_bg.xml" value="0.1625" />
+        <entry key="..\:/CollectionReport_v1.0_Git_Source/CollectionReport_v1.0/app/src/main/res/drawable/total_customer_bg.xml" value="0.185" />
+        <entry key="..\:/CollectionReport_v1.0_Git_Source/CollectionReport_v1.0/app/src/main/res/layout/active_fragment.xml" value="0.33" />
+        <entry key="..\:/CollectionReport_v1.0_Git_Source/CollectionReport_v1.0/app/src/main/res/layout/active_tab.xml" value="0.13125" />
+        <entry key="..\:/CollectionReport_v1.0_Git_Source/CollectionReport_v1.0/app/src/main/res/layout/activity_login.xml" value="0.33" />
+        <entry key="..\:/CollectionReport_v1.0_Git_Source/CollectionReport_v1.0/app/src/main/res/layout/activity_main.xml" value="0.33" />
+        <entry key="..\:/CollectionReport_v1.0_Git_Source/CollectionReport_v1.0/app/src/main/res/layout/areawise_activity.xml" value="0.22" />
+        <entry key="..\:/CollectionReport_v1.0_Git_Source/CollectionReport_v1.0/app/src/main/res/layout/check_internet.xml" value="0.25" />
+        <entry key="..\:/CollectionReport_v1.0_Git_Source/CollectionReport_v1.0/app/src/main/res/layout/citywise_list_card.xml" value="0.18333333333333332" />
+        <entry key="..\:/CollectionReport_v1.0_Git_Source/CollectionReport_v1.0/app/src/main/res/layout/closed_customer_popup.xml" value="0.33" />
+        <entry key="..\:/CollectionReport_v1.0_Git_Source/CollectionReport_v1.0/app/src/main/res/layout/collection_activity.xml" value="0.25" />
+        <entry key="..\:/CollectionReport_v1.0_Git_Source/CollectionReport_v1.0/app/src/main/res/layout/confirm_pin_layout.xml" value="0.33" />
+        <entry key="..\:/CollectionReport_v1.0_Git_Source/CollectionReport_v1.0/app/src/main/res/layout/confirm_pin_popup.xml" value="0.33" />
+        <entry key="..\:/CollectionReport_v1.0_Git_Source/CollectionReport_v1.0/app/src/main/res/layout/content_login.xml" value="0.25" />
+        <entry key="..\:/CollectionReport_v1.0_Git_Source/CollectionReport_v1.0/app/src/main/res/layout/customer_card_list.xml" value="0.25" />
+        <entry key="..\:/CollectionReport_v1.0_Git_Source/CollectionReport_v1.0/app/src/main/res/layout/customer_entry_popup.xml" value="0.22" />
+        <entry key="..\:/CollectionReport_v1.0_Git_Source/CollectionReport_v1.0/app/src/main/res/layout/customer_unknown_popup.xml" value="0.22" />
+        <entry key="..\:/CollectionReport_v1.0_Git_Source/CollectionReport_v1.0/app/src/main/res/layout/denomination_layout.xml" value="0.16" />
+        <entry key="..\:/CollectionReport_v1.0_Git_Source/CollectionReport_v1.0/app/src/main/res/layout/drop_dwon_list.xml" value="0.25" />
+        <entry key="..\:/CollectionReport_v1.0_Git_Source/CollectionReport_v1.0/app/src/main/res/layout/inactive_fragment.xml" value="0.33" />
+        <entry key="..\:/CollectionReport_v1.0_Git_Source/CollectionReport_v1.0/app/src/main/res/layout/login_screen_activity.xml" value="0.25" />
+        <entry key="..\:/CollectionReport_v1.0_Git_Source/CollectionReport_v1.0/app/src/main/res/layout/pending_fragment.xml" value="0.18333333333333332" />
+        <entry key="..\:/CollectionReport_v1.0_Git_Source/CollectionReport_v1.0/app/src/main/res/layout/report_activity.xml" value="0.2" />
+        <entry key="..\:/CollectionReport_v1.0_Git_Source/CollectionReport_v1.0/app/src/main/res/layout/report_customer_card.xml" value="0.33" />
+        <entry key="..\:/CollectionReport_v1.0_Git_Source/CollectionReport_v1.0/app/src/main/res/layout/report_shift_activity.xml" value="0.22" />
+        <entry key="..\:/CollectionReport_v1.0_Git_Source/CollectionReport_v1.0/app/src/main/res/layout/report_shift_card.xml" value="0.2" />
+        <entry key="..\:/CollectionReport_v1.0_Git_Source/CollectionReport_v1.0/app/src/main/res/layout/toast_custom.xml" value="0.33" />
+        <entry key="..\:/CollectionReport_v1.0_Git_Source/CollectionReport_v1.0/app/src/main/res/mipmap-anydpi-v26/ic_launcher.xml" value="0.155" />
+        <entry key="..\:/CollectionReport_v1.0_Git_Source/CollectionReport_v1.0/app/src/main/res/mipmap-anydpi-v26/ic_launcher_round.xml" value="0.155" />
+        <entry key="..\:/CollectionReport_v1.0_Git_Source/CollectionReport_v1.0/app/src/main/res/xml/provider_paths.xml" value="0.16197916666666667" />
+        <entry key="..\:/Collections_Report_Git_Source/app/src/main/res/drawable/active_customer_bg.xml" value="0.1915" />
+        <entry key="..\:/Collections_Report_Git_Source/app/src/main/res/drawable/circle_shape.xml" value="0.1175" />
+        <entry key="..\:/Collections_Report_Git_Source/app/src/main/res/drawable/circular_progress_bar.xml" value="0.1395" />
+        <entry key="..\:/Collections_Report_Git_Source/app/src/main/res/drawable/custom_borberless_ripple.xml" value="0.1645" />
+        <entry key="..\:/Collections_Report_Git_Source/app/src/main/res/drawable/dial_pad_bg.xml" value="0.2" />
+        <entry key="..\:/Collections_Report_Git_Source/app/src/main/res/drawable/divider_bg.xml" value="0.1755" />
+        <entry key="..\:/Collections_Report_Git_Source/app/src/main/res/drawable/ic_baseline_backspace_24.xml" value="0.1645" />
+        <entry key="..\:/Collections_Report_Git_Source/app/src/main/res/drawable/ic_baseline_search_24.xml" value="0.1585" />
+        <entry key="..\:/Collections_Report_Git_Source/app/src/main/res/drawable/ic_copy.xml" value="0.202" />
+        <entry key="..\:/Collections_Report_Git_Source/app/src/main/res/drawable/ic_report_121_blue.xml" value="0.202" />
+        <entry key="..\:/Collections_Report_Git_Source/app/src/main/res/drawable/ic_resource_package.xml" value="0.202" />
+        <entry key="..\:/Collections_Report_Git_Source/app/src/main/res/drawable/ic_shopping_bag.xml" value="0.202" />
+        <entry key="..\:/Collections_Report_Git_Source/app/src/main/res/drawable/icon_layout_bg.xml" value="0.202" />
+        <entry key="..\:/Collections_Report_Git_Source/app/src/main/res/drawable/inactive_customer_bg.xml" value="0.1915" />
+        <entry key="..\:/Collections_Report_Git_Source/app/src/main/res/drawable/paswd_disable.xml" value="0.202" />
+        <entry key="..\:/Collections_Report_Git_Source/app/src/main/res/drawable/paswd_enable.xml" value="0.202" />
+        <entry key="..\:/Collections_Report_Git_Source/app/src/main/res/drawable/pending_customer_bg.xml" value="0.1915" />
+        <entry key="..\:/Collections_Report_Git_Source/app/src/main/res/drawable/report_click.xml" value="0.202" />
+        <entry key="..\:/Collections_Report_Git_Source/app/src/main/res/drawable/round.xml" value="0.202" />
+        <entry key="..\:/Collections_Report_Git_Source/app/src/main/res/drawable/search_background.xml" value="0.1645" />
+        <entry key="..\:/Collections_Report_Git_Source/app/src/main/res/drawable/tab_background.xml" value="0.2465" />
+        <entry key="..\:/Collections_Report_Git_Source/app/src/main/res/drawable/tab_selected.xml" value="0.2465" />
+        <entry key="..\:/Collections_Report_Git_Source/app/src/main/res/drawable/tab_selector.xml" value="0.209" />
+        <entry key="..\:/Collections_Report_Git_Source/app/src/main/res/drawable/tab_unselected.xml" value="0.2465" />
+        <entry key="..\:/Collections_Report_Git_Source/app/src/main/res/drawable/tabs_bg.xml" value="0.1305" />
+        <entry key="..\:/Collections_Report_Git_Source/app/src/main/res/drawable/total_customer_bg.xml" value="0.1915" />
+        <entry key="..\:/Collections_Report_Git_Source/app/src/main/res/layout/active_fragment.xml" value="0.291015625" />
+        <entry key="..\:/Collections_Report_Git_Source/app/src/main/res/layout/active_tab.xml" value="0.18333333333333332" />
+        <entry key="..\:/Collections_Report_Git_Source/app/src/main/res/layout/activity_login.xml" value="0.12083333333333333" />
+        <entry key="..\:/Collections_Report_Git_Source/app/src/main/res/layout/activity_main.xml" value="0.33" />
+        <entry key="..\:/Collections_Report_Git_Source/app/src/main/res/layout/areawise_activity.xml" value="0.5" />
+        <entry key="..\:/Collections_Report_Git_Source/app/src/main/res/layout/citywise_list_card.xml" value="0.33" />
+        <entry key="..\:/Collections_Report_Git_Source/app/src/main/res/layout/collection_activity.xml" value="0.33" />
+        <entry key="..\:/Collections_Report_Git_Source/app/src/main/res/layout/content_login.xml" value="0.2" />
+        <entry key="..\:/Collections_Report_Git_Source/app/src/main/res/layout/customer_card_list.xml" value="0.33" />
+        <entry key="..\:/Collections_Report_Git_Source/app/src/main/res/layout/inactive_fragment.xml" value="0.3249727371864776" />
+        <entry key="..\:/Collections_Report_Git_Source/app/src/main/res/layout/login_screen_activity.xml" value="0.25" />
+        <entry key="..\:/Collections_Report_Git_Source/app/src/main/res/layout/pending_fragment.xml" value="0.33" />
+        <entry key="..\:/Collections_Report_Git_Source/app/src/main/res/layout/report_activity.xml" value="0.33" />
+      </map>
+    </option>
+  </component>
+  <component name="ProjectRootManager" version="2" languageLevel="JDK_11" default="true" project-jdk-name="Android Studio default JDK" project-jdk-type="JavaSDK">
+    <output url="file://$PROJECT_DIR$/build/classes" />
+  </component>
+  <component name="ProjectType">
+    <option name="id" value="Android" />
+  </component>
+</project>
