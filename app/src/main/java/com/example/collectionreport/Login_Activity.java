@@ -555,8 +555,9 @@ public class Login_Activity extends AppCompatActivity {
     public void CheckDeviceAuthendication(){
 
         try{
-            getdeviceid =  Settings.Secure.getString(getApplicationContext().getContentResolver(), Settings.Secure.ANDROID_ID);
+            //getdeviceid =  Settings.Secure.getString(getApplicationContext().getContentResolver(), Settings.Secure.ANDROID_ID);
 
+            getdeviceid = "f22d1103dcce2f11";
             if (getdeviceid.equals(null)) {
               //  getdeviceid = "000000";
             }

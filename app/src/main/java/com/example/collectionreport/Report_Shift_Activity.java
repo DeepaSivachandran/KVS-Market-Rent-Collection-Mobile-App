@@ -809,7 +809,6 @@ public class Report_Shift_Activity extends AppCompatActivity {
                 holder.print_icon.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View view) {
-
                         Print_Receipt_Market(collection_report_details.get(position).getTotal_amount(),collection_report_details.get(position).getTenantname(),collection_report_details.get(position).getReceiptno(),collection_report_details.get(position).getShopname(),"","","","",0);
                     }
                 });
@@ -817,22 +816,6 @@ public class Report_Shift_Activity extends AppCompatActivity {
                     @Override
                     public void onClick(View view) {
 
-//                        mHolder.LL_recovery.setBackgroundResource(R.color.card_select);
-//                        mHolder.total_amount_tv.setBackgroundResource(R.drawable.amount_input_bg);
-
-                        // Toast.makeText(getApplicationContext(),"YES",Toast.LENGTH_SHORT).show();
-
-
-                        if(stringArrayList.get(position).equals("")) {
-
-                            //holder.LL_card.setBackgroundResource(R.color.select_green);
-                          //  stringArrayList.set(position,String.valueOf(position));
-
-                        }else{
-
-                          //  holder.LL_card.setBackgroundResource(R.color.white);
-                           // stringArrayList.set(position,"");
-                        }
 
                     }
                 });

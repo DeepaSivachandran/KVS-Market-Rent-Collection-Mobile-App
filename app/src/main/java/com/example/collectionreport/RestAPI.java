@@ -21,9 +21,8 @@ public class RestAPI {
     public  static  String urlString= "http://kvsmarket.trio-s.com/webservice/";
    // public  static  String urlString= "http://172.16.1.250:8007/CollectBuddy_Market/";
 
-   // public  static  String neturl = LoginActivity.ipaddress+"/";
+  //  public  static  String neturl ="http://172.16.1.250:8007/";
     public  static  String neturl = "http://kvsmarket.trio-s.com";
-
 
     public String GetJSONResponse(String paraURL, String paraData) {
         BufferedReader reader = null;

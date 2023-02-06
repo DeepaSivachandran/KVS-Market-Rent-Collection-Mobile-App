@@ -544,7 +544,6 @@
         </LinearLayout>
     </LinearLayout>
 
-
     <TextView
         android:id="@+id/app_version"
         android:layout_width="match_parent"
@@ -552,11 +551,9 @@
         android:layout_alignParentBottom="true"
         android:layout_marginLeft="3dp"
         android:padding="5dp"
-        android:text="V1.0.5"
+        android:text="V1.0.0"
         android:textColor="@color/light_gray"
         android:textSize="12dp"
         android:visibility="visible" />
-
-
 
 </RelativeLayout>
