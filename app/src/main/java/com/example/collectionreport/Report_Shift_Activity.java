@@ -1,10 +1,19 @@
 package com.example.collectionreport;
 
 import static com.example.collectionreport.MainActivity.actual_collection_tv;
+import static com.example.collectionreport.MainActivity.connection_flag;
 import static com.example.collectionreport.MainActivity.expected_collection_tv;
 import static com.example.collectionreport.MainActivity.model;
 import static com.example.collectionreport.MainActivity.selectedDate;
 import static com.example.collectionreport.MainActivity.settings_details;
+import static com.generic.jpos.command.ESCPOSConst.LK_ALIGNMENT_CENTER;
+import static com.generic.jpos.command.ESCPOSConst.LK_ALIGNMENT_LEFT;
+import static com.generic.jpos.command.ESCPOSConst.LK_ALIGNMENT_RIGHT;
+import static com.generic.jpos.command.ESCPOSConst.LK_FNT_BOLD;
+import static com.generic.jpos.command.ESCPOSConst.LK_FNT_DEFAULT;
+import static com.generic.jpos.command.ESCPOSConst.LK_FNT_FONTB;
+import static com.generic.jpos.command.ESCPOSConst.LK_TXT_1WIDTH;
+import static com.generic.jpos.command.ESCPOSConst.LK_TXT_2WIDTH;
 
 import android.annotation.SuppressLint;
 import android.app.AlertDialog;
@@ -38,6 +47,7 @@ import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.cardview.widget.CardView;
 
+import com.generic.jpos.printer.ESCPOSPrinter;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.ibm.icu.text.RuleBasedNumberFormat;
 import com.softland.palmtecandro.palmtecandro;
@@ -46,6 +56,7 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.io.UnsupportedEncodingException;
 import java.text.DecimalFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -54,7 +65,8 @@ import java.util.Locale;
 
 public class Report_Shift_Activity extends AppCompatActivity {
     ProgressDialog progressDialog;
-    String line_space = "------------------------------";
+    ESCPOSPrinter  escposPrinter ;
+    String line_space = "------------------------------",CITY_NAME="";
     ImageView back_img;
     DecimalFormat dft = new DecimalFormat("0.00");
     String Shift_code,Shift_time,Shift_date;
@@ -92,6 +104,8 @@ public class Report_Shift_Activity extends AppCompatActivity {
 
         total_store_tv  = (TextView) findViewById(R.id.total_store_tv);
         total_collection_tv = (TextView) findViewById(R.id.total_collection_tv);
+
+        escposPrinter = new ESCPOSPrinter();
 
         title_tv = (TextView) findViewById(R.id.title_tv);
         txt_date = (TextView) findViewById(R.id.txt_date);
@@ -139,6 +153,8 @@ public class Report_Shift_Activity extends AppCompatActivity {
             }
         });
 
+
+
         stringArrayList.add("1");
         stringArrayList.add("2");
         stringArrayList.add("3");
@@ -166,9 +182,9 @@ public class Report_Shift_Activity extends AppCompatActivity {
         });
 
         progressDialog = new ProgressDialog(Report_Shift_Activity.this);
-        progressDialog.setMessage("Printing..."); // Setting Message
-        progressDialog.setProgressStyle(ProgressDialog.STYLE_SPINNER); // Progress Dialog Style Spinner
-        progressDialog.setCancelable(false);
+//        progressDialog.setMessage("Printing..."); // Setting Message
+//        progressDialog.setProgressStyle(ProgressDialog.STYLE_SPINNER); // Progress Dialog Style Spinner
+//        progressDialog.setCancelable(false);
 
         progress_bar = (ProgressBar) findViewById(R.id.progress_bar);
 
@@ -177,6 +193,8 @@ public class Report_Shift_Activity extends AppCompatActivity {
             Shift_code = i.getStringExtra("shiftcode");
             Shift_time = i.getStringExtra("shifttime");
             Shift_date = i.getStringExtra("shiftdate");
+
+            CITY_NAME = i.getStringExtra("CITY_NAME");
 
             title_tv.setText(String.valueOf("Shift "+ Shift_code.charAt(8)));
             txt_date.setText(String.valueOf(Shift_date));
@@ -199,10 +217,14 @@ public class Report_Shift_Activity extends AppCompatActivity {
             public void onClick(View view) {
 
                 try {
-                    if(!model.equals("") && model.equals("SIL_PALMTECANDRO_4G")) {
-                     //   Print_Consolidated_Receipt();
-                        Print_Receipt_Market("","","","","","","","",1);
+
+                    if(connection_flag) {
+                        //   Print_Consolidated_Receipt();
+                        Print_Receipt_Market("", "", "", "", "", "", "", "", 1);
+                    }else{
+                        toast("Please check your bluetooth connection");
                     }
+
                 } catch (Exception e) {
                     e.printStackTrace();
                 }
@@ -242,6 +264,13 @@ public class Report_Shift_Activity extends AppCompatActivity {
 
         @Override
         protected void onPreExecute() {
+
+            if(progressDialog != null) {
+                progressDialog.setProgressStyle(ProgressDialog.STYLE_SPINNER);
+                progressDialog.setMessage("Loading ...");
+                progressDialog.setCancelable(false);
+                progressDialog.show();
+            }
             super.onPreExecute();
         }
 
@@ -303,6 +332,10 @@ public class Report_Shift_Activity extends AppCompatActivity {
                     e.printStackTrace();
 
                 }
+            }
+
+            if(progressDialog != null) {
+                progressDialog.dismiss();
             }
         }
     }
@@ -674,58 +707,6 @@ public class Report_Shift_Activity extends AppCompatActivity {
 
     }
 
-    public class Get_Company_Details extends
-            AsyncTask<String, JSONObject, Boolean> {
-        DataBaseAdapter base;
-        PendingFragment.Pending_Adapter adapter;
-        Cursor mcur;
-        int pos;
-
-        public Get_Company_Details(int position) {
-            this.pos = position;
-        }
-
-        @Override
-        protected Boolean doInBackground(String... params) {
-            //Try Block
-
-            //  try {
-            base = new DataBaseAdapter(Report_Shift_Activity.this);
-            base.open();
-            mcur = base.Select_Settings();
-            base.close();
-            return true;
-        }
-
-        @Override
-        protected void onPreExecute() {
-            super.onPreExecute();
-            settings_details.clear();
-        }
-
-        @Override
-        protected void onPostExecute(Boolean result) {
-            if(mcur != null){
-                if(mcur.getCount()>0){
-                    settings_details.clear();
-                    for(int i = 0; i< mcur.getCount(); i++) {
-                        //settings_details.add(new Settings_Details(mcur.getString(1), mcur.getString(2), mcur.getString(3), mcur.getString(4), mcur.getString(5), mcur.getString(6)));
-                      //  Log.d("SETTINGS_DATA =======ROW(" + String.valueOf(i) + ")========>", String.valueOf(mcur.getString(2)));
-                      //  mcur.moveToNext();
-                    }
-                }
-            }
-
-            if(settings_details.size()>0) {
-               // Print_Receipt(pos);
-            }else{
-
-            }
-        }
-    }
-
-
-
     public class MemberListBaseAdapter extends BaseAdapter {
 
         Context context;
@@ -807,9 +788,19 @@ public class Report_Shift_Activity extends AppCompatActivity {
 
 
                 holder.print_icon.setOnClickListener(new View.OnClickListener() {
+                    @RequiresApi(api = Build.VERSION_CODES.N)
                     @Override
                     public void onClick(View view) {
-                        Print_Receipt_Market(collection_report_details.get(position).getTotal_amount(),collection_report_details.get(position).getTenantname(),collection_report_details.get(position).getReceiptno(),collection_report_details.get(position).getShopname(),"","","","",0);
+                        try {
+                            if(connection_flag) {
+                                Print_Receipt_Market(collection_report_details.get(position).getTotal_amount(), collection_report_details.get(position).getTenantname(), collection_report_details.get(position).getReceiptno(), collection_report_details.get(position).getShopname(), "", "", "", "", 0);
+                            }else{
+
+                                toast("Please check your bluetooth connection");
+                            }
+                        } catch (UnsupportedEncodingException e) {
+                            throw new RuntimeException(e);
+                        }
                     }
                 });
                 view.setOnClickListener(new View.OnClickListener() {
@@ -855,337 +846,201 @@ public class Report_Shift_Activity extends AppCompatActivity {
     }
 
 
-    private void Print_Receipt_Market(String total_amount,String tenantname,String receiptcode,String shopname,String customer_name,String city,String Old_due_amount,String Due_amount,int customer_type) {
-        double  old_due_amount=500,due_amount=1000;
+    private void Print_Receipt_Market(String total_amount,String tenantname,String receiptcode,String shopname,String customer_name,String city,String Old_due_amount,String Due_amount,int customer_type) throws UnsupportedEncodingException {
+
         double total_amt= 0,grand_total = 0;
         String tot_amt_words = "";
-        String agent_code,grp_code;
+        String string_amount_total = "";
 
         for (int i=0;i<collection_report_details.size();i++) {
             grand_total = grand_total + Double.parseDouble(collection_report_details.get(i).getTotal_amount());
         }
-        palmtecandro.jnidevOpen(115200);
-
+        string_amount_total = String.valueOf(dft.format(grand_total));
         if(customer_type == 0) {
-
-                Clearbuffer();//Clear unwanted buffer
-                //Leavespace();
-                Alignment(27,97,1);//Center aligment
-                Print("");
-
-                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
-
-                    Clearbuffer();//Clear unwanted buffer
-                    // Leavespace();
-                    Alignment(27, 97, 1);//Center aligment
-                    // Print("Thirupuvanam");
-                    Print(MainActivity.CITY_NAME);
-
-                    Clearbuffer();//Clear unwanted buffer
-                    //Leavespace();
-                    Alignment(27, 97, 1);//Center aligment
-                    //Print(" KAS JEWELLERY");
-                    Print(MainActivity.COMPANY_NAME);
-
-                    Clearbuffer();//Clear unwanted buffer
-                    // Leavespace();
-                    Alignment(27, 97, 1);//Center aligment
-                    // Print("Thirupuvanam");
-                    Print(MainActivity.SUBTITLE_1);
-
-                    Clearbuffer();//Clear unwanted buffer
-                    // Leavespace();
-                    Alignment(27, 97, 1);//Center aligment
-                    // Print("Thirupuvanam");
-                    Print(MainActivity.SUBTITLE_2);
-
-                }
-                Clearbuffer();//Clear unwanted buffer
-                Alignment(27,97,1);//Center aligment
-                Print(line_space);
-
-                Clearbuffer();//Clear unwanted buffer
-                // Leavespace();
-                Alignment(27,97,1);
-                Print("RENT RECEIPT");
-
-                Clearbuffer();//Clear unwanted buffer
-                // Leavespace();
-                Alignment(27, 97, 1);//Center aligment
-                Print(line_space);
-
-
-                Clearbuffer();//Clear unwanted buffer
-                Leavespace();
-                Alignment(27, 97, 0);//Left alignment
-                // Print("DATE: " + date + " TIME: " + getReminingTime());
-                Print("DATE: " + MainActivity.strDate + " TIME: " + getReminingTime());
-
-                Clearbuffer();//Clear unwanted buffer
-                //  Leavespace();
-                Alignment(27, 97, 0);//Left alignment
-                Print("RECEIPT NO:" + String.valueOf(receiptcode+" SHOP NO:" + shopname));
-
-                Clearbuffer();//Clear unwanted buffer
-                //   Leavespace();
-                Alignment(27, 97, 0);//Left alignment
-                Print("TENANT NAME: " + tenantname );
-
-                Clearbuffer();//Clear unwanted buffer
-                Leavespace();
-                Alignment(27,97,2);//Right alignment
-                Print("AMOUNT: " + total_amount);
-                Clearbuffer();//Clear unwanted bufferPrint("");
-                // Leavespace();
-                Alignment(27, 97, 1);//Center aligment
-                Print(line_space);
-                    Clearbuffer();//Clear unwanted buffer
-                    // Leavespace();
-                    Alignment(27, 97, 1);//Center aligment
-                    // Print("(" + String.valueOf(tot_amount_words.charAt(0)).toUpperCase() + String.valueOf(tot_amount_words.substring(1, tot_amount_words.length())) + " only)");
-                    Print("(INCLUSIVE OF SERVICE TAX)");
-                Clearbuffer();//Clear unwanted buffer
-                Leavespace();
-                Alignment(27,97,0);//Left alignment
-                Print(" * * * * * THANK YOU * * * * * ");
-
-            Clearbuffer();//Clear unwanted buffer
-            Leavespace();
-            Alignment(27,97,0);//Left alignment
-            Print("");
-            Clearbuffer();//Clear unwanted buffer
-            Leavespace();
-            Alignment(27,97,0);//Left alignment
-            Print("");
-
-
-        }
-
-//
-//        if(customer_type == 1) {
-//
-//            for (int i=0;i<collection_report_details.size();i++) {
-//
-//                Clearbuffer();//Clear unwanted buffer
-//                //Leavespace();
-//                Alignment(27,97,1);//Center aligment
-//                Print("");
-//
-//                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
-//
-//                    Clearbuffer();//Clear unwanted buffer
-//                    // Leavespace();
-//                    Alignment(27, 97, 1);//Center aligment
-//                    // Print("Thirupuvanam");
-//                    Print(MainActivity.CITY_NAME);
-//
-//                    Clearbuffer();//Clear unwanted buffer
-//                    //Leavespace();
-//                    Alignment(27, 97, 1);//Center aligment
-//                    //Print(" KAS JEWELLERY");
-//                    Print(MainActivity.COMPANY_NAME);
-//
-//                    Clearbuffer();//Clear unwanted buffer
-//                    // Leavespace();
-//                    Alignment(27, 97, 1);//Center aligment
-//                    // Print("Thirupuvanam");
-//                    Print(MainActivity.SUBTITLE_1);
-//
-//                    Clearbuffer();//Clear unwanted buffer
-//                    // Leavespace();
-//                    Alignment(27, 97, 1);//Center aligment
-//                    // Print("Thirupuvanam");
-//                    Print(MainActivity.SUBTITLE_2);
-//
-//                }
-//                Clearbuffer();//Clear unwanted buffer
-//                Alignment(27,97,1);//Center aligment
-//                Print(line_space);
-//
-//                Clearbuffer();//Clear unwanted buffer
-//                // Leavespace();
-//                Alignment(27,97,1);
-//                Print("RENT RECEIPT");
-//
-//                Clearbuffer();//Clear unwanted buffer
-//                // Leavespace();
-//                Alignment(27, 97, 1);//Center aligment
-//                Print(line_space);
-//
-//
-//                Clearbuffer();//Clear unwanted buffer
-//                Leavespace();
-//                Alignment(27, 97, 0);//Left alignment
-//                // Print("DATE: " + date + " TIME: " + getReminingTime());
-//                Print("DATE: " + MainActivity.strDate + " TIME: " + getReminingTime());
-//
-////                Clearbuffer();//Clear unwanted buffer
-////                Alignment(27, 97, 0);//Left alignment
-////                Print("");
-//
-//                Clearbuffer();//Clear unwanted buffer
-//              //  Leavespace();
-//                Alignment(27, 97, 0);//Left alignment
-//                Print("RECEIPT NO:" + String.valueOf(collection_report_details.get(i).getReceiptno()+" SHOP NO:" + collection_report_details.get(i).getShopname()));
-//
-//                Clearbuffer();//Clear unwanted buffer
-//                //   Leavespace();
-//                Alignment(27, 97, 0);//Left alignment
-//                Print("TENANT NAME: " + collection_report_details.get(i).getTenantname());
-//
-//                Clearbuffer();//Clear unwanted buffer
-//                Leavespace();
-//                Alignment(27,97,2);//Right alignment
-//                Print("TOTAL AMOUNT: " + collection_report_details.get(i).getTotal_amount());
-//                Clearbuffer();//Clear unwanted bufferPrint("");
-//               // Leavespace();
-//                Alignment(27, 97, 1);//Center aligment
-//                Print(line_space);
-////
-////                    Clearbuffer();//Clear unwanted buffer
-////                    // Leavespace();
-////                    Alignment(27, 97, 1);//Center aligment
-////                    // Print("(" + String.valueOf(tot_amount_words.charAt(0)).toUpperCase() + String.valueOf(tot_amount_words.substring(1, tot_amount_words.length())) + " only)");
-////                    Print("(INCLUSIVE OF SERVICE TAX)");
-////                    // Print("(" + String.valueOf(tot_amount_words.charAt(0)).toUpperCase() + String.valueOf(tot_amount_words.substring(1, tot_amount_words.length())) + " only)");
-//
-//
-//                Clearbuffer();//Clear unwanted buffer
-//                Leavespace();
-//                Alignment(27,97,0);//Left alignment
-//                Print(" * * * * * THANK YOU * * * * * ");
-//
-//                Clearbuffer();//Clear unwanted buffer
-//                Leavespace();
-//                Print("");
-//                Clearbuffer();//Clear unwanted buffer
-//                Print("");
-//            }
-//            Clearbuffer();//Clear unwanted buffer
-//            Leavespace();
-//            Alignment(27, 97, 0);//Left alignment
-//            Print("OVERALL TOTAL : "+String.valueOf(dft.format(grand_total)));
-//
-//
-//            Clearbuffer();//Clear unwanted buffer
-//            Leavespace();
-//            Alignment(27,97,0);//Left alignment
-//            Print("");
-//            Clearbuffer();//Clear unwanted buffer
-//            Leavespace();
-//            Alignment(27,97,0);//Left alignment
-//            Print("");
-//
-//        }
-
-
-        if(customer_type == 1) {
-
-            Clearbuffer();//Clear unwanted buffer
-            //Leavespace();
-            Alignment(27,97,1);//Center aligment
-            Print("");
 
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
 
-                Clearbuffer();//Clear unwanted buffer
-                // Leavespace();
-                Alignment(27, 97, 1);//Center aligment
-                // Print("Thirupuvanam");
-                Print(MainActivity.CITY_NAME);
+              //  escposPrinter.printText(""+"\n",LK_ALIGNMENT_CENTER,LK_FNT_BOLD,LK_TXT_1WIDTH);
+                escposPrinter.printText(MainActivity.CITY_NAME+"\n",LK_ALIGNMENT_CENTER,LK_FNT_BOLD,LK_TXT_1WIDTH);
+                escposPrinter.printText(MainActivity.COMPANY_NAME+"\n",LK_ALIGNMENT_CENTER,LK_FNT_BOLD,LK_TXT_1WIDTH);
 
-                Clearbuffer();//Clear unwanted buffer
-                //Leavespace();
-                Alignment(27, 97, 1);//Center aligment
-                //Print(" KAS JEWELLERY");
-                Print(MainActivity.COMPANY_NAME);
+                escposPrinter.printText(MainActivity.SUBTITLE_1+"\n",LK_ALIGNMENT_CENTER,LK_FNT_BOLD,LK_TXT_1WIDTH);
+                escposPrinter.printText(MainActivity.SUBTITLE_2+"\n",LK_ALIGNMENT_CENTER,LK_FNT_BOLD,LK_TXT_1WIDTH);
 
-                Clearbuffer();//Clear unwanted buffer
-                // Leavespace();
-                Alignment(27, 97, 1);//Center aligment
-                // Print("Thirupuvanam");
-                Print(MainActivity.SUBTITLE_1);
-
-                Clearbuffer();//Clear unwanted buffer
-                // Leavespace();
-                Alignment(27, 97, 1);//Center aligment
-                // Print("Thirupuvanam");
-                Print(MainActivity.SUBTITLE_2);
-
+                escposPrinter.printText("------------------------------\n",LK_ALIGNMENT_CENTER,LK_FNT_DEFAULT,LK_TXT_1WIDTH);
+                escposPrinter.printText("RENT RECEIPT\n",LK_ALIGNMENT_CENTER,LK_FNT_DEFAULT,LK_TXT_1WIDTH);
+                escposPrinter.printText("------------------------------\n",LK_ALIGNMENT_CENTER,LK_FNT_DEFAULT,LK_TXT_1WIDTH);
+                escposPrinter.printText("DATE: "+String.valueOf(MainActivity.strDate)+"  TIME: "+getReminingTime()+"\n",LK_ALIGNMENT_CENTER,LK_FNT_DEFAULT,LK_TXT_1WIDTH);
+                //   escposPrinter.printNormal("DATE: "+String.valueOf(MainActivity.strDate)+" TIME: "+getReminingTime()+"\n");
+                escposPrinter.printText("RECEIPT NO:"+receiptcode+" SHOP NO:"+shopname+"\n",LK_ALIGNMENT_LEFT,LK_FNT_DEFAULT,LK_TXT_1WIDTH);
+                // escposPrinter.printNormal("RECEIPT NO :"+print_receipt_no+" SHOP NO:"+shopname+"\n");
+                escposPrinter.printText("TENANT NAME: "+tenantname+"\n",LK_ALIGNMENT_LEFT,LK_FNT_DEFAULT,LK_TXT_1WIDTH);
+                // escposPrinter.printNormal("TENANT NAME:"+tenantname+"                           \n");
+                escposPrinter.printText("AMOUNT: ",LK_ALIGNMENT_CENTER,LK_FNT_FONTB,1);
+                escposPrinter.printText(total_amount+" \n",LK_ALIGNMENT_CENTER,LK_FNT_FONTB,1);
+                //    escposPrinter.printNormal("                AMOUNT: "+total_amount+"\n");
+                escposPrinter.printText("(INCLUSIVE OF SERVICE TAX)\n",LK_ALIGNMENT_CENTER,LK_FNT_DEFAULT,LK_TXT_1WIDTH);
+                //   escposPrinter.printNormal("    (INCLUSIVE OF SERVICE TAX)    \n");
+                escposPrinter.printText("* * * * * THANK YOU * * * * *\n",LK_ALIGNMENT_CENTER,LK_FNT_DEFAULT,LK_TXT_1WIDTH);
+                //   escposPrinter.printNormal("   * * * * * THANK YOU * * * * *  \n");
+                escposPrinter.lineFeed(2);
             }
-            Clearbuffer();//Clear unwanted buffer
-            Alignment(27,97,1);//Center aligment
-            Print(line_space);
-
-            Clearbuffer();//Clear unwanted buffer
-            // Leavespace();
-            Alignment(27,97,1);
-            Print("COLLECTION REPORT");
-
-            Clearbuffer();//Clear unwanted buffer
-            Leavespace();
-            Alignment(27, 97, 1);//Center aligment
-            Print(date_tv.getText().toString());
-
-            Clearbuffer();//Clear unwanted buffer
-            Leavespace();
-            Alignment(27,97,1);
-            Print("REC.NO      SHOP.NO       AMT");
-
-            Clearbuffer();//Clear unwanted buffer
-            // Leavespace();
-            Alignment(27, 97, 1);//Center aligment
-            Print(line_space);
-
-            for (int i=0;i<collection_report_details.size();i++) {
-
-
-                Clearbuffer();//Clear unwanted buffer
-                Leavespace();
-                Alignment(27, 97, 0);//Left alignment
-                Print( String.valueOf(collection_report_details.get(i).getReceiptno()+"   " + collection_report_details.get(i).getShopname()+" "+collection_report_details.get(i).getTenantname()));
-
-                Clearbuffer();//Clear unwanted buffer
-               // Leavespace();
-                Alignment(27,97,2);//Right alignment
-                Print("" + collection_report_details.get(i).getTotal_amount());
-
-            }
-            Clearbuffer();//Clear unwanted buffer
-            // Leavespace();
-            Alignment(27, 97, 1);//Center aligment
-            Print(line_space);
-
-            Clearbuffer();//Clear unwanted buffer
-            Alignment(27,97,2);//Right alignment
-            Print("TOTAL AMOUNT: "+String.valueOf(dft.format(grand_total)));
-
-            Clearbuffer();//Clear unwanted buffer
-            Leavespace();
-            Print("");
-            Clearbuffer();//Clear unwanted buffer
-            Print("");
-            Clearbuffer();//Clear unwanted buffer
-            Print("");
-
         }
 
-//        Clearbuffer();//Clear unwanted buffer
-//        Leavespace();
-//        Alignment(27,97,1);//Center aligment
-//        Print(" * * * * * THANK YOU * * * * * ");
-//
-//        Clearbuffer();//Clear unwanted buffer
-//        Leavespace();
-//        Print("");
-//        Clearbuffer();//Clear unwanted buffer
-//        Print("");
-//        Clearbuffer();//Clear unwanted buffer
-//        Print("");
+        //
+        //        if(customer_type == 1) {
+        //
+        //            for (int i=0;i<collection_report_details.size();i++) {
+        //
+        //                Clearbuffer();//Clear unwanted buffer
+        //                //Leavespace();
+        //                Alignment(27,97,1);//Center aligment
+        //                Print("");
+        //
+        //                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
+        //
+        //                    Clearbuffer();//Clear unwanted buffer
+        //                    // Leavespace();
+        //                    Alignment(27, 97, 1);//Center aligment
+        //                    // Print("Thirupuvanam");
+        //                    Print(MainActivity.CITY_NAME);
+        //
+        //                    Clearbuffer();//Clear unwanted buffer
+        //                    //Leavespace();
+        //                    Alignment(27, 97, 1);//Center aligment
+        //                    //Print(" KAS JEWELLERY");
+        //                    Print(MainActivity.COMPANY_NAME);
+        //
+        //                    Clearbuffer();//Clear unwanted buffer
+        //                    // Leavespace();
+        //                    Alignment(27, 97, 1);//Center aligment
+        //                    // Print("Thirupuvanam");
+        //                    Print(MainActivity.SUBTITLE_1);
+        //
+        //                    Clearbuffer();//Clear unwanted buffer
+        //                    // Leavespace();
+        //                    Alignment(27, 97, 1);//Center aligment
+        //                    // Print("Thirupuvanam");
+        //                    Print(MainActivity.SUBTITLE_2);
+        //
+        //                }
+        //                Clearbuffer();//Clear unwanted buffer
+        //                Alignment(27,97,1);//Center aligment
+        //                Print(line_space);
+        //
+        //                Clearbuffer();//Clear unwanted buffer
+        //                // Leavespace();
+        //                Alignment(27,97,1);
+        //                Print("RENT RECEIPT");
+        //
+        //                Clearbuffer();//Clear unwanted buffer
+        //                // Leavespace();
+        //                Alignment(27, 97, 1);//Center aligment
+        //                Print(line_space);
+        //
+        //
+        //                Clearbuffer();//Clear unwanted buffer
+        //                Leavespace();
+        //                Alignment(27, 97, 0);//Left alignment
+        //                // Print("DATE: " + date + " TIME: " + getReminingTime());
+        //                Print("DATE: " + MainActivity.strDate + " TIME: " + getReminingTime());
+        //
+        ////                Clearbuffer();//Clear unwanted buffer
+        ////                Alignment(27, 97, 0);//Left alignment
+        ////                Print("");
+        //
+        //                Clearbuffer();//Clear unwanted buffer
+        //              //  Leavespace();
+        //                Alignment(27, 97, 0);//Left alignment
+        //                Print("RECEIPT NO:" + String.valueOf(collection_report_details.get(i).getReceiptno()+" SHOP NO:" + collection_report_details.get(i).getShopname()));
+        //
+        //                Clearbuffer();//Clear unwanted buffer
+        //                //   Leavespace();
+        //                Alignment(27, 97, 0);//Left alignment
+        //                Print("TENANT NAME: " + collection_report_details.get(i).getTenantname());
+        //
+        //                Clearbuffer();//Clear unwanted buffer
+        //                Leavespace();
+        //                Alignment(27,97,2);//Right alignment
+        //                Print("TOTAL AMOUNT: " + collection_report_details.get(i).getTotal_amount());
+        //                Clearbuffer();//Clear unwanted bufferPrint("");
+        //               // Leavespace();
+        //                Alignment(27, 97, 1);//Center aligment
+        //                Print(line_space);
+        ////
+        ////                    Clearbuffer();//Clear unwanted buffer
+        ////                    // Leavespace();
+        ////                    Alignment(27, 97, 1);//Center aligment
+        ////                    // Print("(" + String.valueOf(tot_amount_words.charAt(0)).toUpperCase() + String.valueOf(tot_amount_words.substring(1, tot_amount_words.length())) + " only)");
+        ////                    Print("(INCLUSIVE OF SERVICE TAX)");
+        ////                    // Print("(" + String.valueOf(tot_amount_words.charAt(0)).toUpperCase() + String.valueOf(tot_amount_words.substring(1, tot_amount_words.length())) + " only)");
+        //
+        //
+        //                Clearbuffer();//Clear unwanted buffer
+        //                Leavespace();
+        //                Alignment(27,97,0);//Left alignment
+        //                Print(" * * * * * THANK YOU * * * * * ");
+        //
+        //                Clearbuffer();//Clear unwanted buffer
+        //                Leavespace();
+        //                Print("");
+        //                Clearbuffer();//Clear unwanted buffer
+        //                Print("");
+        //            }
+        //            Clearbuffer();//Clear unwanted buffer
+        //            Leavespace();
+        //            Alignment(27, 97, 0);//Left alignment
+        //            Print("OVERALL TOTAL : "+String.valueOf(dft.format(grand_total)));
+        //
+        //
+        //            Clearbuffer();//Clear unwanted buffer
+        //            Leavespace();
+        //            Alignment(27,97,0);//Left alignment
+        //            Print("");
+        //            Clearbuffer();//Clear unwanted buffer
+        //            Leavespace();
+        //            Alignment(27,97,0);//Left alignment
+        //            Print("");
+        //
+        //        }
 
-        palmtecandro.jnidevClose();
+        if(customer_type == 1) {
+
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
+
+              //  escposPrinter.printText(""+"\n",LK_ALIGNMENT_CENTER,LK_FNT_BOLD,LK_TXT_1WIDTH);
+                escposPrinter.printText(MainActivity.CITY_NAME+"\n",LK_ALIGNMENT_CENTER,LK_FNT_BOLD,LK_TXT_1WIDTH);
+                escposPrinter.printText(MainActivity.COMPANY_NAME+"\n",LK_ALIGNMENT_CENTER,LK_FNT_BOLD,LK_TXT_1WIDTH);
+
+                escposPrinter.printText(MainActivity.SUBTITLE_1+"\n",LK_ALIGNMENT_CENTER,LK_FNT_BOLD,LK_TXT_1WIDTH);
+                escposPrinter.printText(MainActivity.SUBTITLE_2+"\n",LK_ALIGNMENT_CENTER,LK_FNT_BOLD,LK_TXT_1WIDTH);
+
+                escposPrinter.printText("-------------------------------\n", LK_ALIGNMENT_CENTER, LK_FNT_DEFAULT, LK_TXT_1WIDTH);
+                escposPrinter.printText("COLLECTION REPORT\n", LK_ALIGNMENT_CENTER, LK_FNT_DEFAULT, LK_TXT_1WIDTH);
+                escposPrinter.printText("-------------------------------\n", LK_ALIGNMENT_CENTER, LK_FNT_DEFAULT, LK_TXT_1WIDTH);
+
+                escposPrinter.printText(date_tv.getText().toString() + "\n", LK_ALIGNMENT_CENTER, LK_FNT_BOLD, LK_TXT_1WIDTH);
+
+                escposPrinter.printText("REC.NO     SHOP.NO        AMT\n", LK_ALIGNMENT_LEFT, LK_FNT_DEFAULT, LK_TXT_1WIDTH);
+             //   escposPrinter.lineFeed(1);
+
+                if(collection_report_details != null) {
+
+                    for (int i = 0; i < collection_report_details.size(); i++) {
+                        //  Print( String.valueOf(collection_report_details.get(i).getReceiptno()+"   " + collection_report_details.get(i).getShopname()+" "+collection_report_details.get(i).getTenantname()));
+                        escposPrinter.printText(collection_report_details.get(i).getReceiptno() + "   " + collection_report_details.get(i).getShopname() + " " + collection_report_details.get(i).getTenantname() + "\n", LK_ALIGNMENT_LEFT, LK_FNT_DEFAULT, LK_TXT_1WIDTH);
+                        escposPrinter.printText("AMOUNT: " + collection_report_details.get(i).getTotal_amount() + "\n", LK_ALIGNMENT_RIGHT, LK_FNT_BOLD, LK_TXT_1WIDTH);
+
+                    }
+                }
+                escposPrinter.printText("-------------------------------\n", LK_ALIGNMENT_CENTER, LK_FNT_DEFAULT, LK_TXT_1WIDTH);
+               // escposPrinter.lineFeed(1);
+                escposPrinter.printText("TOTAL AMOUNT: " + string_amount_total + "\n", LK_ALIGNMENT_RIGHT, LK_FNT_FONTB, 1);
+                escposPrinter.printText("-------------------------------\n", LK_ALIGNMENT_CENTER, LK_FNT_DEFAULT, LK_TXT_1WIDTH);
+                escposPrinter.lineFeed(3);
+            }
+        }
     }
-
 
     private String getReminingTime() {
         String delegate = "hh:mm aaa";

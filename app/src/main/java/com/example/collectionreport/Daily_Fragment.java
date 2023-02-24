@@ -2,9 +2,21 @@ package com.example.collectionreport;
 
 import static com.example.collectionreport.MainActivity.RECEIPT_PREFIX;
 import static com.example.collectionreport.MainActivity.actual_collection_tv;
+import static com.example.collectionreport.MainActivity.connection_flag;
 import static com.example.collectionreport.MainActivity.date_db;
 import static com.example.collectionreport.MainActivity.expected_collection_tv;
 import static com.example.collectionreport.MainActivity.selectedDate;
+import static com.example.collectionreport.MainActivity.strDate;
+import static com.generic.jpos.command.ESCPOSConst.LK_ALIGNMENT_CENTER;
+import static com.generic.jpos.command.ESCPOSConst.LK_ALIGNMENT_LEFT;
+import static com.generic.jpos.command.ESCPOSConst.LK_ALIGNMENT_RIGHT;
+import static com.generic.jpos.command.ESCPOSConst.LK_FNT_BOLD;
+import static com.generic.jpos.command.ESCPOSConst.LK_FNT_DEFAULT;
+import static com.generic.jpos.command.ESCPOSConst.LK_FNT_FONTB;
+import static com.generic.jpos.command.ESCPOSConst.LK_TXT_1WIDTH;
+import static com.generic.jpos.command.ESCPOSConst.LK_TXT_2HEIGHT;
+import static com.generic.jpos.command.ESCPOSConst.LK_TXT_2WIDTH;
+import static com.generic.jpos.command.ESCPOSConst.LK_TXT_3WIDTH;
 
 import android.annotation.SuppressLint;
 import android.app.AlertDialog;
@@ -45,9 +57,12 @@ import androidx.cardview.widget.CardView;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentTransaction;
 
+import com.example.collectionreport.assist.Sample_Print;
 import com.example.collectionreport.sunmi.BluetoothUtil;
 import com.example.collectionreport.sunmi.SunMiPrinter;
 import com.example.collectionreport.sunmi.SunmiPrintHelper;
+import com.generic.jpos.command.ESCPOS;
+import com.generic.jpos.printer.ESCPOSPrinter;
 import com.ibm.icu.text.RuleBasedNumberFormat;
 import com.softland.palmtecandro.palmtecandro;
 
@@ -56,6 +71,7 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.IOException;
+import java.io.UnsupportedEncodingException;
 import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -63,6 +79,10 @@ import java.util.Locale;
 
 public class Daily_Fragment extends Fragment implements  MainActivity.Refreshpage{
 
+    ESCPOSPrinter escposPrinter;
+    private final char ESC = ESCPOS.ESC;
+    ProgressDialog progressDialog;
+    Sample_Print sample;
     String line_space = "-------------------------------";
     DecimalFormat dft = new DecimalFormat("0.00");
     ImageView total_print_img;
@@ -76,7 +96,6 @@ public class Daily_Fragment extends Fragment implements  MainActivity.Refreshpag
     ArrayList<Customer_Details> customer_details_Temp = new ArrayList<>();
     ArrayList<print_temp_details> print_temp_details = new ArrayList<>();
 
-    ProgressDialog progressDialog;
     String RECEIPT_NUMBER = "";
     int output_receipt_no  = 0,print_receipt_no =0;
     int TOTAL_AMOUNT =0;
@@ -102,12 +121,15 @@ public class Daily_Fragment extends Fragment implements  MainActivity.Refreshpag
         //        } catch (InterruptedException e) {
         //            e.printStackTrace();
         //        }
+        progressDialog =  new ProgressDialog(context);
+        escposPrinter = new ESCPOSPrinter();
 
         new Async_DailyCollection().execute();
 
         //new Async_Get_Receiptno().execute();
 
 
+        sample = new Sample_Print();
         total_print_img.setOnClickListener(new View.OnClickListener() {
             @SuppressLint("LongLogTag")
             @RequiresApi(api = Build.VERSION_CODES.N)
@@ -143,11 +165,18 @@ public class Daily_Fragment extends Fragment implements  MainActivity.Refreshpag
                             //                                        Print_Receipt_Market(selectedDate, " ", " ", "", "", "", "", "", 1);
                             //                                    }
 //                                print_temp_details.clear();
-//                                if(isNetworkAvailable()) {
-//                                    Save_Transaction();
+                                if(connection_flag) {
+                                    if (isNetworkAvailable()) {
+                                        Save_Transaction();
+                                    }
+                                }else{
+                                    toast("Please check your bluetooth connection");
+                                }
+//                                try {
+//                                    escposPrinter.printNormal("           Hello world                  \n");
+//                                } catch (UnsupportedEncodingException e) {
+//                                    throw new RuntimeException(e);
 //                                }
-                                SunmiPrintHelper.getInstance().setAlign(1);
-                                SunmiPrintHelper.getInstance().printText("HELLO", 8, true, false);
 
                             }
                         })
@@ -161,11 +190,6 @@ public class Daily_Fragment extends Fragment implements  MainActivity.Refreshpag
 
                 }else{
                  //   toast("Please select atleast one customer");
-                }
-                try {
-                    sunmi();
-                } catch (IOException e) {
-                    e.printStackTrace();
                 }
             }
         });
@@ -201,11 +225,22 @@ public class Daily_Fragment extends Fragment implements  MainActivity.Refreshpag
 
         @Override
         protected void onPreExecute() {
+
+            if(progressDialog != null) {
+                progressDialog.setProgressStyle(ProgressDialog.STYLE_SPINNER);
+                progressDialog.setMessage("Loading ...");
+                progressDialog.setCancelable(false);
+                progressDialog.show();
+            }
             super.onPreExecute();
         }
 
         @Override
         protected void onPostExecute(Boolean result) {
+
+            if(progressDialog != null) {
+                progressDialog.dismiss();
+            }
 
             due_amount_tv.setText(String.valueOf(" \u20B9 0"));
             TENANT_STATE_CODE = "";
@@ -429,8 +464,8 @@ public class Daily_Fragment extends Fragment implements  MainActivity.Refreshpag
 
                         }else{
 
-//                            if(TENANT_STATE_CODE.equals("") || TENANT_STATE_CODE.equals(customer_details.get(position).getTenantcode())) {
-//
+                            if(TENANT_STATE_CODE.equals("") || TENANT_STATE_CODE.equals(customer_details.get(position).getTenantcode())) {
+
 
                                 if (!customer_details.get(position).isSelected()) {
 
@@ -453,9 +488,9 @@ public class Daily_Fragment extends Fragment implements  MainActivity.Refreshpag
 
                                     customer_details.get(position).setSelected(false);
                                 }
-//                            }else{
-//                                toast("Please select same tenant");
-//                            }
+                            }else{
+                                toast("Please select same tenant");
+                            }
 
                             calculateTotalDueAmount();
                         }
@@ -552,7 +587,7 @@ public class Daily_Fragment extends Fragment implements  MainActivity.Refreshpag
             Leavespace();
             Alignment(27, 97, 0);//Left alignment
             // Print("DATE: " + date + " TIME: " + getReminingTime());
-            Print("DATE: " + MainActivity.strDate + " TIME: " + getReminingTime());
+            Print("DATE: " + strDate + " TIME: " + getReminingTime());
 
             Clearbuffer();//Clear unwanted buffer
             //  Leavespace();
@@ -600,7 +635,7 @@ public class Daily_Fragment extends Fragment implements  MainActivity.Refreshpag
 
                 print_receipt_no =  print_receipt_no +1;
                 String tot_amount_words ="";
-                grand_total = grand_total +Double.parseDouble(customer_details_Temp.get(i).getDue_amount());
+                // = grand_total +Double.parseDouble(customer_details_Temp.get(i).getDue_amount());
 
                 total_amt =0;
 
@@ -655,7 +690,7 @@ public class Daily_Fragment extends Fragment implements  MainActivity.Refreshpag
                 Leavespace();
                 Alignment(27, 97, 0);//Left alignment
                 // Print("DATE: " + date + " TIME: " + getReminingTime());
-                Print("DATE: " + MainActivity.strDate + " TIME: " + getReminingTime());
+                Print("DATE: " + strDate + " TIME: " + getReminingTime());
 
                 Clearbuffer();//Clear unwanted buffer
                 //  Leavespace();
@@ -727,15 +762,9 @@ public class Daily_Fragment extends Fragment implements  MainActivity.Refreshpag
     }
 
 
-    void Print_All(String print_receipt_no, String shopname, String tenantname, String total_amount, int customer_type,int last_position,double grand_total){
 
-        Individual_Print_Receipt(print_receipt_no,shopname,tenantname,total_amount,customer_type,last_position,String.valueOf(grand_total));
-
-    }
     @RequiresApi(api = Build.VERSION_CODES.N)
-    private void Individual_Print_Receipt(String print_receipt_no, String shopname, String tenantname, String total_amount, int customer_type,int last_position,String grand_total) {
-
-        palmtecandro.jnidevOpen(115200);
+    private void Individual_Print_Receipt(String print_receipt_no, String shopname, String tenantname, String total_amount, int customer_type,int last_position,String grand_total) throws UnsupportedEncodingException {
 
 //        Log.d(" =============[RECEIPT NUMBER ]=========>    ", print_receipt_no);
 //        Log.d(" =============[SHOP NAME ]=========>    ", shopname);
@@ -746,118 +775,46 @@ public class Daily_Fragment extends Fragment implements  MainActivity.Refreshpag
 //            Log.d(" =============[OVERALL AMOUNT ]=========>   ", String.valueOf(grand_total));
 //        }
 
-
         if(customer_type == 0) {
-
-            Clearbuffer();//Clear unwanted buffer
-            //Leavespace();
-            Alignment(27,97,1);//Center aligment
-            Print("");
 
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
 
-                Clearbuffer();//Clear unwanted buffer
-                // Leavespace();
-                Alignment(27, 97, 1);//Center aligment
-                // Print("Thirupuvanam");
-                Print(MainActivity.CITY_NAME);
 
-                Clearbuffer();//Clear unwanted buffer
-                //Leavespace();
-                Alignment(27, 97, 1);//Center aligment
-                //Print(" KAS JEWELLERY");
-                Print(MainActivity.COMPANY_NAME);
+                escposPrinter.printNormal("\n");
+                escposPrinter.printText(MainActivity.CITY_NAME+"\n",LK_ALIGNMENT_CENTER,LK_FNT_BOLD,LK_TXT_1WIDTH);
+                escposPrinter.printText(MainActivity.COMPANY_NAME+"\n",LK_ALIGNMENT_CENTER,LK_FNT_BOLD,LK_TXT_1WIDTH);
 
-                Clearbuffer();//Clear unwanted buffer
-                // Leavespace();
-                Alignment(27, 97, 1);//Center aligment
-                // Print("Thirupuvanam");
-                Print(MainActivity.SUBTITLE_1);
-
-                Clearbuffer();//Clear unwanted buffer
-                // Leavespace();
-                Alignment(27, 97, 1);//Center aligment
-                // Print("Thirupuvanam");
-                Print(MainActivity.SUBTITLE_2);
-
+                escposPrinter.printText(MainActivity.SUBTITLE_1+"\n",LK_ALIGNMENT_CENTER,LK_FNT_BOLD,LK_TXT_1WIDTH);
+                escposPrinter.printText(MainActivity.SUBTITLE_2+"\n",LK_ALIGNMENT_CENTER,LK_FNT_BOLD,LK_TXT_1WIDTH);
+              //  escposPrinter.lineFeed(1);
+                escposPrinter.printText("------------------------------\n",LK_ALIGNMENT_CENTER,LK_FNT_DEFAULT,LK_TXT_1WIDTH);
+                escposPrinter.printText("RENT RECEIPT\n",LK_ALIGNMENT_CENTER,LK_FNT_DEFAULT,LK_TXT_1WIDTH);
+                escposPrinter.printText("------------------------------\n",LK_ALIGNMENT_CENTER,LK_FNT_DEFAULT,LK_TXT_1WIDTH);
+                escposPrinter.printText("DATE: "+String.valueOf(strDate)+"  TIME: "+getReminingTime()+"\n",LK_ALIGNMENT_CENTER,LK_FNT_DEFAULT,LK_TXT_1WIDTH);
+             //   escposPrinter.printNormal("DATE: "+String.valueOf(MainActivity.strDate)+" TIME: "+getReminingTime()+"\n");
+                escposPrinter.printText("RECEIPT NO:"+print_receipt_no+" SHOP NO:"+shopname+"\n",LK_ALIGNMENT_LEFT,LK_FNT_DEFAULT,LK_TXT_1WIDTH);
+               // escposPrinter.printNormal("RECEIPT NO :"+print_receipt_no+" SHOP NO:"+shopname+"\n");
+                escposPrinter.printText("TENANT NAME: "+tenantname+"\n",LK_ALIGNMENT_LEFT,LK_FNT_DEFAULT,LK_TXT_1WIDTH);
+               // escposPrinter.printNormal("TENANT NAME:"+tenantname+"                           \n");
+                escposPrinter.printText("AMOUNT: ",LK_ALIGNMENT_CENTER,LK_FNT_FONTB,1);
+                escposPrinter.printText(total_amount+" \n",LK_ALIGNMENT_CENTER,LK_FNT_FONTB,1);
+            //    escposPrinter.printNormal("                AMOUNT: "+total_amount+"\n");
+                escposPrinter.printText("(INCLUSIVE OF SERVICE TAX)\n",LK_ALIGNMENT_CENTER,LK_FNT_DEFAULT,LK_TXT_1WIDTH);
+             //   escposPrinter.printNormal("    (INCLUSIVE OF SERVICE TAX)    \n");
+                escposPrinter.printText("* * * * * THANK YOU * * * * *\n",LK_ALIGNMENT_CENTER,LK_FNT_DEFAULT,LK_TXT_1WIDTH);
+             //   escposPrinter.printNormal("   * * * * * THANK YOU * * * * *  \n");
+                escposPrinter.lineFeed(2);
             }
-            Clearbuffer();//Clear unwanted buffer
-         Alignment(27,97,1);//Center aligment
-           Print(line_space);
-
-            Clearbuffer();//Clear unwanted buffer
-           // Leavespace();
-          Alignment(27,97,1);
-            Print("RENT RECEIPT");
-
-            Clearbuffer();//Clear unwanted buffer
-           // Leavespace();
-           Alignment(27, 97, 1);//Center aligment
-            Print(line_space);
-
-
-            Clearbuffer();//Clear unwanted buffer
-            Leavespace();
-            Alignment(27, 97, 0);//Left alignment
-            // Print("DATE: " + date + " TIME: " + getReminingTime());
-            Print("DATE: " + String.valueOf(MainActivity.strDate) + " TIME: " + getReminingTime());
-
-            Clearbuffer();//Clear unwanted buffer
-            //  Leavespace();
-            Alignment(27, 97, 0);//Left alignment
-            Print("RECEIPT NO:" + print_receipt_no+" SHOP NO:" + shopname);
-
-            Clearbuffer();//Clear unwanted buffer
-            //   Leavespace();
-            Alignment(27, 97, 0);//Left alignment
-            Print("TENANT NAME: " + tenantname);
-
-            Clearbuffer();//Clear unwanted buffer
-            Leavespace();
-            Alignment(27,97,2);//Right alignment
-            Print("AMOUNT: "  + total_amount);
-            Clearbuffer();//Clear unwanted bufferPrint("");
-            // Leavespace();
-            Alignment(27, 97, 1);//Center aligment
-            Print(line_space);
-            Clearbuffer();//Clear unwanted buffer
-            // Leavespace();
-            Alignment(27, 97, 1);//Center aligment
-            // Print("(" + String.valueOf(tot_amount_words.charAt(0)).toUpperCase() + String.valueOf(tot_amount_words.substring(1, tot_amount_words.length())) + " only)");
-            Print("(INCLUSIVE OF SERVICE TAX)");
-            Clearbuffer();//Clear unwanted buffer
-            Leavespace();
-            Alignment(27,97,0);//Left alignment
-            Print(" * * * * * THANK YOU * * * * * ");
-
-            Clearbuffer();//Clear unwanted buffer
-            Leavespace();
-            Alignment(27,97,0);//Left alignment
-            Print("");
-            Clearbuffer();//Clear unwanted buffer
-            Leavespace();
-            Alignment(27,97,0);//Left alignment
-            Print("");
-
-           /* if(customer_details_Temp != null){
+            if(customer_details_Temp != null){
 
             if(customer_details_Temp.size() != 1) {
                 if (customer_details_Temp.size() - 1 == last_position) {
-                    Print("OVERALL AMOUNT : " + String.valueOf(dft.format(grand_total)));
-                    Clearbuffer();//Clear unwanted buffer
-                    Leavespace();
-                    Alignment(27, 97, 0);//Left alignment
-                    Print("");
-                    Clearbuffer();//Clear unwanted buffer
-                    Leavespace();
-                    Alignment(27, 97, 0);//Left alignment
-                    Print("");
+                    escposPrinter.printText("OVERALL AMOUNT : "+grand_total+"\n",LK_ALIGNMENT_LEFT,LK_FNT_BOLD,LK_TXT_1WIDTH);
+                    escposPrinter.lineFeed(3);
                 }
             }
-            }*/
+            }
         }
-
-        palmtecandro.jnidevClose();
 
     }
 
@@ -869,29 +826,28 @@ public class Daily_Fragment extends Fragment implements  MainActivity.Refreshpag
     @RequiresApi(api = Build.VERSION_CODES.N)
     private void Save_Transaction() {
 
-//        if(customer_details_Temp.size()>0){
-//          //  palmtecandro.jnidevOpen(115200);
-//            grand_total =0;
-//                for (int i =0 ;i<customer_details_Temp.size();i++)
-//                {
-//                    grand_total = grand_total +Double.parseDouble(customer_details_Temp.get(i).getDue_amount());
-//                    // new Async_Get_Receiptno().execute();
-////                    AsycSaveTransactionb(customer_details_Temp.get(i).getTenantcode(),customer_details_Temp.get(i).getTenantname(),
-////                            customer_details_Temp.get(i).getTotal_amount(),customer_details_Temp.get(i).getStatuscode(),String.valueOf(output_receipt_no),String.valueOf(output_receipt_no),
-////                            customer_details_Temp.get(i).getShopcode(),customer_details_Temp.get(i).getShopname(),customer_details_Temp.get(i).getRentcycle(),customer_details_Temp.get(i).getShopstatus(),customer_details_Temp.get(i).getRent(),String.valueOf(date_db+" 00:00:00"),i);
-//                    new  Async_Save_Transaction(i,customer_details_Temp.get(i).getTenantcode(),customer_details_Temp.get(i).getTenantname(),
-//                            customer_details_Temp.get(i).getTotal_amount(),customer_details_Temp.get(i).getStatuscode(),
-//                            customer_details_Temp.get(i).getShopcode(),customer_details_Temp.get(i).getShopname(),customer_details_Temp.get(i).getRentcycle(),customer_details_Temp.get(i).getShopstatus(),customer_details_Temp.get(i).getRent(),String.valueOf(date_db+" 00:00:00")).execute(customer_details_Temp.get(i).getTenantcode(),customer_details_Temp.get(i).getTenantname(),
+        if (customer_details_Temp.size() > 0) {
+            //  palmtecandro.jnidevOpen(115200);
+            grand_total = 0;
+            for (int i = 0; i < customer_details_Temp.size(); i++) {
+               // grand_total = grand_total + Double.parseDouble(customer_details_Temp.get(i).getDue_amount());
+                // new Async_Get_Receiptno().execute();
+//                    AsycSaveTransactionb(customer_details_Temp.get(i).getTenantcode(),customer_details_Temp.get(i).getTenantname(),
 //                            customer_details_Temp.get(i).getTotal_amount(),customer_details_Temp.get(i).getStatuscode(),String.valueOf(output_receipt_no),String.valueOf(output_receipt_no),
-//                            customer_details_Temp.get(i).getShopcode(),customer_details_Temp.get(i).getShopname(),customer_details_Temp.get(i).getRentcycle(),customer_details_Temp.get(i).getShopstatus(),customer_details_Temp.get(i).getRent(),String.valueOf(date_db+" 00:00:00"));
-//
-////                    try {
-////                        Thread.sleep(600);
-////                    } catch (InterruptedException e) {
-////                        e.printStackTrace();
-////                    }
-//                }
-//
+//                            customer_details_Temp.get(i).getShopcode(),customer_details_Temp.get(i).getShopname(),customer_details_Temp.get(i).getRentcycle(),customer_details_Temp.get(i).getShopstatus(),customer_details_Temp.get(i).getRent(),String.valueOf(date_db+" 00:00:00"),i);
+                new Async_Save_Transaction(i, customer_details_Temp.get(i).getTenantcode(), customer_details_Temp.get(i).getTenantname(),
+                        customer_details_Temp.get(i).getTotal_amount(), customer_details_Temp.get(i).getStatuscode(),
+                        customer_details_Temp.get(i).getShopcode(), customer_details_Temp.get(i).getShopname(), customer_details_Temp.get(i).getRentcycle(), customer_details_Temp.get(i).getShopstatus(), customer_details_Temp.get(i).getRent(), strDate).execute(customer_details_Temp.get(i).getTenantcode(), customer_details_Temp.get(i).getTenantname(),
+                        customer_details_Temp.get(i).getTotal_amount(), customer_details_Temp.get(i).getStatuscode(), String.valueOf(output_receipt_no), String.valueOf(output_receipt_no),
+                        customer_details_Temp.get(i).getShopcode(), customer_details_Temp.get(i).getShopname(), customer_details_Temp.get(i).getRentcycle(), customer_details_Temp.get(i).getShopstatus(), customer_details_Temp.get(i).getRent(), strDate);
+
+                    try {
+                        Thread.sleep(20);
+                    } catch (InterruptedException e) {
+                        e.printStackTrace();
+                    }
+            }
+
 //            if(print_temp_details.size()>0){
 //
 //                for (int i =0 ;i<print_temp_details.size();i++)
@@ -899,452 +855,387 @@ public class Daily_Fragment extends Fragment implements  MainActivity.Refreshpag
 //                   // PRINT(i);
 //                }
 //            }
-               call();
-//        }
-
-        if(customer_details_Temp.size()==1){
-            new  Async_Save_Transaction(0,customer_details_Temp.get(0).getTenantcode(),customer_details_Temp.get(0).getTenantname(),
-                    customer_details_Temp.get(0).getTotal_amount(),customer_details_Temp.get(0).getStatuscode(),
-                    customer_details_Temp.get(0).getShopcode(),customer_details_Temp.get(0).getShopname(),customer_details_Temp.get(0).getRentcycle(),customer_details_Temp.get(0).getShopstatus(),customer_details_Temp.get(0).getRent(),String.valueOf(date_db+" 00:00:00")).execute(customer_details_Temp.get(0).getTenantcode(),customer_details_Temp.get(0).getTenantname(),
-                    customer_details_Temp.get(0).getTotal_amount(),customer_details_Temp.get(0).getStatuscode(),String.valueOf(output_receipt_no),String.valueOf(output_receipt_no),
-                    customer_details_Temp.get(0).getShopcode(),customer_details_Temp.get(0).getShopname(),customer_details_Temp.get(0).getRentcycle(),customer_details_Temp.get(0).getShopstatus(),customer_details_Temp.get(0).getRent(),String.valueOf(date_db+" 00:00:00"));
-
+            call();
         }
 
-        call();
-       // new Async_DailyCollection().execute();
-    }
-
-
-    @Override
-    public void refreshpage() {
-
-        FragmentTransaction ft = getFragmentManager().beginTransaction();
-        ft.detach(Daily_Fragment.this).attach(Daily_Fragment.this).commit();
-
-      //  new Async_Get_Receiptno().execute();
-
-        new Async_DailyCollection().execute();
-    }
-
-    public boolean isNetworkAvailable() {
-        ConnectivityManager connectivityManager = (ConnectivityManager) context.getSystemService(Context.CONNECTIVITY_SERVICE);
-        NetworkInfo activeNetworkInfo = connectivityManager.getActiveNetworkInfo();
-        return activeNetworkInfo != null && activeNetworkInfo.isConnected();
-    }
-
-    @RequiresApi(api = Build.VERSION_CODES.N)
-    private void call() {
-
-        new Async_DailyCollection().execute();
-    }
-
-    private void PRINT(int i) {
-        Individual_Print_Receipt(print_temp_details.get(i).getReceiptno(),print_temp_details.get(i).getShopname(),print_temp_details.get(i).getTenantname(),
-                print_temp_details.get(i).getTotal_amount(),0,i,String.valueOf( grand_total));
-    }
-
-    @RequiresApi(api = Build.VERSION_CODES.N)
-    public void AsycSaveTransactionb(String params0, String params1, String params2, String params3, String params4, String params5, String params6, String params7,
-                                     String params8, String params9, String params10, String params11, int arr_position){
-        try{
-            JSONObject jsonObj = null;
-            RestAPI objRestAPI = new RestAPI();
-            if (isNetworkAvailable()) {
-                jsonObj = objRestAPI.GetSaveTransaction(params0,params1,params2,params3,params4,params5,params6,params7,params8,params9,params10,params11);
-            }
-            if (jsonObj == null || jsonObj.equals("")) {
-                // Toast.makeText(context, "Please check your internet connection", Toast.LENGTH_SHORT).show();
-                toast("Please check your internet connection");
-            } else {
-                try {
-                    String received_receiptno ="0";
-                    int success = jsonObj.getInt("success");
-
-                    if (success == 0) {
-
-                    } else if (success == 1) {
-                        received_receiptno = jsonObj.getString("receiptno_send");
-                        if(!received_receiptno.equals("0")){
-                            grand_total = grand_total +Double.parseDouble(customer_details_Temp.get(arr_position).getDue_amount());
-//                            Individual_Print_Receipt(received_receiptno,customer_details_Temp.get(arr_position).getShopname(),customer_details_Temp.get(arr_position).getTenantname(),customer_details_Temp.get(arr_position).getTotal_amount(),0,arr_position,grand_total);
+//            if (customer_details_Temp.size() == 1) {
+//                new Async_Save_Transaction(0, customer_details_Temp.get(0).getTenantcode(), customer_details_Temp.get(0).getTenantname(),
+//                        customer_details_Temp.get(0).getTotal_amount(), customer_details_Temp.get(0).getStatuscode(),
+//                        customer_details_Temp.get(0).getShopcode(), customer_details_Temp.get(0).getShopname(), customer_details_Temp.get(0).getRentcycle(), customer_details_Temp.get(0).getShopstatus(), customer_details_Temp.get(0).getRent(), String.valueOf(date_db + " 00:00:00")).execute(customer_details_Temp.get(0).getTenantcode(), customer_details_Temp.get(0).getTenantname(),
+//                        customer_details_Temp.get(0).getTotal_amount(), customer_details_Temp.get(0).getStatuscode(), String.valueOf(output_receipt_no), String.valueOf(output_receipt_no),
+//                        customer_details_Temp.get(0).getShopcode(), customer_details_Temp.get(0).getShopname(), customer_details_Temp.get(0).getRentcycle(), customer_details_Temp.get(0).getShopstatus(), customer_details_Temp.get(0).getRent(), String.valueOf(date_db + " 00:00:00"));
 //
-                            Print_All(received_receiptno,customer_details_Temp.get(arr_position).getShopname(),customer_details_Temp.get(arr_position).getTenantname(),customer_details_Temp.get(arr_position).getTotal_amount(),0,arr_position,grand_total);
-                        }
+//            }
 
-                        Log.d("API_SAVE_RESPONSE", "Saved Successfully"+"RECEIVED RECEIPT NO  :  "+received_receiptno);
-                        // toast(" ");
-                    }
-                } catch (JSONException e) {
-                    e.printStackTrace();
-                }
-            }
-        }  catch (Exception e) {
-            Log.d("AsyncLoggerService", "Message");
-            Log.d("AsyncLoggerService", e.getMessage());
-        }
-    }
-
-    public class Async_Save_Transaction extends
-            AsyncTask<String, JSONObject, Boolean> {
-        JSONObject jsonObj;
-        int arr_position;
-        String tenantcode,tenantname,total_amount,statuscode,shopcode,shopname,rentcycle,shopstatus,rent,date_DB;
-
-
-        public Async_Save_Transaction(int i, String tenantcode, String tenantname, String total_amount, String statuscode, String shopcode, String shopname, String rentcycle, String shopstatus, String rent, String date_DB) {
-            this.arr_position = i;
-            this.tenantcode = tenantcode;
-            this.tenantname = tenantname;
-            this.total_amount = total_amount;
-            this.statuscode = statuscode;
-            this.shopcode= shopcode;
-            this.shopname = shopname;
-            this.rentcycle = rentcycle;
-            this.shopstatus = shopstatus;
-            this.rent = rent;
-            this.date_DB = date_DB;
+            call();
+            // new Async_DailyCollection().execute();
         }
 
         @Override
-        protected Boolean doInBackground(String... params) {
-            //Try Block
-            try {
-                //Make webservice connection and call APi
+        public void refreshpage () {
 
-                RestAPI objRestAPI = new RestAPI();
-                  if (isNetworkAvailable()) {
-                      jsonObj = objRestAPI.GetSaveTransaction(params[0],params[1],params[2],params[2],params[4],params[5],params[6],params[7],params[8],params[9],params[10],params[11]);
-                  }
-            }
-            //Catch Block UserAuth true
-            catch (Exception e) {
-                Log.d("AsyncLoggerService", "Message");
-                Log.d("AsyncLoggerService", e.getMessage());
-            }
-            return true;
+            FragmentTransaction ft = getFragmentManager().beginTransaction();
+            ft.detach(Daily_Fragment.this).attach(Daily_Fragment.this).commit();
+
+            //  new Async_Get_Receiptno().execute();
+
+            new Async_DailyCollection().execute();
         }
 
-        @Override
-        protected void onPreExecute() {
-            super.onPreExecute();
-
+        public boolean isNetworkAvailable () {
+            ConnectivityManager connectivityManager = (ConnectivityManager) context.getSystemService(Context.CONNECTIVITY_SERVICE);
+            NetworkInfo activeNetworkInfo = connectivityManager.getActiveNetworkInfo();
+            return activeNetworkInfo != null && activeNetworkInfo.isConnected();
         }
 
         @RequiresApi(api = Build.VERSION_CODES.N)
-        @Override
-        protected void onPostExecute(Boolean result) {
+        private void call () {
 
-            if (jsonObj == null || jsonObj.equals("")) {
-                // Toast.makeText(context, "Please check your internet connection", Toast.LENGTH_SHORT).show();
-                toast("Please check your internet connection");
-            } else {
+            new Async_DailyCollection().execute();
+        }
+
+
+
+//    @RequiresApi(api = Build.VERSION_CODES.N)
+//    public void AsycSaveTransactionb(String params0, String params1, String params2, String params3, String params4, String params5, String params6, String params7,
+//                                     String params8, String params9, String params10, String params11, int arr_position){
+//        try{
+//            JSONObject jsonObj = null;
+//            RestAPI objRestAPI = new RestAPI();
+//            if (isNetworkAvailable()) {
+//                jsonObj = objRestAPI.GetSaveTransaction(params0,params1,params2,params3,params4,params5,params6,params7,params8,params9,params10,params11);
+//            }
+//            if (jsonObj == null || jsonObj.equals("")) {
+//                // Toast.makeText(context, "Please check your internet connection", Toast.LENGTH_SHORT).show();
+//                toast("Please check your internet connection");
+//            } else {
+//                try {
+//                    String received_receiptno ="0";
+//                    int success = jsonObj.getInt("success");
+//
+//                    if (success == 0) {
+//
+//                    } else if (success == 1) {
+//                        received_receiptno = jsonObj.getString("receiptno_send");
+//                        if(!received_receiptno.equals("0")){
+//                            grand_total = grand_total +Double.parseDouble(customer_details_Temp.get(arr_position).getDue_amount());
+////                            Individual_Print_Receipt(received_receiptno,customer_details_Temp.get(arr_position).getShopname(),customer_details_Temp.get(arr_position).getTenantname(),customer_details_Temp.get(arr_position).getTotal_amount(),0,arr_position,grand_total);
+////
+//                            Print_All(received_receiptno,customer_details_Temp.get(arr_position).getShopname(),customer_details_Temp.get(arr_position).getTenantname(),customer_details_Temp.get(arr_position).getTotal_amount(),0,arr_position,grand_total);
+//                        }
+//
+//                        Log.d("API_SAVE_RESPONSE", "Saved Successfully"+"RECEIVED RECEIPT NO  :  "+received_receiptno);
+//                        // toast(" ");
+//                    }
+//                } catch (JSONException e) {
+//                    e.printStackTrace();
+//                }
+//            }
+//        }  catch (Exception e) {
+//            Log.d("AsyncLoggerService", "Message");
+//            Log.d("AsyncLoggerService", e.getMessage());
+//        }
+//    }
+
+        public class Async_Save_Transaction extends
+                AsyncTask<String, JSONObject, Boolean> {
+            JSONObject jsonObj;
+            int arr_position;
+            String tenantcode, tenantname, total_amount, statuscode, shopcode, shopname, rentcycle, shopstatus, rent, date_DB;
+
+
+            public Async_Save_Transaction(int i, String tenantcode, String tenantname, String total_amount, String statuscode, String shopcode, String shopname, String rentcycle, String shopstatus, String rent, String date_DB) {
+                this.arr_position = i;
+                this.tenantcode = tenantcode;
+                this.tenantname = tenantname;
+                this.total_amount = total_amount;
+                this.statuscode = statuscode;
+                this.shopcode = shopcode;
+                this.shopname = shopname;
+                this.rentcycle = rentcycle;
+                this.shopstatus = shopstatus;
+                this.rent = rent;
+                this.date_DB = date_DB;
+            }
+
+            @Override
+            protected Boolean doInBackground(String... params) {
+                //Try Block
                 try {
-                    String received_receiptno ="0";
-                    int success = jsonObj.getInt("success");
+                    //Make webservice connection and call APi
 
-                    if (success == 0) {
+                    RestAPI objRestAPI = new RestAPI();
+                    if (isNetworkAvailable()) {
+                        jsonObj = objRestAPI.GetSaveTransaction(params[0], params[1], params[2], params[2], params[4], params[5], params[6], params[7], params[8], params[9], params[10], params[11]);
+                    }
+                }
+                //Catch Block UserAuth true
+                catch (Exception e) {
+                    Log.d("AsyncLoggerService", "Message");
+                    Log.d("AsyncLoggerService", e.getMessage());
+                }
+                return true;
+            }
 
-                    } else if (success == 1) {
-                        received_receiptno = jsonObj.getString("receiptno_send");
-                        if(!received_receiptno.equals("0")){
-                            Toast.makeText(context,received_receiptno +"  Receipt No", Toast.LENGTH_SHORT).show();
-                          //  grand_total = grand_total +Double.parseDouble(customer_details_Temp.get(arr_position).getDue_amount());
+            @Override
+            protected void onPreExecute() {
 
-                          //  Individual_Print_Receipt(received_receiptno,customer_details_Temp.get(arr_position).getShopname(),customer_details_Temp.get(arr_position).getTenantname(),customer_details_Temp.get(arr_position).getTotal_amount(),0,arr_position,String.valueOf(grand_total));
+                if(progressDialog != null) {
 
-                         //   Print_All(received_receiptno,shopname,tenantname,total_amount,0,arr_position,grand_total);
+                    progressDialog.setProgressStyle(ProgressDialog.STYLE_SPINNER);
+                    progressDialog.setMessage("Please wait ...");
+                    progressDialog.setCancelable(false);
+                    progressDialog.show();
+                }
+                super.onPreExecute();
+            }
+
+            @RequiresApi(api = Build.VERSION_CODES.N)
+            @Override
+            protected void onPostExecute(Boolean result) {
+                if(progressDialog != null) {
+                    progressDialog.dismiss();
+                }
+                if (jsonObj == null || jsonObj.equals("")) {
+                    // Toast.makeText(context, "Please check your internet connection", Toast.LENGTH_SHORT).show();
+                    toast("Please check your internet connection");
+                } else {
+                    try {
+                        String received_receiptno = "0";
+                        int success = jsonObj.getInt("success");
+
+                        if (success == 0) {
+                            Log.d("API_SAVE_RESPONSE =============ROW()==========>", "Unable to save "+" ");
+                        } else if (success == 1) {
+                            received_receiptno = jsonObj.getString("receiptno_send");
+                            if (!received_receiptno.equals("0")) {
+                                //Toast.makeText(context, received_receiptno + "  Receipt No", Toast.LENGTH_SHORT).show();
+                                  grand_total = grand_total +Double.parseDouble(customer_details_Temp.get(arr_position).getDue_amount());
+
+                                  Individual_Print_Receipt(received_receiptno,customer_details_Temp.get(arr_position).getShopname(),customer_details_Temp.get(arr_position).getTenantname(),String.valueOf(dft.format(Double.parseDouble(customer_details_Temp.get(arr_position).getTotal_amount()))),0,arr_position,String.valueOf(dft.format(grand_total)));
+
+                                //   Print_All(received_receiptno,shopname,tenantname,total_amount,0,arr_position,grand_total);
 
 //                            print_temp_details.add(new print_temp_details(received_receiptno,customer_details_Temp.get(arr_position).getShopname(),customer_details_Temp.get(arr_position).getTenantname(),customer_details_Temp.get(arr_position).getTotal_amount(),arr_position,grand_total));
 
-                            Toast.makeText(context,received_receiptno +"  Printed success", Toast.LENGTH_SHORT).show();
-
+                              //  Toast.makeText(context, received_receiptno + "  Printed success", Toast.LENGTH_SHORT).show();
+//
+//                                escposPrinter.printNormal("               "+received_receiptno+"                \n");
+//                                escposPrinter.lineFeed(2);
+                                //escposPrinter.cutPaper();
 //                            Print_All("","","","",0,0,0);
 
-                        }
+                            }
 
-                        Log.d("API_SAVE_RESPONSE =============ROW()==========>", "Saved Successfully"+"RECEIVED RECEIPT NO  :  "+received_receiptno);
-                       // toast(" ");
+                            Log.d("API_SAVE_RESPONSE =============ROW()==========>", "Saved Successfully" + "RECEIVED RECEIPT NO  :  " + received_receiptno);
+                            // toast(" ");
+                        }
+                        else if(success == 4){
+                            Log.d("API_SAVE_RESPONSE =============ROW()==========>", "Duplicate Entry Made for "+customer_details_Temp.get(arr_position).getShopname());
+                        }
+                    } catch (JSONException e) {
+                        e.printStackTrace();
+                    } catch (UnsupportedEncodingException e) {
+                        throw new RuntimeException(e);
                     }
-                } catch (JSONException e) {
-                    e.printStackTrace();
                 }
             }
         }
-    }
 
-    protected class AsyncPrintDetails extends
-            AsyncTask<String, JSONObject, Boolean> {
-        Boolean billPrinted = false;
-        JSONObject jsonObj = null;
-        @Override
-        protected Boolean doInBackground(String... params) {
+        private static void Alignment ( int param1, int param2, int param3){
+            int iLen = 0;
 
-            final String gettransactiono = params[0];
-            final String getvoucherno = params[1];
-            try {
-                printText(26,true,1,true,true, "");
-                printText(24,false,1,true,true,"Hello");
-                printText(24,false,1,true,false,line_space);
+            iLen = 3;
+            final int[] dataArr = new int[iLen];
+            dataArr[0] = param1;
+            dataArr[1] = param2;
+
+            dataArr[2] = param3;
+
+            palmtecandro.jnidevDataWrite(dataArr, iLen);
+
+        }
+        private static void Print (String input){
+            int iLen = 0;
+            int iCount = 0;
+            int iPos = 0;
+
+            byte[] _data = input.getBytes();
+            iLen = _data.length;
+            iLen += 4;
+            final int[] dataArr = new int[iLen];
+            dataArr[0] = (byte) 0x1B;
+            dataArr[1] = (byte) 0x21;
+            dataArr[2] = (byte) 0x00;
+            iCount = 3;
+            for (; iCount < iLen - 1; iCount++, iPos++) {
+                dataArr[iCount] = _data[iPos];
             }
-            catch (Exception e){
-                billPrinted = true;
+            dataArr[iCount] = (byte) 0x0A;
 
+            palmtecandro.jnidevDataWrite(dataArr, iLen);
+        }
+
+        private static void Print_title (String input){
+            int iLen = 0;
+            int iCount = 0;
+            int iPos = 0;
+
+            byte[] _data = input.getBytes();
+            iLen = _data.length;
+            iLen += 4;
+            final int[] dataArr = new int[iLen];
+            dataArr[0] = (byte) 0x1B;
+            dataArr[1] = (byte) 0x21;
+            dataArr[2] = (byte) 0x00;
+            iCount = 3;
+            for (; iCount < iLen - 1; iCount++, iPos++) {
+                dataArr[iCount] = _data[iPos];
             }
-            return billPrinted;
+            dataArr[iCount] = (byte) 0x0A;
+
+            palmtecandro.jnidevDataWrite(dataArr, iLen);
         }
-        @Override
-        protected void onPreExecute() {
-            super.onPreExecute();
+        private static void PrintBold (String input){
+            int iLen = 0;
+            int iCount = 0;
+            int iPos = 0;
+
+            byte[] _data = input.getBytes();
+            iLen = _data.length;
+            iLen += 4;
+            final int[] dataArr = new int[iLen];
+            dataArr[0] = (byte) 0x1B;
+            dataArr[1] = (byte) 0x21;
+            dataArr[2] = (byte) 0x10;
+            iCount = 3;
+            for (; iCount < iLen - 1; iCount++, iPos++) {
+                dataArr[iCount] = _data[iPos];
+            }
+            dataArr[iCount] = (byte) 0x0A;
+
+            palmtecandro.jnidevDataWrite(dataArr, iLen);
         }
 
-        @Override
-        protected void onPostExecute(Boolean billPrinted) {
-            // TODO Auto-generated method stub
+        private static void PrintUnderline (String input){
+            int iLen = 0;
+            int iCount = 0;
+            int iPos = 0;
 
+            byte[] _data = input.getBytes();
+            iLen = _data.length;
+            iLen += 4;
+            final int[] dataArr = new int[iLen];
+            dataArr[0] = (byte) 0x1B;
+            dataArr[1] = (byte) 0x21;
+            dataArr[2] = (byte) 0x80;
+            iCount = 3;
+            for (; iCount < iLen - 1; iCount++, iPos++) {
+                dataArr[iCount] = _data[iPos];
+            }
+            dataArr[iCount] = (byte) 0x0A;
+
+            palmtecandro.jnidevDataWrite(dataArr, iLen);
         }
-    }
+        private static void Clearbuffer () {
+            int iLen = 0;
 
-
-    private void sunmi() throws IOException {
-
-        byte[] data = {0x10, 0x14 ,0x00 ,0x00 ,0x00};
-        BluetoothAdapter btAdapter = BluetoothUtil.getBTAdapter();
-        if (btAdapter == null) {
-            Toast.makeText(context,"Please Open Bluetooth!", Toast.LENGTH_LONG).show();
-            return;
-        }
-        BluetoothDevice device = BluetoothUtil.getDevice(btAdapter);
-        if (device == null) {
-            Toast.makeText(context,"Please Make Sure Bluetooth have InnterPrinter!", Toast.LENGTH_LONG).show();
-            return;
-        }
-        BluetoothSocket socket = null;
-        socket = BluetoothUtil.getSocket(device);
-        BluetoothUtil.sendData(data, socket);
-
-        //SunmiPrintHelper.initSunmiPrinterService(context);
-
-        try {
-            SunMiPrinter sunMiPrinter = new SunMiPrinter();
-            sunMiPrinter.printT2MiniText(36, false, 1, true, false, "Hello");
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-//        printText(26,true,1,true,true, "");
-//       printText(24,false,1,true,true,"Hello");
-//        printText(24,false,1,true,false,line_space);
-   //     SunmiPrintHelper.getInstance().printLineWrap();
-      //  new AsyncPrintDetails().execute();
-    }
-
-    public void printText(int fontSize, boolean isBold,int alignMode, boolean isNeedLF, boolean isNeedLS, String textToPrint){
-        try{
-            /*
-            isbold - true, isnotbold - false
-            leftalign - 0, rightalign - 2, centeralign - 1
-             */
-            SunmiPrintHelper.getInstance().setAlign(alignMode);
-            SunmiPrintHelper.getInstance().printText(textToPrint, fontSize, isBold, false);
-            if(isNeedLF)
-                SunmiPrintHelper.getInstance().printLineWrap();
-        }catch (Exception ex){
+            iLen = 2;
+            final int[] dataArr = new int[iLen];
+            dataArr[0] = 27;
+            dataArr[1] = 64;
+            palmtecandro.jnidevDataWrite(dataArr, iLen);
 
         }
-    }
+        private static void Leavespace () {
+            int iLen = 0;
 
-    private static void Alignment(int param1, int param2, int param3) {
-        int iLen = 0;
-
-        iLen=3;
-        final int[] dataArr = new int[iLen];
-        dataArr[0] = param1;
-        dataArr[1] = param2;
-
-        dataArr[2] = param3;
-
-        palmtecandro.jnidevDataWrite(dataArr, iLen);
-
-    }
-    private static void Print(String input) {
-        int iLen = 0;
-        int iCount = 0;
-        int iPos = 0;
-
-        byte[] _data = input.getBytes();
-        iLen = _data.length;
-        iLen += 4;
-        final int[] dataArr = new int[iLen];
-        dataArr[0] = (byte) 0x1B;
-        dataArr[1] = (byte) 0x21;
-        dataArr[2] = (byte) 0x00;
-        iCount = 3;
-        for (; iCount < iLen - 1; iCount++, iPos++) {
-            dataArr[iCount] = _data[iPos];
-        }
-        dataArr[iCount] = (byte) 0x0A;
-
-        palmtecandro.jnidevDataWrite(dataArr, iLen);
-    }
-
-    private static void Print_title(String input) {
-        int iLen = 0;
-        int iCount = 0;
-        int iPos = 0;
-
-        byte[] _data = input.getBytes();
-        iLen = _data.length;
-        iLen += 4;
-        final int[] dataArr = new int[iLen];
-        dataArr[0] = (byte) 0x1B;
-        dataArr[1] = (byte) 0x21;
-        dataArr[2] = (byte) 0x00;
-        iCount = 3;
-        for (; iCount < iLen - 1; iCount++, iPos++) {
-            dataArr[iCount] = _data[iPos];
-        }
-        dataArr[iCount] = (byte) 0x0A;
-
-        palmtecandro.jnidevDataWrite(dataArr, iLen);
-    }
-    private static void PrintBold(String input) {
-        int iLen = 0;
-        int iCount = 0;
-        int iPos = 0;
-
-        byte[] _data = input.getBytes();
-        iLen = _data.length;
-        iLen += 4;
-        final int[] dataArr = new int[iLen];
-        dataArr[0] = (byte) 0x1B;
-        dataArr[1] = (byte) 0x21;
-        dataArr[2] = (byte) 0x10;
-        iCount = 3;
-        for (; iCount < iLen - 1; iCount++, iPos++) {
-            dataArr[iCount] = _data[iPos];
-        }
-        dataArr[iCount] = (byte) 0x0A;
-
-        palmtecandro.jnidevDataWrite(dataArr, iLen);
-    }
-
-    private static void PrintUnderline(String input) {
-        int iLen = 0;
-        int iCount = 0;
-        int iPos = 0;
-
-        byte[] _data = input.getBytes();
-        iLen = _data.length;
-        iLen += 4;
-        final int[] dataArr = new int[iLen];
-        dataArr[0] = (byte) 0x1B;
-        dataArr[1] = (byte) 0x21;
-        dataArr[2] = (byte) 0x80;
-        iCount = 3;
-        for (; iCount < iLen - 1; iCount++, iPos++) {
-            dataArr[iCount] = _data[iPos];
-        }
-        dataArr[iCount] = (byte) 0x0A;
-
-        palmtecandro.jnidevDataWrite(dataArr, iLen);
-    }
-    private static void Clearbuffer() {
-        int iLen = 0;
-
-        iLen = 2;
-        final int[] dataArr = new int[iLen];
-        dataArr[0] = 27;
-        dataArr[1] = 64;
-        palmtecandro.jnidevDataWrite(dataArr, iLen);
-
-    }
-    private static void Leavespace() {
-        int iLen = 0;
-
-        iLen = 1;
-        final int[] dataArr = new int[iLen];
-        dataArr[0] = (byte) 0x0A;
+            iLen = 1;
+            final int[] dataArr = new int[iLen];
+            dataArr[0] = (byte) 0x0A;
        /* dataArr[1] = (byte) 0x64;
         dataArr[2] = (byte) 0x1;*/
-        palmtecandro.jnidevDataWrite(dataArr, iLen);
+            palmtecandro.jnidevDataWrite(dataArr, iLen);
 
-    }
-
-    public void calculateTotalDueAmount(){
-
-        ArrayList<Customer_Details> temp = new ArrayList<>();
-        final DecimalFormat dft = new DecimalFormat("##,##,##,##,###.00");
-        int totalamt=0;
-
-        for(int i=0;i<customer_details.size();i++){
-            if(customer_details.get(i).isSelected()) {
-                Integer amt = Integer.parseInt(customer_details.get(i).getDue_amount());
-                totalamt = totalamt + amt;
-                temp.add(customer_details.get(i));
-            }
         }
 
-        if(temp.size() ==1){
-            if(TENANT_STATE_CODE.equals("")){
-                TENANT_STATE_CODE = temp.get(0).getTenantcode();
-                Log.d("TENaNT STATE CODE ==================>", temp.get(0).getTenantcode());
-            }
-        }
-        if(temp.size() ==0){
-            TENANT_STATE_CODE ="";
-        }
-       // TENANT_STATE_CODE =
+        public void calculateTotalDueAmount () {
 
-        TOTAL_AMOUNT = totalamt;
-        due_amount_tv.setText(String.valueOf(" \u20B9 "+TOTAL_AMOUNT));
-    }
+            ArrayList<Customer_Details> temp = new ArrayList<>();
+            final DecimalFormat dft = new DecimalFormat("##,##,##,##,###.00");
+            int totalamt = 0;
 
-    public void calculateGrandAmount(){
-
-        final DecimalFormat dft = new DecimalFormat("##,##,##,##,###.00");
-        int totalamt=0,paid_amt = 0;
-
-        for(int i=0;i<customer_details.size();i++){
-                Integer amt = Integer.parseInt(customer_details.get(i).getDue_amount());
-                totalamt = totalamt + amt;
-        }
-
-        for (int i=0;i<customer_details.size();i++){
-            if(customer_details.get(i).getStatuscode() != null && !customer_details.get(i).getStatuscode().equals("null")){
-
-                if(customer_details.get(i).getStatuscode().equals("10")){
-
+            for (int i = 0; i < customer_details.size(); i++) {
+                if (customer_details.get(i).isSelected()) {
                     Integer amt = Integer.parseInt(customer_details.get(i).getDue_amount());
-                    paid_amt = paid_amt + amt;
-                }else{
-
+                    totalamt = totalamt + amt;
+                    temp.add(customer_details.get(i));
                 }
             }
+
+            if (temp.size() == 1) {
+                if (TENANT_STATE_CODE.equals("")) {
+                    TENANT_STATE_CODE = temp.get(0).getTenantcode();
+                    Log.d("TENaNT STATE CODE ==================>", temp.get(0).getTenantcode());
+                }
+            }
+            if (temp.size() == 0) {
+                TENANT_STATE_CODE = "";
+            }
+            // TENANT_STATE_CODE =
+
+            TOTAL_AMOUNT = totalamt;
+            due_amount_tv.setText(String.valueOf(" \u20B9 " + TOTAL_AMOUNT));
         }
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
-            expected_collection_tv.setText(String.valueOf(" \u20B9 "+totalamt));
-            actual_collection_tv.setText(String.valueOf(" \u20B9 "+paid_amt));
+
+        public void calculateGrandAmount () {
+
+            final DecimalFormat dft = new DecimalFormat("##,##,##,##,###.00");
+            int totalamt = 0, paid_amt = 0;
+
+            for (int i = 0; i < customer_details.size(); i++) {
+                Integer amt = Integer.parseInt(customer_details.get(i).getDue_amount());
+                totalamt = totalamt + amt;
+            }
+
+            for (int i = 0; i < customer_details.size(); i++) {
+                if (customer_details.get(i).getStatuscode() != null && !customer_details.get(i).getStatuscode().equals("null")) {
+
+                    if (customer_details.get(i).getStatuscode().equals("10")) {
+
+                        Integer amt = Integer.parseInt(customer_details.get(i).getDue_amount());
+                        paid_amt = paid_amt + amt;
+                    } else {
+
+                    }
+                }
+            }
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
+                expected_collection_tv.setText(String.valueOf(" \u20B9 " + totalamt));
+                actual_collection_tv.setText(String.valueOf(" \u20B9 " + paid_amt));
+            }
+
         }
 
-    }
+        public String convertIntoWords (Double str, String language, String Country){
+            Locale local = new Locale(language, Country);
+            RuleBasedNumberFormat ruleBasedNumberFormat = new RuleBasedNumberFormat(local, RuleBasedNumberFormat.SPELLOUT);
+            return ruleBasedNumberFormat.format(str);
+        }
 
-    public String convertIntoWords(Double str,String language,String Country) {
-        Locale local = new Locale(language, Country);
-        RuleBasedNumberFormat ruleBasedNumberFormat = new RuleBasedNumberFormat(local, RuleBasedNumberFormat.SPELLOUT);
-        return ruleBasedNumberFormat.format(str);
-    }
+        public class ViewHolder {
+            public CardView city_card;
+            ImageView arrow;
+            Button button;
+            CardView card_view, Show_more, Track;
+            TextView city_name_tv, total_customer_tv;
+            TextView tenant_name_tv, olddue_amount_tv, due_amount_tv, shop_no_tv, paid_tv;
+            EditText total_amount_tv;
+            LinearLayout LL_card;
 
-    public  class ViewHolder{
-        public CardView city_card;
-        ImageView arrow;
-        Button button;
-        CardView card_view,Show_more,Track;
-        TextView city_name_tv,total_customer_tv;
-        TextView tenant_name_tv,olddue_amount_tv,due_amount_tv,shop_no_tv,paid_tv;
-        EditText total_amount_tv;
-        LinearLayout LL_card;
+        }
 
-    }
+
 }
 
 

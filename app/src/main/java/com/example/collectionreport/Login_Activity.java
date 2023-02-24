@@ -555,9 +555,9 @@ public class Login_Activity extends AppCompatActivity {
     public void CheckDeviceAuthendication(){
 
         try{
-            //getdeviceid =  Settings.Secure.getString(getApplicationContext().getContentResolver(), Settings.Secure.ANDROID_ID);
+           getdeviceid =  Settings.Secure.getString(getApplicationContext().getContentResolver(), Settings.Secure.ANDROID_ID);
 
-            getdeviceid = "f22d1103dcce2f11";
+          //  getdeviceid = "f22d1103dcce2f11";
             if (getdeviceid.equals(null)) {
               //  getdeviceid = "000000";
             }
@@ -738,8 +738,6 @@ public class Login_Activity extends AppCompatActivity {
            new Get_Company_Date().execute();
         }
     }
-
-
     public  void Clipboard(){
         android.app.AlertDialog.Builder builder = new android.app.AlertDialog.Builder(Login_Activity.this);
         builder.setMessage("Please contact system administrator with this [ "+ getdeviceid +" ] access id")
@@ -761,8 +759,6 @@ public class Login_Activity extends AppCompatActivity {
         AlertDialog alert = builder.create();
         alert.show();
     }
-
-
     public class AsyncCheck extends
             AsyncTask<String, JSONObject,Boolean> {
         JSONObject jsonObj,jsonObject_token;
@@ -863,7 +859,6 @@ public class Login_Activity extends AppCompatActivity {
                                 SUBTITLE_2  = String.valueOf(company_arr[2]);
                                 CITY_NAME = json.getString("cityname");
                             }
-
 
                         }
 

@@ -2,9 +2,18 @@ package com.example.collectionreport;
 
 import static com.example.collectionreport.MainActivity.RECEIPT_PREFIX;
 import static com.example.collectionreport.MainActivity.actual_collection_tv;
+import static com.example.collectionreport.MainActivity.connection_flag;
 import static com.example.collectionreport.MainActivity.date_db;
 import static com.example.collectionreport.MainActivity.expected_collection_tv;
 import static com.example.collectionreport.MainActivity.selectedDate;
+import static com.example.collectionreport.MainActivity.strDate;
+import static com.generic.jpos.command.ESCPOSConst.LK_ALIGNMENT_CENTER;
+import static com.generic.jpos.command.ESCPOSConst.LK_ALIGNMENT_LEFT;
+import static com.generic.jpos.command.ESCPOSConst.LK_FNT_BOLD;
+import static com.generic.jpos.command.ESCPOSConst.LK_FNT_DEFAULT;
+import static com.generic.jpos.command.ESCPOSConst.LK_FNT_FONTB;
+import static com.generic.jpos.command.ESCPOSConst.LK_TXT_1WIDTH;
+import static com.generic.jpos.command.ESCPOSConst.LK_TXT_2WIDTH;
 
 import android.annotation.SuppressLint;
 import android.app.AlertDialog;
@@ -40,6 +49,7 @@ import androidx.cardview.widget.CardView;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentTransaction;
 
+import com.generic.jpos.printer.ESCPOSPrinter;
 import com.ibm.icu.text.RuleBasedNumberFormat;
 import com.softland.palmtecandro.palmtecandro;
 
@@ -47,6 +57,7 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.io.UnsupportedEncodingException;
 import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -54,6 +65,8 @@ import java.util.Locale;
 
 public class Monthly_Fragment extends Fragment implements  MainActivity.Refreshpage{
 
+    ESCPOSPrinter escposPrinter ;
+    ProgressDialog progressDialog;
     View view;
     Context context;
     ListView customer_Listview;
@@ -84,6 +97,8 @@ public class Monthly_Fragment extends Fragment implements  MainActivity.Refreshp
         due_amount_tv = (TextView) view.findViewById(R.id.due_amount_tv);
         total_print_img = (ImageView) view.findViewById(R.id.total_print_img);
 
+        progressDialog =  new ProgressDialog(context);
+        escposPrinter = new ESCPOSPrinter();
 
         new Async_DailyCollection().execute();
 
@@ -112,6 +127,7 @@ public class Monthly_Fragment extends Fragment implements  MainActivity.Refreshp
                         }
                     }
                 }
+
                 AlertDialog.Builder builder = new AlertDialog.Builder(context, R.style.AlertDialogStyle);
                 builder.setMessage("Are you sure you want to print ?")
                         .setTitle(R.string.app_name)
@@ -121,8 +137,13 @@ public class Monthly_Fragment extends Fragment implements  MainActivity.Refreshp
                         .setPositiveButton("Yes", new DialogInterface.OnClickListener() {
                             public void onClick(DialogInterface dialog, int id) {
                                 //call();
-                                if(isNetworkAvailable()) {
-                                    Save_Transaction();
+                                if (connection_flag) {
+
+                                    if (isNetworkAvailable()) {
+                                        Save_Transaction();
+                                    }
+                                }else{
+                                    toast("Please check your bluetooth connection");
                                 }
                             }
                         })
@@ -139,53 +160,13 @@ public class Monthly_Fragment extends Fragment implements  MainActivity.Refreshp
         return  view;
     }
 
-    private void call() {
-
-        try{
-            //new Async_Get_Receiptno().execute();
-            Thread.sleep(10);
-        } catch (Exception e) {
-            e.printStackTrace();
-        }finally {
-            if (customer_details.size() > 0) {
-                customer_details_Temp.clear();
-                for (int i = 0; i < customer_details.size(); i++) {
-
-                    if (customer_details.get(i).isSelected()) {
-                        customer_details_Temp.add(customer_details.get(i));
-                        Log.d("MONTHLY REPORT  SELECTED LIST  ===========>", "TENANT NAME  :  " + customer_details.get(i).getTenantname() + "SHOP NAME : " + customer_details.get(i).getShopname());
-                    }
-                }
-            }
-
-            if (customer_details_Temp.size() > 0) {
-                if (customer_details_Temp.size() == 1) {
-//                        try {
-//                            new Async_Get_Receiptno().execute();
-//                        } catch (Exception e) {
-//                            e.printStackTrace();
-//                        }finally {
-                    Print_Receipt_Market(selectedDate, " ", " ", "", "", "", "", "", 0);
-                    //    }
-                }
-
-                if (customer_details_Temp.size() > 1) {
-//                        try {
-//                            new Async_Get_Receiptno().execute();
-//                        } catch (Exception e) {
-//                            e.printStackTrace();
-//                        }finally {
-                    Print_Receipt_Market(selectedDate, " ", "  ", "", "", "", "", "", 1);
-                    //   }
-                }
-
-            } else {
-             //   toast("Please select atleast one customer");
-            }
-        }
-        // Print_Receipt_Market("26-01-2023","12:30 PM","2023010001","","Deepa Sivachandran","","1000","1000",1);
-
-}
+    @Override
+    public void onStop() {
+//        if(progressDialog != null) {
+//            progressDialog.dismiss();
+//        }
+        super.onStop();
+    }
 
     @Override
     public void refreshpage() {
@@ -237,6 +218,12 @@ public class Monthly_Fragment extends Fragment implements  MainActivity.Refreshp
 
         @Override
         protected void onPreExecute() {
+            if(progressDialog != null) {
+                progressDialog.setProgressStyle(ProgressDialog.STYLE_SPINNER);
+                progressDialog.setMessage("Loading ...");
+                progressDialog.setCancelable(false);
+                progressDialog.show();
+            }
             super.onPreExecute();
         }
 
@@ -285,6 +272,9 @@ public class Monthly_Fragment extends Fragment implements  MainActivity.Refreshp
                     e.printStackTrace();
 
                 }
+            }
+            if(progressDialog != null) {
+                progressDialog.dismiss();
             }
         }
 
@@ -624,7 +614,7 @@ public class Monthly_Fragment extends Fragment implements  MainActivity.Refreshp
                         }else{
 
 
-                           // if(TENANT_STATE_CODE.equals("") || TENANT_STATE_CODE.equals(customer_details.get(position).getTenantcode())) {
+                            if(TENANT_STATE_CODE.equals("") || TENANT_STATE_CODE.equals(customer_details.get(position).getTenantcode())) {
 
 
                                 if (!customer_details.get(position).isSelected()) {
@@ -648,10 +638,9 @@ public class Monthly_Fragment extends Fragment implements  MainActivity.Refreshp
 
                                     customer_details.get(position).setSelected(false);
                                 }
-//                            }else{
-//                                toast("Please select same tenant");
-//                            }
-
+                            }else{
+                                toast("Please select same tenant");
+                            }
                             calculateTotalDueAmount();
                         }
                     }
@@ -1033,7 +1022,7 @@ public class Monthly_Fragment extends Fragment implements  MainActivity.Refreshp
             Leavespace();
             Alignment(27, 97, 0);//Left alignment
             // Print("DATE: " + date + " TIME: " + getReminingTime());
-            Print("DATE: " + MainActivity.strDate + " TIME: " + getReminingTime());
+            Print("DATE: " + strDate + " TIME: " + getReminingTime());
 
             Clearbuffer();//Clear unwanted buffer
             //  Leavespace();
@@ -1136,7 +1125,7 @@ public class Monthly_Fragment extends Fragment implements  MainActivity.Refreshp
                 Leavespace();
                 Alignment(27, 97, 0);//Left alignment
                 // Print("DATE: " + date + " TIME: " + getReminingTime());
-                Print("DATE: " + MainActivity.strDate + " TIME: " + getReminingTime());
+                Print("DATE: " + strDate + " TIME: " + getReminingTime());
 
                 Clearbuffer();//Clear unwanted buffer
                 //  Leavespace();
@@ -1210,39 +1199,37 @@ public class Monthly_Fragment extends Fragment implements  MainActivity.Refreshp
     @RequiresApi(api = Build.VERSION_CODES.N)
     private void Save_Transaction() {
 
+        if(customer_details_Temp.size()>0){
+            grand_total =0;
+            for (int i =0 ;i<customer_details_Temp.size();i++)
+            {
+                // new Async_Get_Receiptno().execute();
+
+                new Async_Save_Transaction(i).execute(customer_details_Temp.get(i).getTenantcode(),customer_details_Temp.get(i).getTenantname(),
+                        customer_details_Temp.get(i).getTotal_amount(),customer_details_Temp.get(i).getStatuscode(),String.valueOf(output_receipt_no),String.valueOf(output_receipt_no),
+                        customer_details_Temp.get(i).getShopcode(),customer_details_Temp.get(i).getShopname(),customer_details_Temp.get(i).getRentcycle(),customer_details_Temp.get(i).getShopstatus(),customer_details_Temp.get(i).getRent(),strDate);
+
+                try {
+                    Thread.sleep(20);
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
+            }
+
+           // call_refresh();
+        }
 
 //
-//        if(customer_details_Temp.size()>0){
+//        if(customer_details_Temp.size() ==1){
 //            grand_total =0;
-//            for (int i =0 ;i<customer_details_Temp.size();i++)
-//            {
-//                // new Async_Get_Receiptno().execute();
 //
-//                new Async_Save_Transaction(i).execute(customer_details_Temp.get(i).getTenantcode(),customer_details_Temp.get(i).getTenantname(),
-//                        customer_details_Temp.get(i).getTotal_amount(),customer_details_Temp.get(i).getStatuscode(),String.valueOf(output_receipt_no),String.valueOf(output_receipt_no),
-//                        customer_details_Temp.get(i).getShopcode(),customer_details_Temp.get(i).getShopname(),customer_details_Temp.get(i).getRentcycle(),customer_details_Temp.get(i).getShopstatus(),customer_details_Temp.get(i).getRent(),String.valueOf(date_db+" 00:00:00"));
-//
-//                try {
-//                    Thread.sleep(600);
-//                } catch (InterruptedException e) {
-//                    e.printStackTrace();
-//                }
-//            }
+//                new Async_Save_Transaction(0).execute(customer_details_Temp.get(0).getTenantcode(),customer_details_Temp.get(0).getTenantname(),
+//                        customer_details_Temp.get(0).getTotal_amount(),customer_details_Temp.get(0).getStatuscode(),String.valueOf(output_receipt_no),String.valueOf(output_receipt_no),
+//                        customer_details_Temp.get(0).getShopcode(),customer_details_Temp.get(0).getShopname(),customer_details_Temp.get(0).getRentcycle(),customer_details_Temp.get(0).getShopstatus(),customer_details_Temp.get(0).getRent(),String.valueOf(date_db+" 00:00:00"));
 //
 //            call_refresh();
 //        }
-
-
-        if(customer_details_Temp.size() ==1){
-            grand_total =0;
-
-                new Async_Save_Transaction(0).execute(customer_details_Temp.get(0).getTenantcode(),customer_details_Temp.get(0).getTenantname(),
-                        customer_details_Temp.get(0).getTotal_amount(),customer_details_Temp.get(0).getStatuscode(),String.valueOf(output_receipt_no),String.valueOf(output_receipt_no),
-                        customer_details_Temp.get(0).getShopcode(),customer_details_Temp.get(0).getShopname(),customer_details_Temp.get(0).getRentcycle(),customer_details_Temp.get(0).getShopstatus(),customer_details_Temp.get(0).getRent(),String.valueOf(date_db+" 00:00:00"));
-
-            call_refresh();
-        }
-
+        call_refresh();
     }
 
 
@@ -1526,15 +1513,22 @@ public class Monthly_Fragment extends Fragment implements  MainActivity.Refreshp
 
         @Override
         protected void onPreExecute() {
+            if(progressDialog != null) {
+
+                progressDialog.setProgressStyle(ProgressDialog.STYLE_SPINNER);
+                progressDialog.setMessage("Please wait ...");
+                progressDialog.setCancelable(false);
+                progressDialog.show();
+            }
             super.onPreExecute();
-
-
         }
 
         @RequiresApi(api = Build.VERSION_CODES.N)
         @Override
         protected void onPostExecute(Boolean result) {
-
+            if(progressDialog != null) {
+                progressDialog.dismiss();
+            }
             if (jsonObj == null || jsonObj.equals("")) {
                 // Toast.makeText(context, "Please check your internet connection", Toast.LENGTH_SHORT).show();
                 toast("Please check your internet connection");
@@ -1545,19 +1539,25 @@ public class Monthly_Fragment extends Fragment implements  MainActivity.Refreshp
 
                     if (success == 0) {
 
+                        Log.d("API_SAVE_RESPONSE =============ROW()==========>", "Unable to save "+" ");
                     } else if (success == 1) {
                         received_receiptno = jsonObj.getString("receiptno_send");
 
                         if(!received_receiptno.equals("0")){
                             grand_total = grand_total +Double.parseDouble(customer_details_Temp.get(arr_position).getDue_amount());
-                          //  Individual_Print_Receipt(received_receiptno,customer_details_Temp.get(arr_position).getShopname(),customer_details_Temp.get(arr_position).getTenantname(),customer_details_Temp.get(arr_position).getTotal_amount(),0,arr_position,grand_total);
+                           Individual_Print_Receipt(received_receiptno,customer_details_Temp.get(arr_position).getShopname(),customer_details_Temp.get(arr_position).getTenantname(),String.valueOf(dft.format(Double.parseDouble(customer_details_Temp.get(arr_position).getTotal_amount()))),0,arr_position,String.valueOf(dft.format(grand_total)));
                         }
 
                         Log.d("API_SAVE_RESPONSE =============ROW()==========>", "Saved Successfully"+"RECEIVED RECEIPT NO  :  "+received_receiptno);
                         // toast(" ");
                     }
+                    else if(success == 4){
+                        Log.d("API_SAVE_RESPONSE =============ROW()==========>", "Duplicate Entry Made for "+customer_details_Temp.get(arr_position).getShopname());
+                    }
                 } catch (JSONException e) {
                     e.printStackTrace();
+                } catch (UnsupportedEncodingException e) {
+                    throw new RuntimeException(e);
                 }
             }
         }
@@ -1683,247 +1683,68 @@ public class Monthly_Fragment extends Fragment implements  MainActivity.Refreshp
 
 
 
+
     @RequiresApi(api = Build.VERSION_CODES.N)
-    private void Individual_Print_Receipt(String print_receipt_no, String shopname, String tenantname, String total_amount, int customer_type,int last_position,double grand_total) {
+    private void Individual_Print_Receipt(String print_receipt_no, String shopname, String tenantname, String total_amount, int customer_type,int last_position,String grand_total) throws UnsupportedEncodingException {
 
-        String tot_amt_words = "";
-        String agent_code,grp_code;
+//        Log.d(" =============[RECEIPT NUMBER ]=========>    ", print_receipt_no);
+//        Log.d(" =============[SHOP NAME ]=========>    ", shopname);
+//        Log.d(" =============[TENANT NAME ]=========>   ", tenantname);
+//        Log.d(" =============[TOTAL AMOUNT ]=========>   ", total_amount);
 
-        Log.d(" =============[RECEIPT NUMBER ]=========>    ", print_receipt_no);
-        Log.d(" =============[SHOP NAME ]=========>    ", shopname);
-        Log.d(" =============[TENANT NAME ]=========>   ", tenantname);
-        Log.d(" =============[TOTAL AMOUNT ]=========>   ", total_amount);
-
-        if(customer_details_Temp.size()-1 == last_position) {
-            Log.d(" =============[OVERALL AMOUNT ]=========>   ", String.valueOf(grand_total));
-        }
-             palmtecandro.jnidevOpen(115200);
+//        if(customer_details_Temp.size()-1 == last_position) {
+//            Log.d(" =============[OVERALL AMOUNT ]=========>   ", String.valueOf(grand_total));
+//        }
 
         if(customer_type == 0) {
-
-            Clearbuffer();//Clear unwanted buffer
-            //Leavespace();
-            Alignment(27,97,1);//Center aligment
-            Print("");
-
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
 
-                Clearbuffer();//Clear unwanted buffer
-                // Leavespace();
-                Alignment(27, 97, 1);//Center aligment
-                // Print("Thirupuvanam");
-                Print(MainActivity.CITY_NAME);
 
-                Clearbuffer();//Clear unwanted buffer
-                //Leavespace();
-                Alignment(27, 97, 1);//Center aligment
-                //Print(" KAS JEWELLERY");
-                Print(MainActivity.COMPANY_NAME);
+                //  escposPrinter.printNormal("        "+MainActivity.CITY_NAME+"    \n");
+                escposPrinter.printText(MainActivity.CITY_NAME+"\n",LK_ALIGNMENT_CENTER,LK_FNT_BOLD,LK_TXT_1WIDTH);
+                escposPrinter.printText(MainActivity.COMPANY_NAME+"\n",LK_ALIGNMENT_CENTER,LK_FNT_BOLD,LK_TXT_1WIDTH);
+//                escposPrinter.lineFeed(1);
+//                escposPrinter.printNormal("        "+MainActivity.SUBTITLE_1+"    \n");
+//                escposPrinter.lineFeed(1);
+//                escposPrinter.printNormal("        "+MainActivity.SUBTITLE_2+"    \n");
+//                escposPrinter.lineFeed(1);
+//                escposPrinter.printNormal(" ------------------------------ \n");
+//                escposPrinter.printNormal("           RENT RECEIPT         \n");
+//                escposPrinter.printNormal(" ------------------------------ \n");
 
-                Clearbuffer();//Clear unwanted buffer
-                // Leavespace();
-                Alignment(27, 97, 1);//Center aligment
-                // Print("Thirupuvanam");
-                Print(MainActivity.SUBTITLE_1);
-
-                Clearbuffer();//Clear unwanted buffer
-                // Leavespace();
-                Alignment(27, 97, 1);//Center aligment
-                // Print("Thirupuvanam");
-                Print(MainActivity.SUBTITLE_2);
-
+                escposPrinter.printText(MainActivity.SUBTITLE_1+"\n",LK_ALIGNMENT_CENTER,LK_FNT_BOLD,LK_TXT_1WIDTH);
+                escposPrinter.printText(MainActivity.SUBTITLE_2+"\n",LK_ALIGNMENT_CENTER,LK_FNT_BOLD,LK_TXT_1WIDTH);
+                //  escposPrinter.lineFeed(1);
+                escposPrinter.printText("------------------------------\n",LK_ALIGNMENT_CENTER,LK_FNT_DEFAULT,LK_TXT_1WIDTH);
+                escposPrinter.printText("RENT RECEIPT\n",LK_ALIGNMENT_CENTER,LK_FNT_DEFAULT,LK_TXT_1WIDTH);
+                escposPrinter.printText("------------------------------\n",LK_ALIGNMENT_CENTER,LK_FNT_DEFAULT,LK_TXT_1WIDTH);
+                escposPrinter.printText("DATE: "+String.valueOf(strDate)+"  TIME: "+getReminingTime()+"\n",LK_ALIGNMENT_CENTER,LK_FNT_DEFAULT,LK_TXT_1WIDTH);
+                //   escposPrinter.printNormal("DATE: "+String.valueOf(MainActivity.strDate)+" TIME: "+getReminingTime()+"\n");
+                escposPrinter.printText("RECEIPT NO:"+print_receipt_no+" SHOP NO:"+shopname+"\n",LK_ALIGNMENT_LEFT,LK_FNT_DEFAULT,LK_TXT_1WIDTH);
+                // escposPrinter.printNormal("RECEIPT NO :"+print_receipt_no+" SHOP NO:"+shopname+"\n");
+                escposPrinter.printText("TENANT NAME: "+tenantname+"\n",LK_ALIGNMENT_LEFT,LK_FNT_DEFAULT,LK_TXT_1WIDTH);
+                // escposPrinter.printNormal("TENANT NAME:"+tenantname+"                           \n");
+                escposPrinter.printText("AMOUNT: ",LK_ALIGNMENT_CENTER,LK_FNT_FONTB,1);
+                escposPrinter.printText(total_amount+" \n",LK_ALIGNMENT_CENTER,LK_FNT_FONTB,1);
+                //    escposPrinter.printNormal("                AMOUNT: "+total_amount+"\n");
+                escposPrinter.printText("(INCLUSIVE OF SERVICE TAX)\n",LK_ALIGNMENT_CENTER,LK_FNT_DEFAULT,LK_TXT_1WIDTH);
+                //   escposPrinter.printNormal("    (INCLUSIVE OF SERVICE TAX)    \n");
+                escposPrinter.printText("* * * * * THANK YOU * * * * *\n",LK_ALIGNMENT_CENTER,LK_FNT_DEFAULT,LK_TXT_1WIDTH);
+                //   escposPrinter.printNormal("   * * * * * THANK YOU * * * * *  \n");
+                escposPrinter.lineFeed(2);
             }
-            Clearbuffer();//Clear unwanted buffer
-            Alignment(27,97,1);//Center aligment
-            Print(line_space);
+            if(customer_details_Temp != null){
 
-            Clearbuffer();//Clear unwanted buffer
-            // Leavespace();
-            Alignment(27,97,1);
-            Print("RENT RECEIPT");
-
-            Clearbuffer();//Clear unwanted buffer
-            // Leavespace();
-            Alignment(27, 97, 1);//Center aligment
-            Print(line_space);
-
-
-            Clearbuffer();//Clear unwanted buffer
-            Leavespace();
-            Alignment(27, 97, 0);//Left alignment
-            // Print("DATE: " + date + " TIME: " + getReminingTime());
-            Print("DATE: " + MainActivity.strDate + " TIME: " + getReminingTime());
-
-            Clearbuffer();//Clear unwanted buffer
-            //  Leavespace();
-            Alignment(27, 97, 0);//Left alignment
-            Print("RECEIPT NO:" + print_receipt_no+" SHOP NO:" + shopname);
-
-            Clearbuffer();//Clear unwanted buffer
-            //   Leavespace();
-            Alignment(27, 97, 0);//Left alignment
-            Print("TENANT NAME: " + tenantname);
-
-            Clearbuffer();//Clear unwanted buffer
-            Leavespace();
-            Alignment(27,97,2);//Right alignment
-            Print("AMOUNT: "  + total_amount);
-            Clearbuffer();//Clear unwanted bufferPrint("");
-            // Leavespace();
-            Alignment(27, 97, 1);//Center aligment
-            Print(line_space);
-            Clearbuffer();//Clear unwanted buffer
-            // Leavespace();
-            Alignment(27, 97, 1);//Center aligment
-            // Print("(" + String.valueOf(tot_amount_words.charAt(0)).toUpperCase() + String.valueOf(tot_amount_words.substring(1, tot_amount_words.length())) + " only)");
-            Print("(INCLUSIVE OF SERVICE TAX)");
-            Clearbuffer();//Clear unwanted buffer
-            Leavespace();
-            Alignment(27,97,0);//Left alignment
-            Print(" * * * * * THANK YOU * * * * * ");
-            Clearbuffer();//Clear unwanted buffer
-            Leavespace();
-            Alignment(27,97,0);//Left alignment
-            Print("");
-            Clearbuffer();//Clear unwanted buffer
-            Leavespace();
-            Alignment(27,97,0);//Left alignment
-            Print("");
-
-            if(customer_details_Temp.size() != 1) {
-                if(customer_details_Temp.size() -1 == last_position) {
-                    Print("OVERALL AMOUNT : " + String.valueOf(dft.format(grand_total)));
-                    Clearbuffer();//Clear unwanted buffer
-                    Leavespace();
-                    Alignment(27, 97, 0);//Left alignment
-                    Print("");
-                    Clearbuffer();//Clear unwanted buffer
-                    Leavespace();
-                    Alignment(27, 97, 0);//Left alignment
-                    Print("");
+                if(customer_details_Temp.size() != 1) {
+                    if (customer_details_Temp.size() - 1 == last_position) {
+                        escposPrinter.printText("OVERALL AMOUNT : "+grand_total+"\n",LK_ALIGNMENT_LEFT,LK_FNT_BOLD,LK_TXT_1WIDTH);
+                        escposPrinter.lineFeed(3);
+                    }
                 }
             }
-
         }
 
-//        if(customer_type == 1) {
-//            grand_total =0;
-//            for (int i=0;i<customer_details_Temp.size();i++) {
-//
-//                print_receipt_no =  print_receipt_no +1;
-//                String tot_amount_words ="";
-//                grand_total = grand_total +Double.parseDouble(customer_details_Temp.get(i).getDue_amount());
-//
-//                total_amt =0;
-//
-//                Clearbuffer();//Clear unwanted buffer
-//                //Leavespace();
-//                Alignment(27,97,1);//Center aligment
-//                Print("");
-//
-//                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
-//
-//                    Clearbuffer();//Clear unwanted buffer
-//                    // Leavespace();
-//                    Alignment(27, 97, 1);//Center aligment
-//                    // Print("Thirupuvanam");
-//                    Print(MainActivity.CITY_NAME);
-//
-//                    Clearbuffer();//Clear unwanted buffer
-//                    //Leavespace();
-//                    Alignment(27, 97, 1);//Center aligment
-//                    //Print(" KAS JEWELLERY");
-//                    Print(MainActivity.COMPANY_NAME);
-//
-//                    Clearbuffer();//Clear unwanted buffer
-//                    // Leavespace();
-//                    Alignment(27, 97, 1);//Center aligment
-//                    // Print("Thirupuvanam");
-//                    Print(MainActivity.SUBTITLE_1);
-//
-//                    Clearbuffer();//Clear unwanted buffer
-//                    // Leavespace();
-//                    Alignment(27, 97, 1);//Center aligment
-//                    // Print("Thirupuvanam");
-//                    Print(MainActivity.SUBTITLE_2);
-//
-//                }
-//                Clearbuffer();//Clear unwanted buffer
-//                Alignment(27,97,1);//Center aligment
-//                Print(line_space);
-//
-//                Clearbuffer();//Clear unwanted buffer
-//                // Leavespace();
-//                Alignment(27,97,1);
-//                Print("RENT RECEIPT");
-//
-//                Clearbuffer();//Clear unwanted buffer
-//                // Leavespace();
-//                Alignment(27, 97, 1);//Center aligment
-//                Print(line_space);
-//
-//
-//                Clearbuffer();//Clear unwanted buffer
-//                Leavespace();
-//                Alignment(27, 97, 0);//Left alignment
-//                // Print("DATE: " + date + " TIME: " + getReminingTime());
-//                Print("DATE: " + MainActivity.strDate + " TIME: " + getReminingTime());
-//
-//                Clearbuffer();//Clear unwanted buffer
-//                //  Leavespace();
-//                Alignment(27, 97, 0);//Left alignment
-//                Print("RECEIPT NO:" + String.valueOf(print_receipt_no)+" SHOP NO:" + customer_details_Temp.get(i).getShopname());
-//
-//                Clearbuffer();//Clear unwanted buffer
-//                //   Leavespace();
-//                Alignment(27, 97, 0);//Left alignment
-//                Print("TENANT NAME: " + customer_details_Temp.get(i).getTenantname());
-//
-//                Clearbuffer();//Clear unwanted buffer
-//                Leavespace();
-//                Alignment(27,97,2);//Right alignment
-//                Print("AMOUNT: "  + String.valueOf(dft.format(Double.parseDouble(customer_details_Temp.get(i).getTotal_amount()))));
-//                Clearbuffer();//Clear unwanted bufferPrint("");
-//                // Leavespace();
-//                Alignment(27, 97, 1);//Center aligment
-//                Print(line_space);
-//                Clearbuffer();//Clear unwanted buffer
-//                // Leavespace();
-//                Alignment(27, 97, 1);//Center aligment
-//                // Print("(" + String.valueOf(tot_amount_words.charAt(0)).toUpperCase() + String.valueOf(tot_amount_words.substring(1, tot_amount_words.length())) + " only)");
-//                Print("(INCLUSIVE OF SERVICE TAX)");
-//                Clearbuffer();//Clear unwanted buffer
-//                Leavespace();
-//                Alignment(27,97,0);//Left alignment
-//                Print(" * * * * * THANK YOU * * * * * ");
-//
-//                Clearbuffer();//Clear unwanted buffer
-//                Leavespace();
-//                Alignment(27,97,0);//Left alignment
-//                Print("");
-//            }
-//
-//            if(customer_details_Temp != null){
-//                    if(customer_details_Temp.size()>1) {
-//
-//                        Print("OVERALL AMOUNT : " + String.valueOf(dft.format(grand_total)));
-//                        Clearbuffer();//Clear unwanted buffer
-//                        Leavespace();
-//                        Alignment(27, 97, 0);//Left alignment
-//                        Print("");
-//                        Clearbuffer();//Clear unwanted buffer
-//                        Leavespace();
-//                        Alignment(27, 97, 0);//Left alignment
-//                        Print("");
-//                    }
-//            }
-//
-//
-//        }
-        palmtecandro.jnidevClose();
-
     }
-
 
     public void toast(String message)
     {
