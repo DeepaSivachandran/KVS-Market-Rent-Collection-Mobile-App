@@ -551,7 +551,7 @@
         android:layout_alignParentBottom="true"
         android:layout_marginLeft="3dp"
         android:padding="5dp"
-        android:text="V1.0.0"
+        android:text="V1.0.1"
         android:textColor="@color/light_gray"
         android:textSize="12dp"
         android:visibility="visible" />

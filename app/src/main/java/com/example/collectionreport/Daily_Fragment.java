@@ -57,7 +57,7 @@ import androidx.cardview.widget.CardView;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentTransaction;
 
-import com.example.collectionreport.assist.Sample_Print;
+
 import com.example.collectionreport.sunmi.BluetoothUtil;
 import com.example.collectionreport.sunmi.SunMiPrinter;
 import com.example.collectionreport.sunmi.SunmiPrintHelper;
@@ -82,7 +82,7 @@ public class Daily_Fragment extends Fragment implements  MainActivity.Refreshpag
     ESCPOSPrinter escposPrinter;
     private final char ESC = ESCPOS.ESC;
     ProgressDialog progressDialog;
-    Sample_Print sample;
+
     String line_space = "-------------------------------";
     DecimalFormat dft = new DecimalFormat("0.00");
     ImageView total_print_img;
@@ -128,8 +128,6 @@ public class Daily_Fragment extends Fragment implements  MainActivity.Refreshpag
 
         //new Async_Get_Receiptno().execute();
 
-
-        sample = new Sample_Print();
         total_print_img.setOnClickListener(new View.OnClickListener() {
             @SuppressLint("LongLogTag")
             @RequiresApi(api = Build.VERSION_CODES.N)

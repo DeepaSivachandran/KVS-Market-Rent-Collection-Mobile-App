@@ -32,6 +32,7 @@
         android:usesCleartextTraffic="true"
         android:requestLegacyExternalStorage="true"
         android:theme="@style/Theme.Design.NoActionBar"
+        android:versionName="@String/versionName"
         tools:targetApi="m">
 
         <provider

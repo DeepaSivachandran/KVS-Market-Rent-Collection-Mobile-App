@@ -246,7 +246,7 @@
                         tools:ignore="NestedWeights" />
 
                     <TextView
-                        android:id="@+id/amount_tv"
+                        android:id="@+id/amount_tv2"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:fontFamily="sans-serif-condensed-light"
@@ -297,7 +297,7 @@
                         tools:ignore="NestedWeights" />
 
                     <TextView
-                        android:id="@+id/amount_tv"
+                        android:id="@+id/amount_tv1"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:fontFamily="sans-serif-condensed-light"

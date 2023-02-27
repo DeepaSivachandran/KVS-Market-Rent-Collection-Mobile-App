@@ -24,7 +24,7 @@ public class RestAPI {
  //   public  static  String neturl ="http://172.16.1.250:8007/";
    public  static  String neturl = "http://kvsmarket.trio-s.com";
 
-  //UPdate noew 20-02-2023
+  //Update noew 27-02-2023
 
     public String GetJSONResponse(String paraURL, String paraData) {
         BufferedReader reader = null;
